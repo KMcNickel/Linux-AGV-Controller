@@ -85,7 +85,7 @@ int main(int argc, char ** argv)
 
     systemStartup();
 
-    spdlog::set_level(spdlog::level::debug);
+    spdlog::set_level(spdlog::level::trace);
 
     configureSocketCAN("can0");
 

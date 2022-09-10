@@ -130,6 +130,8 @@ int32_t receiveData()
     struct can_frame frame;
     int event;
 
+    spdlog::trace("Checking for CAN data");
+
     event = poll(&pollDesc, 1, SOCKET_POLL_TIMEOUT);
 
     if(event < 0 && errno != EINTR) //EINTR = Function interrupted (like if we Ctrl + C)
@@ -152,5 +154,6 @@ int32_t receiveData()
         return 1;
     }
 
+    spdlog::trace("No CAN data received");
     return 0;
 }
