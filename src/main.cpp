@@ -5,12 +5,13 @@
 #include <csignal>
 #include <iostream>
 
-#include "../spdlog/include/spdlog/spdlog.h"
+#include "spdlog/spdlog.h"
+#include "include/socketcan.h"
 
 #define VERSION_MAJOR       0
 #define VERSION_MINOR       1
 #define VERSION_REVISION    0
-#define VERSION_BUILD       0
+#define VERSION_BUILD       1
 
 using namespace std;
 
@@ -68,7 +69,7 @@ void registerSignals()
 void systemStartup()
 {
     spdlog::info("Linux AGV Battery Manager");
-    spdlog::info("Version: %d.%d.%d Build: %d", VERSION_MAJOR, VERSION_MINOR, VERSION_REVISION, VERSION_BUILD);
+    spdlog::info("Version: {0:d}.{1:d}.{2:d} Build: {3:d}", VERSION_MAJOR, VERSION_MINOR, VERSION_REVISION, VERSION_BUILD);
     spdlog::info("System Starting Up...");
 
     registerSignals();
@@ -78,7 +79,20 @@ void systemStartup()
 
 int main(int argc, char ** argv)
 {
+    can_frame frame;
+
     systemStartup();
 
-    while(1);
+    configureSocketCAN("can0");
+
+    while(1)
+    {
+        frame.can_id = 0x01;
+        frame.can_dlc = 1;
+        frame.data[0] = 0x55;
+
+        sendFrame(frame);
+
+        sleep(500);
+    }
 }
