@@ -5,6 +5,8 @@
 #include <csignal>
 #include <iostream>
 
+#include <linux/can.h>
+
 #include "spdlog/spdlog.h"
 #include "include/socketcan.h"
 
@@ -79,7 +81,7 @@ void systemStartup()
 
 int main(int argc, char ** argv)
 {
-    can_frame frame;
+    struct can_frame frame;
 
     systemStartup();
 
@@ -91,7 +93,7 @@ int main(int argc, char ** argv)
         frame.can_dlc = 1;
         frame.data[0] = 0x55;
 
-        sendFrame(frame);
+        sendFrame(&frame);
 
         sleep(500);
     }

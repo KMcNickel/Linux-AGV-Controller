@@ -42,7 +42,7 @@ int32_t configureSocketCAN(std::string iface)
     if(ioctl(socketID, SIOCGIFINDEX, &ifr) < 0)
     {
         spdlog::error("Socket Error: Unable to find interface: {0} - Errno: {1}", iface.c_str(), std::strerror(errno));
-        return -1
+        return -1;
     }
 
     if(!(ifr.ifr_flags & IFF_UP))
@@ -55,8 +55,10 @@ int32_t configureSocketCAN(std::string iface)
     if(bind(socketID, (struct sockaddr *)&addr, sizeof(addr)) < 0)
     {
         spdlog::error("Socket Error: Unable to bind to socket: {0}", std::strerror(errno));
-        return -1
+        return -1;
     }
+
+    return 0;
 }
 
 int32_t killSocketCAN()
@@ -64,9 +66,11 @@ int32_t killSocketCAN()
     if(socketID != SOCKET_CLOSED_PROGRAMATICALLY && close(socketID) < 0)
     {
         spdlog::error("Socket Error: Unable to close socket: {0}", std::strerror(errno));
-        return -1
+        return -1;
     }
     socketID = SOCKET_CLOSED_PROGRAMATICALLY;
+
+    return 0;
 }
 
 int32_t sendFrame(struct can_frame * frame)
@@ -75,19 +79,19 @@ int32_t sendFrame(struct can_frame * frame)
 
     spdlog::debug("Data incoming");
 
-    if(incomingData.dlc > MAX_DLC_LENGTH)
+    if(frame.can_dlc > MAX_DLC_LENGTH)
     {
         spdlog::error("Message was sent with an invalid DLC: {0:d} - ID: {1:X}", 
                     frame->can_dlc, frame->can_id);
         err = -1;
     }
 
-    if((incomingData.is_extended_id && (incomingData.can_id & CAN_ID_LARGER_THAN_29_BIT_MASK))
+    /*if((incomingData.is_extended_id && (incomingData.can_id & CAN_ID_LARGER_THAN_29_BIT_MASK))
             || (!incomingData.is_extended_id && (incomingData.can_id & CAN_ID_LARGER_THAN_11_BIT_MASK)))
     {
         spdlog::warn("Message was sent with an invalid ID: {0:d}", incomingData.can_id);
         err += -2;
-    }
+    }*/
     
     if(err != 0)
     {
@@ -96,8 +100,8 @@ int32_t sendFrame(struct can_frame * frame)
     }
 
     spdlog::debug("Sending:\n\tID: 0x{0:X}\n\tLength: {1:d}\n\tData: 0x{2:X} 0x{3:X} 0x{4:X} 0x{5:X} 0x{6:X} 0x{7:X} 0x{8:X} 0x{9:X}",
-            outgoingFrame.can_id, outgoingFrame.can_dlc, outgoingFrame.data[0], outgoingFrame.data[1], outgoingFrame.data[2],
-            outgoingFrame.data[3], outgoingFrame.data[4], outgoingFrame.data[5], outgoingFrame.data[6], outgoingFrame.data[7]);
+            frame.can_id, frame.can_dlc, frame.data[0], frame.data[1], frame.data[2],
+            frame.data[3], frame.data[4], frame.data[5], frame.data[6], frame.data[7]);
         
     if((err = write(socketID, &outgoingFrame, sizeof(struct can_frame))) != sizeof(struct can_frame))
     {
@@ -105,9 +109,12 @@ int32_t sendFrame(struct can_frame * frame)
             spdlog::error("Socket Error: Unable to write data: {0}", std::strerror(errno));
         else
             spdlog::error("Socket Error: Could only write: {0:d} bytes", err);
-        return;
+
+        return err;
     }
+    
     spdlog::debug("Frame sent successfully");
+    return 0;
 }
 
 int32_t receiveData()
