@@ -13,7 +13,10 @@
 #define VERSION_MAJOR       0
 #define VERSION_MINOR       1
 #define VERSION_REVISION    0
-#define VERSION_BUILD       2
+#define VERSION_BUILD       3
+
+#define CAN_DEVICE_ID_MASK 0x7E0
+#define CONVERT_CAN_DEVICE_ID_TO_CAN_ID(dev)(dev << 5)
 
 using namespace std;
 
@@ -96,13 +99,7 @@ int main(int argc, char ** argv)
 
     spdlog::set_level(spdlog::level::info);
 
-    can.configureSocketCAN("can0");
 
-    rxCallback.callback = &receiveCAN;
-    rxCallback.id_mask = 0x7E0;
-    rxCallback.id_match = 0x0;
-
-    can.addCallback(&rxCallback);
 
     while(1)
     {
