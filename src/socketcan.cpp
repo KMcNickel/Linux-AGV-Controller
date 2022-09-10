@@ -85,7 +85,7 @@ int32_t sendFrame(struct can_frame * frame)
 {
     int err = 0;
 
-    spdlog::debug("Data incoming");
+    spdlog::debug("Preparing to send data");
 
     if(frame->can_dlc > MAX_DLC_LENGTH)
     {
@@ -111,7 +111,7 @@ int32_t sendFrame(struct can_frame * frame)
             frame->can_id, frame->can_dlc, frame->data[0], frame->data[1], frame->data[2],
             frame->data[3], frame->data[4], frame->data[5], frame->data[6], frame->data[7]);
         
-    if((err = write(socketID, &frame, sizeof(struct can_frame))) != sizeof(struct can_frame))
+    if((err = write(socketID, frame, sizeof(struct can_frame))) != sizeof(struct can_frame))
     {
         if(err < 0)
             spdlog::error("Socket Error: Unable to write data: {0}", std::strerror(errno));

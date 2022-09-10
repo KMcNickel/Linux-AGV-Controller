@@ -13,7 +13,7 @@
 #define VERSION_MAJOR       0
 #define VERSION_MINOR       1
 #define VERSION_REVISION    0
-#define VERSION_BUILD       1
+#define VERSION_BUILD       2
 
 using namespace std;
 
@@ -85,16 +85,12 @@ int main(int argc, char ** argv)
 
     systemStartup();
 
+    spdlog::set_level(spdlog::level::debug);
+
     configureSocketCAN("can0");
 
     while(1)
     {
-        frame.can_id = 0x01;
-        frame.can_dlc = 1;
-        frame.data[0] = 0x55;
-
-        sendFrame(&frame);
-
-        sleep(1);
+        receiveData();
     }
 }
