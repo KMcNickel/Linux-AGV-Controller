@@ -79,7 +79,7 @@ int32_t sendFrame(struct can_frame * frame)
 
     spdlog::debug("Data incoming");
 
-    if(frame.can_dlc > MAX_DLC_LENGTH)
+    if(frame->can_dlc > MAX_DLC_LENGTH)
     {
         spdlog::error("Message was sent with an invalid DLC: {0:d} - ID: {1:X}", 
                     frame->can_dlc, frame->can_id);
@@ -100,8 +100,8 @@ int32_t sendFrame(struct can_frame * frame)
     }
 
     spdlog::debug("Sending:\n\tID: 0x{0:X}\n\tLength: {1:d}\n\tData: 0x{2:X} 0x{3:X} 0x{4:X} 0x{5:X} 0x{6:X} 0x{7:X} 0x{8:X} 0x{9:X}",
-            frame.can_id, frame.can_dlc, frame.data[0], frame.data[1], frame.data[2],
-            frame.data[3], frame.data[4], frame.data[5], frame.data[6], frame.data[7]);
+            frame->can_id, frame->can_dlc, frame->data[0], frame->data[1], frame->data[2],
+            frame->data[3], frame->data[4], frame->data[5], frame->data[6], frame->data[7]);
         
     if((err = write(socketID, &outgoingFrame, sizeof(struct can_frame))) != sizeof(struct can_frame))
     {
@@ -112,7 +112,7 @@ int32_t sendFrame(struct can_frame * frame)
 
         return err;
     }
-    
+
     spdlog::debug("Frame sent successfully");
     return 0;
 }
