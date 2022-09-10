@@ -9,6 +9,7 @@ find_package(spdlog REQUIRED)
 add_executable(${PROJECT_NAME}
     src/main.cpp
     src/socketcan.cpp
+    src/battery_manager_interface.cpp
 )
 
 target_link_libraries(${PROJECT_NAME}

@@ -9,19 +9,13 @@
 
 #include "spdlog/spdlog.h"
 #include "include/socketcan.h"
-
-#define VERSION_MAJOR       0
-#define VERSION_MINOR       1
-#define VERSION_REVISION    0
-#define VERSION_BUILD       3
-
-#define CAN_DEVICE_ID_MASK 0x7E0
-#define CONVERT_CAN_DEVICE_ID_TO_CAN_ID(dev)(dev << 5)
+#include "include/battery_manager_interface.h"
+#include "include/global_defines.h"
 
 using namespace std;
 
 SocketCAN can;
-SocketCAN::receiveCallback_t rxCallback;
+BatteryManager batteryManager;
 
 void shutdownProgram(int32_t exitCode)
 {
@@ -77,32 +71,30 @@ void registerSignals()
 
 void systemStartup()
 {
+    spdlog::set_level(spdlog::level::info);
+
     spdlog::info("Linux AGV Battery Manager");
     spdlog::info("Version: {0:d}.{1:d}.{2:d} Build: {3:d}", VERSION_MAJOR, VERSION_MINOR, VERSION_REVISION, VERSION_BUILD);
     spdlog::info("System Starting Up...");
 
     registerSignals();
 
-    spdlog::info("System Start Up Complete");
-}
+    can.configureSocketCAN("can0");
 
-void receiveCAN(struct can_frame frame)
-{
-    spdlog::info("Received: {0:d}", frame.can_id);
+    batteryManager.registerCallback(&can, 0x4);
+
+    spdlog::info("System Start Up Complete");
 }
 
 int main(int argc, char ** argv)
 {
-    struct can_frame frame;
-
     systemStartup();
 
-    spdlog::set_level(spdlog::level::info);
-
-
+    spdlog::info("System spinning");
 
     while(1)
     {
+        spdlog::trace("Begin main loop iteration");
         can.receiveData();
     }
 }

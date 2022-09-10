@@ -12,13 +12,14 @@
 class SocketCAN
 {
     public:
-        typedef void (*canReceiveCallback)(struct can_frame frame);
+        typedef void (*canReceiveCallback)(void * handle, struct can_frame frame);
 
         struct receiveCallback_t
         {
             canReceiveCallback callback;
             int32_t id_mask;
             int32_t id_match;
+            void * handle;
         };
 
         int32_t configureSocketCAN(std::string iface);
