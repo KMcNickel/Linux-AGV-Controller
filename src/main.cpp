@@ -17,39 +17,43 @@
 
 using namespace std;
 
+SocketCAN can;
+SocketCAN::receiveCallback_t rxCallback;
+
+void shutdownProgram(int32_t exitCode)
+{
+    can.killSocket();
+    spdlog::info("Goodbye");
+    exit(exitCode);
+}
+
 void signalHandler(int signal)
 {
     switch(signal)  // https://en.cppreference.com/w/cpp/utility/program/SIG_types
     {
         case SIGTERM:   //termination request, sent to the program
             spdlog::critical("Received SIGTERM. Stopping System...");
-            spdlog::info("Goodbye");
-            exit(EXIT_SUCCESS);
+            shutdownProgram(EXIT_SUCCESS);
             break;
         case SIGSEGV:   //invalid memory access (segmentation fault)
             spdlog::critical("Received SIGSEGV. Stopping System...");
-            spdlog::info("Goodbye");
-            exit(EXIT_SUCCESS);
+            shutdownProgram(EXIT_SUCCESS);
             break;
         case SIGINT:    //external interrupt, usually initiated by the user
             spdlog::critical("Received SIGINT. Stopping System...");
-            spdlog::info("Goodbye");
-            exit(EXIT_SUCCESS);
+            shutdownProgram(EXIT_SUCCESS);
             break;
         case SIGILL:    //invalid program image, such as invalid instruction
             spdlog::critical("Received SIGILL. Stopping System...");
-            spdlog::info("Goodbye");
-            exit(EXIT_SUCCESS);
+            shutdownProgram(EXIT_SUCCESS);
             break;
         case SIGABRT:   //abnormal termination condition, as is e.g. initiated by std::abort()
             spdlog::critical("Received SIGABRT. Stopping System...");
-            spdlog::info("Goodbye");
-            exit(EXIT_SUCCESS);
+            shutdownProgram(EXIT_SUCCESS);
             break;
         case SIGFPE:    //erroneous arithmetic operation such as divide by zero
             spdlog::critical("Received SIGFPE. Stopping System...");
-            spdlog::info("Goodbye");
-            exit(EXIT_SUCCESS);
+            shutdownProgram(EXIT_SUCCESS);
             break;
     }
 }
@@ -79,18 +83,29 @@ void systemStartup()
     spdlog::info("System Start Up Complete");
 }
 
+void receiveCAN(struct can_frame frame)
+{
+    spdlog::info("Received: {0:d}", frame.can_id);
+}
+
 int main(int argc, char ** argv)
 {
     struct can_frame frame;
 
     systemStartup();
 
-    spdlog::set_level(spdlog::level::trace);
+    spdlog::set_level(spdlog::level::info);
 
-    configureSocketCAN("can0");
+    can.configureSocketCAN("can0");
+
+    rxCallback.callback = &receiveCAN;
+    rxCallback.id_mask = 0x7E0;
+    rxCallback.id_match = 0x0;
+
+    can.addCallback(&rxCallback);
 
     while(1)
     {
-        receiveData();
+        can.receiveData();
     }
 }

@@ -18,18 +18,16 @@
 #include <linux/can.h>
 #include <linux/can/raw.h>
 
+#include "include/socketcan.h"
+
 #define MAX_DLC_LENGTH 8
 #define SOCKET_CLOSED_PROGRAMATICALLY -10
 #define CAN_ID_LARGER_THAN_29_BIT_MASK 0xE0000000
 #define CAN_ID_LARGER_THAN_11_BIT_MASK 0xFFFFF800
 #define SOCKET_POLL_TIMEOUT 0       //in milliseconds. 0 returns immediately
 
-int socketID;
-struct ifreq ifr;
-struct sockaddr_can addr;
-struct pollfd pollDesc;
 
-int32_t configureSocketCAN(std::string iface)
+int32_t SocketCAN::configureSocketCAN(std::string iface)
 {
     spdlog::info("Configuring CAN Socket");
 
@@ -68,7 +66,7 @@ int32_t configureSocketCAN(std::string iface)
     return 0;
 }
 
-int32_t killSocketCAN()
+int32_t SocketCAN::killSocket()
 {
     spdlog::info("Killing CAN Socket");
     
@@ -84,16 +82,16 @@ int32_t killSocketCAN()
     return 0;
 }
 
-int32_t sendFrame(struct can_frame * frame)
+int32_t SocketCAN::sendFrame(struct can_frame frame)
 {
     int err = 0;
 
     spdlog::debug("Preparing to send data");
 
-    if(frame->can_dlc > MAX_DLC_LENGTH)
+    if(frame.can_dlc > MAX_DLC_LENGTH)
     {
         spdlog::error("Message was sent with an invalid DLC: {0:d} - ID: {1:X}", 
-                    frame->can_dlc, frame->can_id);
+                    frame.can_dlc, frame.can_id);
         err = -1;
     }
 
@@ -111,10 +109,10 @@ int32_t sendFrame(struct can_frame * frame)
     }
 
     spdlog::debug("Sending:\n\tID: 0x{0:X}\n\tLength: {1:d}\n\tData: 0x{2:X} 0x{3:X} 0x{4:X} 0x{5:X} 0x{6:X} 0x{7:X} 0x{8:X} 0x{9:X}",
-            frame->can_id, frame->can_dlc, frame->data[0], frame->data[1], frame->data[2],
-            frame->data[3], frame->data[4], frame->data[5], frame->data[6], frame->data[7]);
+            frame.can_id, frame.can_dlc, frame.data[0], frame.data[1], frame.data[2],
+            frame.data[3], frame.data[4], frame.data[5], frame.data[6], frame.data[7]);
         
-    if((err = write(socketID, frame, sizeof(struct can_frame))) != sizeof(struct can_frame))
+    if((err = write(socketID, &frame, sizeof(struct can_frame))) != sizeof(struct can_frame))
     {
         if(err < 0)
             spdlog::error("Socket Error: Unable to write data: {0}", std::strerror(errno));
@@ -128,7 +126,7 @@ int32_t sendFrame(struct can_frame * frame)
     return 0;
 }
 
-int32_t receiveData()
+int32_t SocketCAN::receiveData()
 {
     struct can_frame frame;
     int event;
@@ -153,10 +151,22 @@ int32_t receiveData()
         spdlog::debug("Received:\n\tID: 0x{0:X}\n\tLength: {1:d}\n\tData: 0x{2:X} 0x{3:X} 0x{4:X} 0x{5:X} 0x{6:X} 0x{7:X} 0x{8:X} 0x{9:X}",
                 frame.can_id, frame.can_dlc, frame.data[0], frame.data[1], frame.data[2],
                 frame.data[3], frame.data[4], frame.data[5], frame.data[6], frame.data[7]);
+
+        std::for_each(callbacks.begin(), callbacks.end(), [frame](const receiveCallback_t cb)
+                {
+                    if((cb.id_mask & frame.can_id) == cb.id_match)
+                        cb.callback(frame);
+                });
         
         return 1;
     }
 
     spdlog::trace("No CAN data received");
     return 0;
+}
+
+void SocketCAN::addCallback(receiveCallback_t * callback)
+{
+    spdlog::info("Adding SocketCAN Receive Callback with Mask: 0x{0:X} and Match: 0x{1:X}", callback->id_mask, callback->id_match);
+    SocketCAN::callbacks.insert(SocketCAN::callbacks.end(), *callback);
 }
