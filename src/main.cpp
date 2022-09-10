@@ -95,6 +95,6 @@ int main(int argc, char ** argv)
 
         sendFrame(&frame);
 
-        sleep(500);
+        sleep(1);
     }
 }

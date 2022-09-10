@@ -31,6 +31,8 @@ struct pollfd pollDesc;
 
 int32_t configureSocketCAN(std::string iface)
 {
+    spdlog::info("Configuring CAN Socket");
+
     if ((socketID = socket(PF_CAN, SOCK_RAW, CAN_RAW)) < 0)
     {
         spdlog::error("Socket Error: Unable to create socket: {0:d}", socketID);
@@ -58,11 +60,15 @@ int32_t configureSocketCAN(std::string iface)
         return -1;
     }
 
+    spdlog::info("Configuration complete");
+    
     return 0;
 }
 
 int32_t killSocketCAN()
 {
+    spdlog::info("Killing CAN Socket");
+    
     if(socketID != SOCKET_CLOSED_PROGRAMATICALLY && close(socketID) < 0)
     {
         spdlog::error("Socket Error: Unable to close socket: {0}", std::strerror(errno));
@@ -70,6 +76,8 @@ int32_t killSocketCAN()
     }
     socketID = SOCKET_CLOSED_PROGRAMATICALLY;
 
+    spdlog::info("CAN socket killed");
+    
     return 0;
 }
 
