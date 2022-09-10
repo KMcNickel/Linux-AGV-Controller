@@ -5,6 +5,8 @@
 #include <csignal>
 #include <iostream>
 
+#include "../spdlog/include/spdlog/spdlog.h"
+
 #define VERSION_MAJOR       0
 #define VERSION_MINOR       1
 #define VERSION_REVISION    0
@@ -17,33 +19,33 @@ void signalHandler(int signal)
     switch(signal)  // https://en.cppreference.com/w/cpp/utility/program/SIG_types
     {
         case SIGTERM:   //termination request, sent to the program
-            printf("Received SIGTERM. Stopping System...\r\n");
-            printf("Goodbye\r\n");
+            spdlog::critical("Received SIGTERM. Stopping System...");
+            spdlog::info("Goodbye");
             exit(EXIT_SUCCESS);
             break;
         case SIGSEGV:   //invalid memory access (segmentation fault)
-            printf("Received SIGSEGV. Stopping System...\r\n");
-            printf("Goodbye\r\n");
+            spdlog::critical("Received SIGSEGV. Stopping System...");
+            spdlog::info("Goodbye");
             exit(EXIT_SUCCESS);
             break;
         case SIGINT:    //external interrupt, usually initiated by the user
-            printf("Received SIGINT. Stopping System...\r\n");
-            printf("Goodbye\r\n");
+            spdlog::critical("Received SIGINT. Stopping System...");
+            spdlog::info("Goodbye");
             exit(EXIT_SUCCESS);
             break;
         case SIGILL:    //invalid program image, such as invalid instruction
-            printf("Received SIGILL. Stopping System...\r\n");
-            printf("Goodbye\r\n");
+            spdlog::critical("Received SIGILL. Stopping System...");
+            spdlog::info("Goodbye");
             exit(EXIT_SUCCESS);
             break;
         case SIGABRT:   //abnormal termination condition, as is e.g. initiated by std::abort()
-            printf("Received SIGABRT. Stopping System...\r\n");
-            printf("Goodbye\r\n");
+            spdlog::critical("Received SIGABRT. Stopping System...");
+            spdlog::info("Goodbye");
             exit(EXIT_SUCCESS);
             break;
         case SIGFPE:    //erroneous arithmetic operation such as divide by zero
-            printf("Received SIGFPE. Stopping System...\r\n");
-            printf("Goodbye\r\n");
+            spdlog::critical("Received SIGFPE. Stopping System...");
+            spdlog::info("Goodbye");
             exit(EXIT_SUCCESS);
             break;
     }
@@ -51,7 +53,7 @@ void signalHandler(int signal)
 
 void registerSignals()
 {
-    printf("Registering Signals\r\n");
+    spdlog::info("Registering Signals");
 
     signal(SIGTERM, signalHandler);
     signal(SIGSEGV, signalHandler);
@@ -60,18 +62,18 @@ void registerSignals()
     signal(SIGABRT, signalHandler);
     signal(SIGFPE, signalHandler);
     
-    printf("Signal Registration Complete\r\n");
+    spdlog::info("Signal Registration Complete");
 }
 
 void systemStartup()
 {
-    printf("Linux AGV Battery Manager\r\n");
-    printf("Version: %d.%d.%d Build: %d\r\n", VERSION_MAJOR, VERSION_MINOR, VERSION_REVISION, VERSION_BUILD);
-    printf("System Starting Up...\r\n");
+    spdlog::info("Linux AGV Battery Manager");
+    spdlog::info("Version: %d.%d.%d Build: %d", VERSION_MAJOR, VERSION_MINOR, VERSION_REVISION, VERSION_BUILD);
+    spdlog::info("System Starting Up...");
 
     registerSignals();
 
-    printf("System Start Up Complete\r\n");
+    spdlog::info("System Start Up Complete");
 }
 
 int main(int argc, char ** argv)
