@@ -60,6 +60,9 @@ int32_t configureSocketCAN(std::string iface)
         return -1;
     }
 
+    pollDesc.fd = socketID;
+    pollDesc.events = POLLIN;
+
     spdlog::info("Configuration complete");
     
     return 0;
