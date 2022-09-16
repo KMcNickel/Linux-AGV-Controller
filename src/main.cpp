@@ -11,11 +11,13 @@
 #include "include/socketcan.h"
 #include "include/battery_manager_interface.h"
 #include "include/global_defines.h"
+#include "include/mqtt_transfer.h"
 
 using namespace std;
 
 SocketCAN can;
 BatteryManager batteryManager;
+MqttTransfer mqtt;
 
 void shutdownProgram(int32_t exitCode)
 {
@@ -82,6 +84,14 @@ void configureCANBus()
     spdlog::info("CAN Bus Configured");
 }
 
+void configureMQTT()
+{
+    spdlog::info("Configuring MQTT...");
+    mqtt.setupMQTT("AGV01", "192.168.2.163", 1883);
+    mqtt.connectBroker();
+    spdlog::info("MQTT configured");
+}
+
 void systemStartup()
 {
     spdlog::set_level(GLOBAL_LOG_LEVEL);
@@ -91,7 +101,7 @@ void systemStartup()
     spdlog::info("System Starting Up...");
 
     registerSignals();
-
+    configureMQTT();
     configureCANBus();
 
     spdlog::info("System Start Up Complete");
