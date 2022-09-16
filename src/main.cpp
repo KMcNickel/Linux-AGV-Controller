@@ -69,19 +69,30 @@ void registerSignals()
     spdlog::info("Signal Registration Complete");
 }
 
+void configureCANBus()
+{
+    spdlog::info("Configuring CAN Bus...");
+
+    can.configureSocketCAN("can0");
+
+    batteryManager.configureDevice(&can, 0x4);
+    batteryManager.registerCallback();
+    batteryManager.rebootDevice();
+
+    spdlog::info("CAN Bus Configured");
+}
+
 void systemStartup()
 {
-    spdlog::set_level(spdlog::level::info);
+    spdlog::set_level(GLOBAL_LOG_LEVEL);
 
     spdlog::info("Linux AGV Battery Manager");
-    spdlog::info("Version: {0:d}.{1:d}.{2:d} Build: {3:d}", VERSION_MAJOR, VERSION_MINOR, VERSION_REVISION, VERSION_BUILD);
+    spdlog::info("Version: {0:d}.{1:d}.{2:d} Build: {3:d}", VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH, VERSION_BUILD);
     spdlog::info("System Starting Up...");
 
     registerSignals();
 
-    can.configureSocketCAN("can0");
-
-    batteryManager.registerCallback(&can, 0x4);
+    configureCANBus();
 
     spdlog::info("System Start Up Complete");
 }

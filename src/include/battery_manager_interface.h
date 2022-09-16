@@ -12,9 +12,15 @@ class BatteryManager
 {
     private:
         SocketCAN::receiveCallback_t receiveCallback;
+        SocketCAN * canDevice;
+        int32_t canDevId;
+        bool configured = false;
 
     public:
-        void registerCallback(SocketCAN * can, int32_t deviceId);
+        static void receiveCAN(void * handle, struct can_frame frame);
+        bool registerCallback();
+        void configureDevice(SocketCAN * can, int32_t deviceId);
+        void rebootDevice();
         float batteryVoltage;
         float batterySoC;
 };
