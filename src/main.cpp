@@ -11,6 +11,7 @@
 #include "include/socketcan.h"
 #include "include/battery_manager_interface.h"
 #include "include/global_defines.h"
+#include "include/version_num.h"
 #include "include/mqtt_transfer.h"
 
 using namespace std;

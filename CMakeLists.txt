@@ -13,6 +13,14 @@ add_executable(${PROJECT_NAME}
     src/mqtt_transfer.cpp
 )
 
+add_custom_command(
+    TARGET ${PROJECT_NAME}
+    PRE_BUILD
+    COMMAND ${CMAKE_COMMAND}
+        -DHEADER_DIR:PATH="${CMAKE_SOURCE_DIR}"
+        -P "${CMAKE_SOURCE_DIR}/set_build_number.cmake"
+)
+
 target_link_libraries(${PROJECT_NAME}
     spdlog
     mosquitto
