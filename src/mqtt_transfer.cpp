@@ -62,7 +62,7 @@ bool MqttTransfer::shutdownMQTT()
     int rc;
 
     spdlog::info("Shutting down MQTT Client");
-    mosquitto_disconnect(mqttClient);
+    rc = mosquitto_disconnect(mqttClient);
     if(rc != 0)
     {
         spdlog::error("Unable to disconnect MQTT client");
@@ -74,7 +74,7 @@ bool MqttTransfer::shutdownMQTT()
         else if(rc == MOSQ_ERR_NO_CONN) spdlog::error("The broker is not connected");
     }
 
-    mosquitto_loop_stop(mqttClient, false);
+    rc = mosquitto_loop_stop(mqttClient, false);
     if(rc != 0)
     {
         spdlog::error("Unable to stop MQTT loop");
