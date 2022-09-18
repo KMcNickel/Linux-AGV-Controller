@@ -12,3 +12,6 @@
 *.vsix
 
 build/*
+
+# Build Number file
+src/include/build_number.h
