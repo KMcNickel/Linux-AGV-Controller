@@ -11,6 +11,7 @@ add_executable(${PROJECT_NAME}
     src/socketcan.cpp
     src/battery_manager_interface.cpp
     src/mqtt_transfer.cpp
+    src/odrive_interface.cpp
 )
 
 add_custom_command(
