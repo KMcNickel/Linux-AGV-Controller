@@ -33,8 +33,7 @@ void BatteryManager::receiveCAN(void * handle, struct can_frame frame)
         case CAN_COMMAND_ID_STATE_OF_CHARGE:
             memcpy(&(batMan->batterySoC), &(frame.data[1]), sizeof(float));
             sprintf(mqttMessageString, "%3.0f", batMan->batterySoC);
-            if(batMan->mqttBackhaul != NULL) 
-                batMan->sendMqttMessage("battery/soc", &mqttMessageString, strlen(mqttMessageString), 1, true);
+            batMan->sendMqttMessage("battery/soc", &mqttMessageString, strlen(mqttMessageString), 1, true);
             spdlog::debug("Battery State of Charge: {0:3.0f}%", batMan->batterySoC);
             break;
         case CAN_COMMAND_ID_BATTERY_VOLTAGE:
