@@ -17,6 +17,7 @@ void MqttTransfer::setupMQTT(std::string id, std::string addr, int port)
     mosquitto_lib_init();
 
     mqttClient = mosquitto_new(id.c_str(), true, NULL);
+    mosquitto_message_callback_set(mqttClient, messageReceived);
 }
 
 bool MqttTransfer::connectBroker()
@@ -34,6 +35,63 @@ bool MqttTransfer::connectBroker()
         return false;
     }
 
+    rc = mosquitto_loop_start(mqttClient);
+    if(rc != 0)
+    {
+        spdlog::error("Unable to start MQTT loop");
+        if(rc == MOSQ_ERR_INVAL) spdlog::error("An argument was invalid");
+        else if(rc == MOSQ_ERR_NOT_SUPPORTED) spdlog::error("Threads are not supported");
+        return false;
+    }
+
     spdlog::info("MQTT Broker connected successfully");
     return true;
+}
+
+bool MqttTransfer::shutdownMQTT()
+{
+    int rc;
+
+    spdlog::info("Shutting down MQTT Client");
+    mosquitto_disconnect(mqttClient);
+    if(rc != 0)
+    {
+        spdlog::error("Unable to disconnect MQTT client");
+        if(rc == MOSQ_ERR_INVAL)
+        {
+            spdlog::error("An argument was invalid");
+            return false;
+        }
+        else if(rc == MOSQ_ERR_NO_CONN) spdlog::error("The broker is not connected");
+    }
+
+    mosquitto_loop_stop(mqttClient, false);
+    if(rc != 0)
+    {
+        spdlog::error("Unable to stop MQTT loop");
+        if(rc == MOSQ_ERR_INVAL)
+        {
+            spdlog::error("An argument was invalid");
+            return false;
+        }
+        else if(rc == MOSQ_ERR_NOT_SUPPORTED) spdlog::error("Threads are not supported");
+    }
+
+    mosquitto_destroy(mqttClient);
+
+    spdlog::info("MQTT Client shut down");
+    return true;
+}
+
+void MqttTransfer::addCallback(mqttReceiveCallback_t * callback)
+{
+    spdlog::info("Adding MQTT Transfer Receive Callback");
+    MqttTransfer::externalCallbacks.insert(MqttTransfer::externalCallbacks.end(), *callback);
+}
+
+void MqttTransfer::messageReceived(struct mosquitto *mosq, void *obj, const struct mosquitto_message *message)
+{
+    mqttReceiveCallback_t * callbackItem = (mqttReceiveCallback_t *)(obj);
+
+    callbackItem->callback(callbackItem->handle, (mosquitto_message *) message);
 }

@@ -4,6 +4,7 @@
 #include <string.h>
 #include <csignal>
 #include <iostream>
+#include <mosquitto.h>
 
 #include <linux/can.h>
 
@@ -19,6 +20,29 @@ using namespace std;
 SocketCAN can;
 BatteryManager batteryManager;
 MqttTransfer mqtt;
+
+void setLogLevelByMQTT(void * handle, mosquitto_message * msg)
+{
+    int32_t * data;
+
+    spdlog::debug("Attempting to seyt log level by MQTT");
+
+    if(msg->payloadlen != 1)
+    {
+        spdlog::warn("Received invalid data length from MQTT");
+        return;
+    }
+    
+    data = (int32_t *)(msg->payload);
+
+    if(*data < SPDLOG_LEVEL_TRACE || *data > SPDLOG_LEVEL_OFF)
+    {
+        spdlog::warn("Received invalid log level value from MQTT");
+        return;
+    }
+
+    spdlog::set_level((spdlog::level::level_enum)*data);
+}
 
 void shutdownProgram(int32_t exitCode)
 {
