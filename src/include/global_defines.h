@@ -1,6 +1,8 @@
 #ifndef GLOBAL_DEFINES_H_
 #define GLOBAL_DEFINES_H_
 
+#include <linux/can.h>
+
 #define GLOBAL_LOG_LEVEL spdlog::level::debug
 
 #define DEVICE_NAME "agv0"
@@ -22,5 +24,6 @@
 #define CONVERT_CAN_DEVICE_ID_TO_CAN_ID(dev)(dev << 5)
 #define CONVERT_CAN_ID_TO_COMMAND_ID(id)(id & 0x1F)
 #define CONVERT_CAN_ID_TO_DEVICE_ID(id)(id >> 5 & 0x3F)
+#define SET_CAN_RTR_BIT(id)(id | CAN_RTR_FLAG)
 
 #endif
