@@ -47,7 +47,7 @@
 class OdriveInterface
 {
     public:
-        enum axisState_t
+        enum axisState_t : uint32_t
         {
             Undefined = 0x0,
             Idle = 0x01,
@@ -65,7 +65,7 @@ class OdriveInterface
             EncoderHallPhaseCalibration = 0x0D
         };
 
-        enum controlMode_t
+        enum controlMode_t : uint32_t
         {
             voltage = 0,
             torque = 1,
@@ -73,7 +73,7 @@ class OdriveInterface
             position = 3
         };
 
-        enum inputMode_t
+        enum inputMode_t : uint32_t
         {
             inactive = 0,
             passthrough = 1,
@@ -141,6 +141,7 @@ class OdriveInterface
         SocketCAN * canDevice;
         int32_t canDevId;
         bool configured = false;
+        bool checkIfConfigured(std::string caller);
         MqttTransfer * mqttBackhaul = NULL;
         void sendMqttMessage(std::string topic, void *data, size_t length, int qos, bool retain)
         {
