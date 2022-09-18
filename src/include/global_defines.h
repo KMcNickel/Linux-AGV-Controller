@@ -3,6 +3,8 @@
 
 #define GLOBAL_LOG_LEVEL spdlog::level::debug
 
+#define DEVICE_NAME "agv0"
+
 //CAN Bus ID's
 #define CAN_ID_FRONT_LEFT_AXIS  0x0
 #define CAN_ID_FRONT_RIGHT_AXIS 0x1

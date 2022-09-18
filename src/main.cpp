@@ -24,6 +24,7 @@ MqttTransfer mqtt;
 void shutdownProgram(int32_t exitCode)
 {
     can.killSocket();
+    if(mqtt.isConnected) mqtt.shutdownMQTT();
     spdlog::info("Goodbye");
     exit(exitCode);
 }
@@ -82,6 +83,7 @@ void configureCANBus()
     batteryManager.configureDevice(&can, 0x4);
     batteryManager.registerCallback();
     batteryManager.rebootDevice();
+    batteryManager.setupMqtt(&mqtt);
 
     spdlog::info("CAN Bus Configured");
 }
@@ -89,7 +91,7 @@ void configureCANBus()
 void configureMQTT()
 {
     spdlog::info("Configuring MQTT...");
-    mqtt.setupMQTT("AGV01", "192.168.2.163", 1883);
+    mqtt.setupMQTT("AGV01", "192.168.2.163", 1883, DEVICE_NAME);
     mqtt.connectBroker();
     spdlog::info("MQTT configured");
 }

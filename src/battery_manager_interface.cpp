@@ -7,6 +7,7 @@
 #include "include/battery_manager_interface.h"
 #include "spdlog/spdlog.h"
 #include "include/global_defines.h"
+#include "include/mqtt_transfer.h"
 
 #define CAN_COMMAND_ID_RESET_DEVICE     0x0
 #define CAN_COMMAND_ID_VERSION_NUMBER   0x1
@@ -15,6 +16,7 @@
 
 void BatteryManager::receiveCAN(void * handle, struct can_frame frame)
 {
+    char mqttMessageString[10];
     spdlog::debug("Processing Battery Data");
 
     int32_t commandID = CONVERT_CAN_ID_TO_COMMAND_ID(frame.can_id);
@@ -30,10 +32,16 @@ void BatteryManager::receiveCAN(void * handle, struct can_frame frame)
             break;
         case CAN_COMMAND_ID_STATE_OF_CHARGE:
             memcpy(&(batMan->batterySoC), &(frame.data[1]), sizeof(float));
+            sprintf(mqttMessageString, "%3.0f", batMan->batterySoC);
+            if(batMan->mqttBackhaul != NULL) 
+                batMan->mqttBackhaul->sendMessage("battery/soc", &mqttMessageString, strlen(mqttMessageString), 1, true);
             spdlog::debug("Battery State of Charge: {0:3.0f}%", batMan->batterySoC);
             break;
         case CAN_COMMAND_ID_BATTERY_VOLTAGE:
             memcpy(&(batMan->batteryVoltage), &(frame.data[1]), sizeof(float));
+            sprintf(mqttMessageString, "%3.1f", batMan->batteryVoltage);
+            if(batMan->mqttBackhaul != NULL) 
+                batMan->mqttBackhaul->sendMessage("battery/voltage", &mqttMessageString, strlen(mqttMessageString), 1, true);
             spdlog::debug("Battery Voltage: {0:3.1f}V", batMan->batteryVoltage);
             break;
     }
@@ -48,6 +56,13 @@ void BatteryManager::rebootDevice()
 
     spdlog::debug("Sending reboot command to Battery Manager with ID: 0x{0:X}", canDevId);
     canDevice->sendFrame(frame);
+}
+
+void BatteryManager::setupMqtt(MqttTransfer * mqtt)
+{
+    spdlog::info("Setting up MQTT for battery manager");
+
+    mqttBackhaul = mqtt;
 }
 
 void BatteryManager::configureDevice(SocketCAN * can, int32_t deviceId)

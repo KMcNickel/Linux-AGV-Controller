@@ -7,6 +7,7 @@
 #include <linux/can.h>
 
 #include "socketcan.h"
+#include "mqtt_transfer.h"
 
 class BatteryManager
 {
@@ -15,11 +16,13 @@ class BatteryManager
         SocketCAN * canDevice;
         int32_t canDevId;
         bool configured = false;
+        MqttTransfer * mqttBackhaul = NULL;
 
     public:
         static void receiveCAN(void * handle, struct can_frame frame);
         bool registerCallback();
         void configureDevice(SocketCAN * can, int32_t deviceId);
+        void setupMqtt(MqttTransfer * mqtt);
         void rebootDevice();
         float batteryVoltage;
         float batterySoC;
