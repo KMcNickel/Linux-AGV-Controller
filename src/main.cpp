@@ -24,7 +24,7 @@ MqttTransfer mqtt;
 void shutdownProgram(int32_t exitCode)
 {
     can.killSocket();
-    if(mqtt.isConnected) mqtt.shutdownMQTT();
+    mqtt.shutdownMQTT();
     spdlog::info("Goodbye");
     exit(exitCode);
 }
