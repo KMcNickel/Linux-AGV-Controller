@@ -166,60 +166,36 @@ void OdriveInterface::setupMqtt(MqttTransfer * mqtt)
     mqttBackhaul = mqtt;
 }
 
-
 void OdriveInterface::eStopBoard()
 {
     if(!checkIfConfigured("E-Stop Board")) return;
 
-    struct can_frame frame;
-
     spdlog::warn("E-Stopping ODrive 0x{0:X}", canDevId);
-    frame.can_id = CONVERT_DEVICE_AND_COMMAND_ID_TO_CAN_ID(canDevId, ODRIVE_CAN_CMD_ID_ESTOP);
-    frame.can_dlc = 0;
-    
-    canDevice->sendFrame(frame);
+    sendEmptyRequestToDevice(ODRIVE_CAN_CMD_ID_ESTOP);
 }
 
 void OdriveInterface::getMotorError()
 {
     if(!checkIfConfigured("Get Motor Error")) return;
 
-    struct can_frame frame;
-
     spdlog::debug("Requesting Motor Error from ODrive 0x{0:X}", canDevId);
-    frame.can_id = CONVERT_DEVICE_AND_COMMAND_ID_TO_CAN_ID(canDevId, ODRIVE_CAN_CMD_ID_GET_MOTOR_ERROR);
-    SET_CAN_RTR_BIT(frame.can_id);
-    frame.can_dlc = 0;
-    
-    canDevice->sendFrame(frame);
+    sendEmptyRequestToDevice(ODRIVE_CAN_CMD_ID_GET_MOTOR_ERROR);
 }
 
 void OdriveInterface::getEncoderError()
 {
     if(!checkIfConfigured("Get Encoder Error")) return;
 
-    struct can_frame frame;
-
     spdlog::debug("Requesting Encoder Error from ODrive 0x{0:X}", canDevId);
-    frame.can_id = CONVERT_DEVICE_AND_COMMAND_ID_TO_CAN_ID(canDevId, ODRIVE_CAN_CMD_ID_GET_ENCODER_ERROR);
-    SET_CAN_RTR_BIT(frame.can_id);
-    frame.can_dlc = 0;
-    
-    canDevice->sendFrame(frame);
+    sendEmptyRequestToDevice(ODRIVE_CAN_CMD_ID_GET_ENCODER_ERROR);
 }
 
 void OdriveInterface::getSensorlessError()
 {
     if(!checkIfConfigured("Get Sensorless Error")) return;
 
-    struct can_frame frame;
-
     spdlog::debug("Requesting Sensorless Error from ODrive 0x{0:X}", canDevId);
-    frame.can_id = CONVERT_DEVICE_AND_COMMAND_ID_TO_CAN_ID(canDevId, ODRIVE_CAN_CMD_ID_GET_SENSORLESS_ERROR);
-    SET_CAN_RTR_BIT(frame.can_id);
-    frame.can_dlc = 0;
-    
-    canDevice->sendFrame(frame);
+    sendEmptyRequestToDevice(ODRIVE_CAN_CMD_ID_GET_SENSORLESS_ERROR);
 }
 
 void OdriveInterface::requestAxisStateChange(axisState_t requestedState)
@@ -240,28 +216,16 @@ void OdriveInterface::getEncoderEstimates()
 {
     if(!checkIfConfigured("Get Encoder Estimates")) return;
 
-    struct can_frame frame;
-
     spdlog::debug("Requesting Encoder Estimates from ODrive 0x{0:X}", canDevId);
-    frame.can_id = CONVERT_DEVICE_AND_COMMAND_ID_TO_CAN_ID(canDevId, ODRIVE_CAN_CMD_ID_GET_ENCODER_ESTIMATES);
-    SET_CAN_RTR_BIT(frame.can_id);
-    frame.can_dlc = 0;
-    
-    canDevice->sendFrame(frame);
+    sendEmptyRequestToDevice(ODRIVE_CAN_CMD_ID_GET_ENCODER_ESTIMATES);
 }
 
 void OdriveInterface::getEncoderCount()
 {
     if(!checkIfConfigured("Get Encoder Count")) return;
 
-    struct can_frame frame;
-
     spdlog::debug("Requesting Encoder Count from ODrive 0x{0:X}", canDevId);
-    frame.can_id = CONVERT_DEVICE_AND_COMMAND_ID_TO_CAN_ID(canDevId, ODRIVE_CAN_CMD_ID_GET_ENCODER_COUNT);
-    SET_CAN_RTR_BIT(frame.can_id);
-    frame.can_dlc = 0;
-    
-    canDevice->sendFrame(frame);
+    sendEmptyRequestToDevice(ODRIVE_CAN_CMD_ID_GET_ENCODER_COUNT);
 }
 
 void OdriveInterface::setControllerModes(controlMode_t controlMode, inputMode_t inputMode)
@@ -272,7 +236,7 @@ void OdriveInterface::setControllerModes(controlMode_t controlMode, inputMode_t 
 
     spdlog::debug("Requesting new controller mode {0:d} and input mode {1:d} from ODrive 0x{2:X}", controlMode, inputMode, canDevId);
     frame.can_id = CONVERT_DEVICE_AND_COMMAND_ID_TO_CAN_ID(canDevId, ODRIVE_CAN_CMD_ID_SET_CONTROLLER_MODES);
-    frame.can_dlc = sizeof(controlMode) + sizeof(inputMode);
+    frame.can_dlc = 8;
     memcpy(frame.data, &controlMode, sizeof(controlMode));
     memcpy(frame.data + 4, &inputMode, sizeof(inputMode));
     
@@ -288,7 +252,7 @@ void OdriveInterface::setInputPosition(float position, int16_t velocityFF, int16
     spdlog::debug("Setting new input position {0:f}, velocity FF {1:d}, and torque FF {2:d} for ODrive 0x{3:X}",
             position, velocityFF, torqueFF, canDevId);
     frame.can_id = CONVERT_DEVICE_AND_COMMAND_ID_TO_CAN_ID(canDevId, ODRIVE_CAN_CMD_ID_SET_INPUT_POS);
-    frame.can_dlc = sizeof(position) + sizeof(velocityFF) + sizeof(torqueFF);
+    frame.can_dlc = 8;
     memcpy(frame.data, &position, sizeof(position));
     memcpy(frame.data + 4, &velocityFF, sizeof(velocityFF));
     memcpy(frame.data + 6, &torqueFF, sizeof(torqueFF));
@@ -298,72 +262,129 @@ void OdriveInterface::setInputPosition(float position, int16_t velocityFF, int16
 
 void OdriveInterface::setInputVelocity(float velocity, float torqueFF)
 {
+    if(!checkIfConfigured("Set Input Velocity")) return;
 
+    spdlog::debug("Setting new input velocity {0:d}, and torque FF {1:d} for ODrive 0x{2:X}",
+            velocity, torqueFF, canDevId);
+    sendTwoFloatsToDevice(ODRIVE_CAN_CMD_ID_SET_INPUT_VEL, velocity, torqueFF);
 }
 
 void OdriveInterface::setInputTorque(float torque)
 {
+    if(!checkIfConfigured("Set Input Torque")) return;
 
+    spdlog::debug("Setting new input torque {0:d} for ODrive 0x{1:X}",
+            torque, canDevId);
+    sendFloatToDevice(ODRIVE_CAN_CMD_ID_SET_INPUT_TORQUE, torque);
 }
 
 void OdriveInterface::setLimits(float velocityLimit, float currentLimit)
 {
+    if(!checkIfConfigured("Set Limits")) return;
 
+    spdlog::debug("Setting new velocity limit {0:d}, and current limit {1:d} for ODrive 0x{2:X}",
+            velocityLimit, currentLimit, canDevId);
+    sendTwoFloatsToDevice(ODRIVE_CAN_CMD_ID_SET_LIMITS, velocityLimit, currentLimit);
 }
 
 void OdriveInterface::startAnticogging()
 {
+    if(!checkIfConfigured("Start Anticogging")) return;
 
+    spdlog::debug("Starting anticogging for ODrive 0x{0:X}", canDevId);
+    sendEmptyRequestToDevice(ODRIVE_CAN_CMD_ID_START_ANTICOGGING);
 }
 
 void OdriveInterface::setTrapTrajVelocityLimit(float velLimit)
 {
+    if(!checkIfConfigured("Set Trapezoidal Trajectory Velocity Limit")) return;
 
+    spdlog::debug("Setting new trapezoidal trajectory velocity limit {0:d} for ODrive 0x{2:X}",
+            velLimit, canDevId);
+    sendFloatToDevice(ODRIVE_CAN_CMD_ID_SET_TRAJ_VEL_LIMIT, velLimit);
 }
 
 void OdriveInterface::setTrapTrajAccelLimits(float accelLimit, float decelLimit)
 {
+    if(!checkIfConfigured("Set Trapezoidal Trajectory Acceleration Limits")) return;
 
+    spdlog::debug("Setting new trapezoidal trajectory acceleration limit {0:d}, and deceleration limit {1:d} for ODrive 0x{2:X}",
+            accelLimit, decelLimit, canDevId);
+    sendTwoFloatsToDevice(ODRIVE_CAN_CMD_ID_SET_TRAJ_ACCEL_LIMITS, accelLimit, decelLimit);
 }
 
 void OdriveInterface::setTrapTrajInertia(float inertia)
 {
+    if(!checkIfConfigured("Set Trapezoidal Trajectory Inertia")) return;
 
+    spdlog::debug("Setting new trapezoidal trajectory inertia {0:d} for ODrive 0x{1:X}",
+            inertia, canDevId);
+    sendFloatToDevice(ODRIVE_CAN_CMD_ID_SET_TRAJ_INERTIA, inertia);
 }
 
 void OdriveInterface::getIQ()
 {
+    if(!checkIfConfigured("Get IQ")) return;
 
+    spdlog::debug("Requesting IQ from ODrive 0x{0:X}", canDevId);
+    sendEmptyRequestToDevice(ODRIVE_CAN_CMD_ID_GET_IQ);
 }
 
 void OdriveInterface::getSensorlessEstimates()
 {
+    if(!checkIfConfigured("Get Sensorless Estimates")) return;
 
+    spdlog::debug("Requesting Sensorless Estimates from ODrive 0x{0:X}", canDevId);
+    sendEmptyRequestToDevice(ODRIVE_CAN_CMD_ID_GET_SENSORLESS_ESTIMATES);
 }
 
 void OdriveInterface::rebootBoard()
 {
+    if(!checkIfConfigured("Reboot Board")) return;
 
+    spdlog::debug("Rebooting ODrive 0x{0:X}", canDevId);
+    sendEmptyRequestToDevice(ODRIVE_CAN_CMD_ID_REBOOT_ODRIVE);
 }
 
 void OdriveInterface::clearErrors()
 {
+    if(!checkIfConfigured("Clear Errors")) return;
 
+    spdlog::debug("Clearing Errors on ODrive 0x{0:X}", canDevId);
+    sendEmptyRequestToDevice(ODRIVE_CAN_CMD_ID_CLEAR_ERRORS);
 }
 
 void OdriveInterface::setLinearCount(int32_t linearCount)
 {
+    if(!checkIfConfigured("Set Linear Count")) return;
 
+    struct can_frame frame;
+
+    spdlog::debug("Setting linear count {0:d} for ODrive 0x{1:X}",
+            linearCount, canDevId);
+    frame.can_id = CONVERT_DEVICE_AND_COMMAND_ID_TO_CAN_ID(canDevId, ODRIVE_CAN_CMD_ID_SET_LINEAR_COUNT);
+    frame.can_dlc = 4;
+    memcpy(frame.data, &linearCount, sizeof(linearCount));
+    
+    canDevice->sendFrame(frame);
 }
 
 void OdriveInterface::setPositionGain(float positionGain)
 {
+    if(!checkIfConfigured("Set Position Gain")) return;
 
+    spdlog::debug("Setting position gain {0:d} for ODrive 0x{1:X}",
+            positionGain, canDevId);
+    sendFloatToDevice(ODRIVE_CAN_CMD_ID_SET_POSITION_GAIN, positionGain);
 }
 
 void OdriveInterface::setVelocityGains(float velocityGain, float integratorGain)
 {
+    if(!checkIfConfigured("Set Velocity Gains")) return;
 
+    spdlog::debug("Setting new velocity proportional gain {0:d} and integrator gain {1:d} for ODrive 0x{2:X}",
+            velocityGain, integratorGain, canDevId);
+    sendTwoFloatsToDevice(ODRIVE_CAN_CMD_ID_SET_VEL_GAINS, velocityGain, integratorGain);
 }
 
 bool OdriveInterface::checkIfConfigured(std::string caller)
@@ -372,4 +393,38 @@ bool OdriveInterface::checkIfConfigured(std::string caller)
 
     spdlog::warn("Cannot process \"{0}\" request because ODrive 0x{1:X} is not configured", caller.c_str(), canDevId);
     return false;
+}
+
+void OdriveInterface::sendFloatToDevice(int cmdID, float value)
+{
+    struct can_frame frame;
+
+    frame.can_id = CONVERT_DEVICE_AND_COMMAND_ID_TO_CAN_ID(canDevId, cmdID);
+    frame.can_dlc = 4;
+    memcpy(frame.data, &value, sizeof(float));
+    
+    canDevice->sendFrame(frame);
+}
+
+void OdriveInterface::sendTwoFloatsToDevice(int cmdID, float valueA, float valueB)
+{
+    struct can_frame frame;
+
+    frame.can_id = CONVERT_DEVICE_AND_COMMAND_ID_TO_CAN_ID(canDevId, cmdID);
+    frame.can_dlc = 8;
+    memcpy(frame.data, &valueA, sizeof(float));
+    memcpy(frame.data + 4, &valueB, sizeof(float));
+    
+    canDevice->sendFrame(frame);
+}
+
+void OdriveInterface::sendEmptyRequestToDevice(int cmdID)
+{
+    struct can_frame frame;
+
+    frame.can_id = CONVERT_DEVICE_AND_COMMAND_ID_TO_CAN_ID(canDevId, cmdID);
+    SET_CAN_RTR_BIT(frame.can_id);
+    frame.can_dlc = 0;
+    
+    canDevice->sendFrame(frame);
 }

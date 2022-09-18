@@ -148,6 +148,9 @@ class OdriveInterface
             if(mqttBackhaul == NULL) return;
             mqttBackhaul->sendMessage(topic, data, length, qos, retain);
         }
+        void sendFloatToDevice(int cmdID, float value);
+        void sendTwoFloatsToDevice(int cmdID, float valueA, float valueB);
+        void sendEmptyRequestToDevice(int cmdID);
 };
 
 #endif
