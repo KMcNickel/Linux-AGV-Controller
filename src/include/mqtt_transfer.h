@@ -25,6 +25,7 @@ class MqttTransfer
         bool shutdownMQTT();
         void addCallback(mqttReceiveCallback_t * callback);
         static void messageReceived(struct mosquitto *mosq, void *obj, const struct mosquitto_message *message);
+        static void setLogLevelByMQTT(void * handle, mosquitto_message * msg);
 
     private:
         struct mosquitto * mqttClient;

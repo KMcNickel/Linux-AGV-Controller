@@ -10,6 +10,8 @@
 
 void MqttTransfer::setupMQTT(std::string id, std::string addr, int port)
 {
+    mqttReceiveCallback_t logLevelChangeCallback;
+
     spdlog::info("Configuring MQTT with broker address: {0} and port: {1:d}", addr, port);
     address = addr;
     portNum = port;
@@ -18,6 +20,10 @@ void MqttTransfer::setupMQTT(std::string id, std::string addr, int port)
 
     mqttClient = mosquitto_new(id.c_str(), true, NULL);
     mosquitto_message_callback_set(mqttClient, messageReceived);
+
+    logLevelChangeCallback.callback = setLogLevelByMQTT;
+    logLevelChangeCallback.handle = NULL;
+    addCallback(&logLevelChangeCallback);
 }
 
 bool MqttTransfer::connectBroker()
@@ -94,4 +100,29 @@ void MqttTransfer::messageReceived(struct mosquitto *mosq, void *obj, const stru
     mqttReceiveCallback_t * callbackItem = (mqttReceiveCallback_t *)(obj);
 
     callbackItem->callback(callbackItem->handle, (mosquitto_message *) message);
+}
+
+void MqttTransfer::setLogLevelByMQTT(void * handle, mosquitto_message * msg)
+{
+    int8_t * data;
+
+    spdlog::debug("Attempting to set log level by MQTT");
+
+    if(msg->payloadlen != 1)
+    {
+        spdlog::warn("Received invalid data length from MQTT");
+        return;
+    }
+    
+    data = (int8_t *)(msg->payload);
+
+    if(*data < SPDLOG_LEVEL_TRACE || *data > SPDLOG_LEVEL_OFF)
+    {
+        spdlog::warn("Received invalid log level value from MQTT");
+        return;
+    }
+
+    spdlog::set_level(spdlog::level::info);
+    spdlog::info("Changing log level to {0:d} via MQTT", *data);
+    spdlog::set_level((spdlog::level::level_enum) *data);
 }
