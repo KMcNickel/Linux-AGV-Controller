@@ -4,7 +4,13 @@ project(agv_controller C CXX ASM)
 set(CMAKE_C_STANDARD 11)
 set(CMAKE_CXX_STANDARD 17)
 
+# For JSON package
+#set(JSON_BuildTests OFF CACHE INTERNAL "")
+
 find_package(spdlog REQUIRED)
+
+# Ready for when we need it
+#add_subdirectory(json)
 
 add_executable(${PROJECT_NAME}
     src/main.cpp

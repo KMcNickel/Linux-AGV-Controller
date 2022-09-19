@@ -81,7 +81,7 @@ void OdriveInterface::receiveCAN(void * handle, struct can_frame frame)
 
                 odrive->currentErrors.motor = newMotorError;
 
-                sprintf(mqttMessageString, "{\"Error\":{\"Motor\":%d}}", newMotorError);
+                sprintf(mqttMessageString, "{\"Error\":{\"Motor\":%ld}}", newMotorError);
                 odrive->sendMqttMessage(mqttTopicString, &mqttMessageString, strlen(mqttMessageString),
                         MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
             }
