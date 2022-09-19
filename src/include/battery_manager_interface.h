@@ -17,7 +17,7 @@ class BatteryManager
         int32_t canDevId;
         bool configured = false;
         MqttTransfer * mqttBackhaul = NULL;
-        void sendMqttMessage(std::string topic, void *data, size_t length, int qos, bool retain)
+        void sendMqttMessage(std::string topic, void *data, size_t length, MqttTransfer::qos_t qos, bool retain)
         {
             if(mqttBackhaul == NULL) return;
             mqttBackhaul->sendMessage(topic, data, length, qos, retain);

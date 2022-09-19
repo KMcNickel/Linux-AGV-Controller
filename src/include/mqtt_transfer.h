@@ -14,12 +14,19 @@ class MqttTransfer
     public:
         typedef void (*mqttMessageReceiveCallback)(void * handle, mosquitto_message * msg);
 
+        enum qos_t : int
+        {
+            QOS_0_AT_MOST_ONCE = 0,
+            QOS_1_AT_LEAST_ONCE = 1,
+            QOS_2_EXACTLY_ONCE = 2
+        };
+
         struct mqttReceiveCallback_t
         {
             mqttMessageReceiveCallback callback;
             void * handle;
             std::string topic;
-            int qos;
+            qos_t qos;
         };
 
         bool isConnected;
@@ -28,7 +35,7 @@ class MqttTransfer
         bool shutdownMQTT();
         void addCallback(mqttReceiveCallback_t * callback);
         void subscribeToCallbackTopics();
-        void sendMessage(std::string topic, void * data, size_t length, int qos, bool retain);
+        void sendMessage(std::string topic, void * data, size_t length, qos_t qos, bool retain);
         static void brokerConnected(struct mosquitto * mosq, void * obj, int rc);
         static void brokerDisconnected(struct mosquitto * mosq, void * obj, int rc);
         static void messageReceived(struct mosquitto *mosq, void *obj, const struct mosquitto_message *message);

@@ -25,7 +25,7 @@ void MqttTransfer::setupMQTT(std::string id, std::string addr, int port, std::st
     loggerLevelSetCallback.callback = setLogLevelByMQTT;
     loggerLevelSetCallback.handle = NULL;
     loggerLevelSetCallback.topic = devName + "/logger/level";
-    loggerLevelSetCallback.qos = 2;
+    loggerLevelSetCallback.qos = MqttTransfer::QOS_2_EXACTLY_ONCE;
     addCallback(&loggerLevelSetCallback);
 }
 
@@ -170,7 +170,7 @@ void MqttTransfer::subscribeToCallbackTopics()
     });
 }
 
-void MqttTransfer::sendMessage(std::string topic, void * data, size_t length, int qos, bool retain)
+void MqttTransfer::sendMessage(std::string topic, void * data, size_t length, qos_t qos, bool retain)
 {
     if(!isConnected) return;
 
