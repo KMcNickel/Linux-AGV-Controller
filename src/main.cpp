@@ -14,14 +14,14 @@
 #include "include/global_defines.h"
 #include "include/version_num.h"
 #include "include/mqtt_transfer.h"
-#include "include/odrive_interface.h"
+#include "include/odrive_safe_velocity_manager.h"
 
 using namespace std;
 
 SocketCAN can;
 BatteryManager batteryManager;
 MqttTransfer mqtt;
-OdriveInterface odrive[4];
+OdriveSafeVelocityManager odrive[2];
 
 void shutdownProgram(int32_t exitCode)
 {
@@ -30,7 +30,7 @@ void shutdownProgram(int32_t exitCode)
         if(odrive[i].isConfigured())
             odrive[i].eStopBoard();
     }
-    
+
     can.killSocket();       //MUST come after ALL devices on the bus are stopped
     mqtt.shutdownMQTT();
     
@@ -91,24 +91,19 @@ void configureBatteryManager()
     batteryManager.setupMqtt(&mqtt);
 }
 
-void configureODriveAxis(OdriveInterface * axis, int can_id)
-{
-    axis->configureDevice(&can, can_id);
-    axis->registerCallback();
-    axis->setupMqtt(&mqtt);
-
-    axis->requestAxisStateChange(OdriveInterface::axisState_t::ClosedLoopControl);
-    axis->setInputVelocity(1.0, 0);
-}
-
 void configureODrives()
 {
     spdlog::info("Configuring ODrives...");
 
-    configureODriveAxis(&odrive[0], CAN_ID_FRONT_LEFT_AXIS);
-    configureODriveAxis(&odrive[1], CAN_ID_FRONT_RIGHT_AXIS);
-    configureODriveAxis(&odrive[2], CAN_ID_REAR_LEFT_AXIS);
-    configureODriveAxis(&odrive[3], CAN_ID_REAR_RIGHT_AXIS);
+    odrive[0].configureDualAxis("Front", &can, CAN_ID_FRONT_LEFT_AXIS, CAN_ID_FRONT_RIGHT_AXIS);
+    odrive[0].setupMqtt(&mqtt);
+    odrive[1].configureDualAxis("Rear", &can, CAN_ID_REAR_LEFT_AXIS, CAN_ID_REAR_RIGHT_AXIS);
+    odrive[1].setupMqtt(&mqtt);
+
+    odrive[0].startBoard();
+    odrive[1].startBoard();
+
+    odrive[0].setVelocity(OdriveSafeVelocityManager::axis_t::AxisA, 1, 0);
 
     spdlog::info("ODrives Configured");
 }
@@ -158,5 +153,7 @@ int main(int argc, char ** argv)
     {
         spdlog::trace("Begin main loop iteration");
         can.receiveData();
+        odrive[0].checkTimers();
+        odrive[1].checkTimers();
     }
 }

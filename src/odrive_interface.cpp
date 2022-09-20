@@ -411,7 +411,7 @@ bool OdriveInterface::checkIfConfigured(std::string caller)
 {
     if(configured) return true;
 
-    spdlog::warn("Cannot process \"{0}\" request because ODrive 0x{1:X} is not configured", caller.c_str(), canDevId);
+    spdlog::warn("Cannot process \"{0}\" request because ODrive is not configured", caller.c_str());
     return false;
 }
 
