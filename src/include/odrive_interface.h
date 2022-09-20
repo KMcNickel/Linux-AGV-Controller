@@ -96,7 +96,6 @@ class OdriveInterface
             uint32_t sensorless;
         };
 
-        OdriveInterface * partnerAxis = NULL;
         axisState_t currentState;
         errors_t currentErrors;
         float currentPosition;
@@ -104,7 +103,6 @@ class OdriveInterface
         float lastCommandedVelocity;
 
         static void receiveCAN(void * handle, struct can_frame frame);
-        static void associateAxes(OdriveInterface * axis1, OdriveInterface * axis2);
         bool registerCallback();
         void configureDevice(SocketCAN * can, int32_t deviceId);
         void setupMqtt(MqttTransfer * mqtt);

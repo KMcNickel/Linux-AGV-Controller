@@ -131,12 +131,6 @@ void OdriveInterface::receiveCAN(void * handle, struct can_frame frame)
     }
 }
 
-void OdriveInterface::associateAxes(OdriveInterface * axis1, OdriveInterface * axis2)
-{
-    axis1->partnerAxis = axis2;
-    axis2->partnerAxis = axis1;
-}
-
 bool OdriveInterface::registerCallback()
 {
     if(!configured)
