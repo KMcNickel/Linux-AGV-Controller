@@ -3,7 +3,7 @@
 
 #include <linux/can.h>
 
-#define GLOBAL_LOG_LEVEL spdlog::level::debug
+#define GLOBAL_LOG_LEVEL spdlog::level::info
 
 #define DEVICE_NAME "agv0"
 

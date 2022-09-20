@@ -86,7 +86,7 @@ int32_t SocketCAN::sendFrame(struct can_frame frame)
 {
     int err = 0;
 
-    spdlog::trace("Preparing to send data");
+    spdlog::debug("Preparing to send CAN data");
 
     if(frame.can_dlc > MAX_DLC_LENGTH)
     {
@@ -108,7 +108,7 @@ int32_t SocketCAN::sendFrame(struct can_frame frame)
         return err;
     }
 
-    spdlog::trace("Sending:\n\tID: 0x{0:X}\n\tLength: {1:d}\n\tData: 0x{2:X} 0x{3:X} 0x{4:X} 0x{5:X} 0x{6:X} 0x{7:X} 0x{8:X} 0x{9:X}",
+    spdlog::debug("Sending:\n\tID: 0x{0:X}\n\tLength: {1:d}\n\tData: 0x{2:X} 0x{3:X} 0x{4:X} 0x{5:X} 0x{6:X} 0x{7:X} 0x{8:X} 0x{9:X}",
             frame.can_id, frame.can_dlc, frame.data[0], frame.data[1], frame.data[2],
             frame.data[3], frame.data[4], frame.data[5], frame.data[6], frame.data[7]);
         
@@ -148,7 +148,7 @@ int32_t SocketCAN::receiveData()
             return -1;
         }
 
-        spdlog::trace("Received:\n\tID: 0x{0:X}\n\tLength: {1:d}\n\tData: 0x{2:X} 0x{3:X} 0x{4:X} 0x{5:X} 0x{6:X} 0x{7:X} 0x{8:X} 0x{9:X}",
+        spdlog::debug("Received:\n\tID: 0x{0:X}\n\tLength: {1:d}\n\tData: 0x{2:X} 0x{3:X} 0x{4:X} 0x{5:X} 0x{6:X} 0x{7:X} 0x{8:X} 0x{9:X}",
                 frame.can_id, frame.can_dlc, frame.data[0], frame.data[1], frame.data[2],
                 frame.data[3], frame.data[4], frame.data[5], frame.data[6], frame.data[7]);
 
