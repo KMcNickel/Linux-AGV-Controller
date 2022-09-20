@@ -54,7 +54,7 @@ void OdriveInterface::receiveCAN(void * handle, struct can_frame frame)
             if(newAxisState != odrive->currentState)
             {
                 spdlog::info("Axis 0x{0:X} State changed from {1:d} to: {2:d}",
-                        odrive->canDevId, odrive->currentErrors.axis, newAxisError);
+                        odrive->canDevId, odrive->currentState, newAxisState);
 
                 odrive->currentState = newAxisState;
             }
@@ -179,6 +179,11 @@ bool OdriveInterface::hasErrors()
 {
     return (currentErrors.board | currentErrors.axis | currentErrors.controller |
             currentErrors.encoder | currentErrors.motor | currentErrors.sensorless);
+}
+
+bool OdriveInterface::isConfigured()
+{
+    return configured;
 }
 
 void OdriveInterface::eStopBoard()

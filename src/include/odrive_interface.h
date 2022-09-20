@@ -106,6 +106,7 @@ class OdriveInterface
         void configureDevice(SocketCAN * can, int32_t deviceId);
         void setupMqtt(MqttTransfer * mqtt);
         bool hasErrors();
+        bool isConfigured();
 
         void eStopBoard();
         void getMotorError();

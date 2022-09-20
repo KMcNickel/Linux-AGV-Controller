@@ -25,8 +25,15 @@ OdriveInterface odrive[4];
 
 void shutdownProgram(int32_t exitCode)
 {
-    can.killSocket();
+    for (int i = 0; i < 4; i++)
+    {
+        if(odrive[i].isConfigured())
+            odrive[i].eStopBoard();
+    }
+    
+    can.killSocket();       //MUST come after ALL devices on the bus are stopped
     mqtt.shutdownMQTT();
+    
     spdlog::info("Goodbye");
     exit(exitCode);
 }
@@ -84,16 +91,24 @@ void configureBatteryManager()
     batteryManager.setupMqtt(&mqtt);
 }
 
+void configureODriveAxis(OdriveInterface * axis, int can_id)
+{
+    axis->configureDevice(&can, can_id);
+    axis->registerCallback();
+    axis->setupMqtt(&mqtt);
+
+    axis->requestAxisStateChange(OdriveInterface::axisState_t::ClosedLoopControl);
+    axis->setInputVelocity(1.0, 0);
+}
+
 void configureODrives()
 {
     spdlog::info("Configuring ODrives...");
 
-    odrive[0].configureDevice(&can, CAN_ID_FRONT_LEFT_AXIS);
-    odrive[0].registerCallback();
-    odrive[0].setupMqtt(&mqtt);
-
-    odrive[0].requestAxisStateChange(OdriveInterface::axisState_t::ClosedLoopControl);
-    odrive[0].setInputVelocity(1.0, 0);
+    configureODriveAxis(&odrive[0], CAN_ID_FRONT_LEFT_AXIS);
+    configureODriveAxis(&odrive[1], CAN_ID_FRONT_RIGHT_AXIS);
+    configureODriveAxis(&odrive[2], CAN_ID_REAR_LEFT_AXIS);
+    configureODriveAxis(&odrive[3], CAN_ID_REAR_RIGHT_AXIS);
 
     spdlog::info("ODrives Configured");
 }
