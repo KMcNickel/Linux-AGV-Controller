@@ -14,12 +14,14 @@
 #include "include/global_defines.h"
 #include "include/version_num.h"
 #include "include/mqtt_transfer.h"
+#include "include/odrive_interface.h"
 
 using namespace std;
 
 SocketCAN can;
 BatteryManager batteryManager;
 MqttTransfer mqtt;
+OdriveInterface odrive[4];
 
 void shutdownProgram(int32_t exitCode)
 {
@@ -74,16 +76,36 @@ void registerSignals()
     spdlog::info("Signal Registration Complete");
 }
 
+void configureBatteryManager()
+{
+    batteryManager.configureDevice(&can, CAN_ID_BATTERY_MANAGER);
+    batteryManager.registerCallback();
+    batteryManager.rebootDevice();
+    batteryManager.setupMqtt(&mqtt);
+}
+
+void configureODrives()
+{
+    spdlog::info("Configuring ODrives...");
+
+    odrive[0].configureDevice(&can, CAN_ID_FRONT_LEFT_AXIS);
+    odrive[0].registerCallback();
+    odrive[0].setupMqtt(&mqtt);
+
+    odrive[0].requestAxisStateChange(OdriveInterface::axisState_t::ClosedLoopControl);
+    odrive[0].setInputVelocity(1.0, 0);
+
+    spdlog::info("ODrives Configured");
+}
+
 void configureCANBus()
 {
     spdlog::info("Configuring CAN Bus...");
 
     can.configureSocketCAN("can0");
 
-    batteryManager.configureDevice(&can, 0x4);
-    batteryManager.registerCallback();
-    batteryManager.rebootDevice();
-    batteryManager.setupMqtt(&mqtt);
+    configureBatteryManager();
+    configureODrives();
 
     spdlog::info("CAN Bus Configured");
 }
