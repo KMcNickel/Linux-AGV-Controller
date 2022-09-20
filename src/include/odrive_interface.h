@@ -47,7 +47,7 @@
 class OdriveInterface
 {
     public:
-        enum axisState_t : uint32_t
+        enum axisState_t : uint8_t
         {
             Undefined = 0x0,
             Idle = 0x01,
@@ -98,14 +98,14 @@ class OdriveInterface
 
         axisState_t currentState;
         errors_t currentErrors;
-        float currentPosition;
-        float currentVelocity;
-        float lastCommandedVelocity;
+        float currentPositionEstimate;
+        float currentVelocityEstimate;
 
         static void receiveCAN(void * handle, struct can_frame frame);
         bool registerCallback();
         void configureDevice(SocketCAN * can, int32_t deviceId);
         void setupMqtt(MqttTransfer * mqtt);
+        bool hasErrors();
 
         void eStopBoard();
         void getMotorError();

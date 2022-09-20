@@ -16,9 +16,9 @@
 
 void OdriveInterface::receiveCAN(void * handle, struct can_frame frame)
 {
-    char mqttMessageString[32];
+    char mqttMessageString[64];
     char mqttTopicString[16];
-    spdlog::debug("Processing ODrive Data");
+    spdlog::debug("Processing ODrive CAN Data");
 
     int32_t commandID = CONVERT_CAN_ID_TO_COMMAND_ID(frame.can_id);
     OdriveInterface * odrive = (OdriveInterface *)handle;
@@ -34,8 +34,8 @@ void OdriveInterface::receiveCAN(void * handle, struct can_frame frame)
             axisState_t newAxisState;
             uint8_t newControllerStatus;
 
-            memcpy(&newAxisError, &(frame.data[0]), sizeof(newAxisError));
-            spdlog::trace("New Axis Error is 0x{0:X}", newAxisError);
+            memcpy(&newAxisError, frame.data, sizeof(newAxisError));
+            spdlog::debug("New Axis Error is 0x{0:X}", newAxisError);
             if(newAxisError != odrive->currentErrors.axis)
             {
                 if(newAxisError == 0) spdlog::info("Axis 0x{0:X} Error changed from {1:d} to: {2:d}",
@@ -44,34 +44,35 @@ void OdriveInterface::receiveCAN(void * handle, struct can_frame frame)
                         odrive->canDevId, odrive->currentErrors.axis, newAxisError);
 
                 odrive->currentErrors.axis = newAxisError;
-
-                sprintf(mqttMessageString, "{\"Error\":{\"Axis\":%d}}", newAxisError);
-                odrive->sendMqttMessage(mqttTopicString, &mqttMessageString, strlen(mqttMessageString),
-                        MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
             }
+            sprintf(mqttMessageString, "{\"Error\":{\"Axis\":%d}}", odrive->currentErrors.axis);
+            odrive->sendMqttMessage(mqttTopicString, &mqttMessageString, strlen(mqttMessageString),
+                    MqttTransfer::QOS_0_AT_MOST_ONCE, false);
 
-            memcpy(&newAxisState, &(frame.data[4]), sizeof(newAxisState));
-            spdlog::trace("New Axis State is 0x{0:X}", newAxisState);
+            memcpy(&newAxisState, frame.data + 4, sizeof(newAxisState));
+            spdlog::debug("New Axis State is 0x{0:X}", newAxisState);
             if(newAxisState != odrive->currentState)
             {
                 spdlog::info("Axis 0x{0:X} State changed from {1:d} to: {2:d}",
                         odrive->canDevId, odrive->currentErrors.axis, newAxisError);
 
                 odrive->currentState = newAxisState;
-                
-                sprintf(mqttMessageString, "{\"State\":%d}", newAxisState);
-                odrive->sendMqttMessage(mqttTopicString, &mqttMessageString, strlen(mqttMessageString),
-                        MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
             }
+            sprintf(mqttMessageString, "{\"State\":%d}", odrive->currentState);
+            odrive->sendMqttMessage(mqttTopicString, &mqttMessageString, strlen(mqttMessageString),
+                    MqttTransfer::QOS_0_AT_MOST_ONCE, false);
 
-            memcpy(&newControllerStatus, &(frame.data[7]), sizeof(newControllerStatus));
-            spdlog::trace("New Controller Status is 0x{0:X}", newControllerStatus);
+            memcpy(&newControllerStatus, frame.data + 7, sizeof(newControllerStatus));
+            spdlog::debug("New Controller Status is 0x{0:X}", newControllerStatus);
+            sprintf(mqttMessageString, "{\"Status\":%d}", newControllerStatus);
+            odrive->sendMqttMessage(mqttTopicString, &mqttMessageString, strlen(mqttMessageString),
+                    MqttTransfer::QOS_0_AT_MOST_ONCE, false);
 
             break;
         case ODRIVE_CAN_CMD_ID_GET_MOTOR_ERROR:
             uint64_t newMotorError;
 
-            memcpy(&newMotorError, &(frame.data[0]), sizeof(newMotorError));
+            memcpy(&newMotorError, frame.data, sizeof(newMotorError));
             if(newMotorError != odrive->currentErrors.motor)
             {
                 if(newMotorError == 0) spdlog::info("Motor on axis 0x{0:X} Error changed from {1:d} to: {2:d}",
@@ -80,16 +81,15 @@ void OdriveInterface::receiveCAN(void * handle, struct can_frame frame)
                         odrive->canDevId, odrive->currentErrors.motor, newMotorError);
 
                 odrive->currentErrors.motor = newMotorError;
-
-                sprintf(mqttMessageString, "{\"Error\":{\"Motor\":%ld}}", newMotorError);
-                odrive->sendMqttMessage(mqttTopicString, &mqttMessageString, strlen(mqttMessageString),
-                        MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
             }
+            sprintf(mqttMessageString, "{\"Error\":{\"Motor\":%ld}}", odrive->currentErrors.motor);
+            odrive->sendMqttMessage(mqttTopicString, &mqttMessageString, strlen(mqttMessageString),
+                    MqttTransfer::QOS_0_AT_MOST_ONCE, true);
             break;
         case ODRIVE_CAN_CMD_ID_GET_ENCODER_ERROR:
             uint32_t newEncoderError;
 
-            memcpy(&newEncoderError, &(frame.data[0]), sizeof(newEncoderError));
+            memcpy(&newEncoderError, frame.data, sizeof(newEncoderError));
             if(newEncoderError != odrive->currentErrors.encoder)
             {
                 if(newEncoderError == 0) spdlog::info("Encoder Error on axis 0x{0:X} changed from {1:d} to: {2:d}",
@@ -98,16 +98,15 @@ void OdriveInterface::receiveCAN(void * handle, struct can_frame frame)
                         odrive->canDevId, odrive->currentErrors.encoder, newEncoderError);
 
                 odrive->currentErrors.encoder = newEncoderError;
-
-                sprintf(mqttMessageString, "{\"Error\":{\"Encoder\":%d}}", newEncoderError);
-                odrive->sendMqttMessage(mqttTopicString, &mqttMessageString, strlen(mqttMessageString),
-                        MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
             }
+            sprintf(mqttMessageString, "{\"Error\":{\"Encoder\":%d}}", odrive->currentErrors.encoder);
+            odrive->sendMqttMessage(mqttTopicString, &mqttMessageString, strlen(mqttMessageString),
+                    MqttTransfer::QOS_0_AT_MOST_ONCE, true);
             break;
         case ODRIVE_CAN_CMD_ID_GET_SENSORLESS_ERROR:
             uint32_t newSensorlessError;
 
-            memcpy(&newSensorlessError, &(frame.data[0]), sizeof(newSensorlessError));
+            memcpy(&newSensorlessError, frame.data, sizeof(newSensorlessError));
             if(newSensorlessError != odrive->currentErrors.sensorless)
             {
                 if(newSensorlessError == 0) spdlog::info("Sensorless Error on axis 0x{0:X} changed from {1:d} to: {2:d}",
@@ -116,14 +115,26 @@ void OdriveInterface::receiveCAN(void * handle, struct can_frame frame)
                         odrive->canDevId, odrive->currentErrors.sensorless, newSensorlessError);
 
                 odrive->currentErrors.sensorless = newSensorlessError;
-
-                sprintf(mqttMessageString, "{\"Error\":{\"Sensorless\":%d}}", newSensorlessError);
-                odrive->sendMqttMessage(mqttTopicString, &mqttMessageString, strlen(mqttMessageString),
-                        MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
             }
+            sprintf(mqttMessageString, "{\"Error\":{\"Sensorless\":%d}}", odrive->currentErrors.sensorless);
+            odrive->sendMqttMessage(mqttTopicString, &mqttMessageString, strlen(mqttMessageString),
+                    MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
+            break;
+        case ODRIVE_CAN_CMD_ID_GET_ENCODER_ESTIMATES:
+            memcpy(&odrive->currentPositionEstimate, frame.data, sizeof(odrive->currentPositionEstimate));
+            memcpy(&odrive->currentVelocityEstimate, frame.data + 4, sizeof(odrive->currentVelocityEstimate));
+
+            sprintf(mqttMessageString, "{\"Position\":%10.4f,\"Velocity\":%10.4f}",
+                    odrive->currentPositionEstimate, odrive->currentVelocityEstimate);
+                odrive->sendMqttMessage(mqttTopicString, &mqttMessageString, strlen(mqttMessageString),
+                        MqttTransfer::QOS_0_AT_MOST_ONCE, true);
+            break;
+        case ODRIVE_CAN_CMD_ID_GET_ENCODER_COUNT:
             break;
         case ODRIVE_CAN_CMD_ID_GET_IQ:
             //Not implemented here
+            break;
+        case ODRIVE_CAN_CMD_ID_GET_SENSORLESS_ESTIMATES:
             break;
         default:
             spdlog::warn("Message command id unknown");
@@ -162,6 +173,12 @@ void OdriveInterface::setupMqtt(MqttTransfer * mqtt)
     spdlog::info("Setting up MQTT for ODrive");
 
     mqttBackhaul = mqtt;
+}
+
+bool OdriveInterface::hasErrors()
+{
+    return (currentErrors.board | currentErrors.axis | currentErrors.controller |
+            currentErrors.encoder | currentErrors.motor | currentErrors.sensorless);
 }
 
 void OdriveInterface::eStopBoard()
@@ -262,7 +279,7 @@ void OdriveInterface::setInputVelocity(float velocity, float torqueFF)
 {
     if(!checkIfConfigured("Set Input Velocity")) return;
 
-    spdlog::debug("Setting new input velocity {0:d}, and torque FF {1:d} for ODrive 0x{2:X}",
+    spdlog::debug("Setting new input velocity {0:f}, and torque FF {1:f} for ODrive 0x{2:X}",
             velocity, torqueFF, canDevId);
     sendTwoFloatsToDevice(ODRIVE_CAN_CMD_ID_SET_INPUT_VEL, velocity, torqueFF);
 }
@@ -271,7 +288,7 @@ void OdriveInterface::setInputTorque(float torque)
 {
     if(!checkIfConfigured("Set Input Torque")) return;
 
-    spdlog::debug("Setting new input torque {0:d} for ODrive 0x{1:X}",
+    spdlog::debug("Setting new input torque {0:f} for ODrive 0x{1:X}",
             torque, canDevId);
     sendFloatToDevice(ODRIVE_CAN_CMD_ID_SET_INPUT_TORQUE, torque);
 }
