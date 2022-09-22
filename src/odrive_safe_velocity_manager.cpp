@@ -19,9 +19,10 @@ void OdriveSafeVelocityManager::configureSingleAxis(std::string name, SocketCAN 
 
     this->name = name;
     axisA.configureDevice(can, axisDeviceId);
+    axisA.registerCallback();
     feedWatchdog();
     configured = SingleAxis;
-    spdlog::info("ODrive Manager Configured");
+    spdlog::info("ODrive Manager {0} Configured", name);
 }
 
 void OdriveSafeVelocityManager::configureDualAxis(std::string name, SocketCAN * can, int32_t axisADeviceId, int32_t axisBDeviceId)
@@ -30,11 +31,13 @@ void OdriveSafeVelocityManager::configureDualAxis(std::string name, SocketCAN * 
 
     this->name = name;
     axisA.configureDevice(can, axisADeviceId);
+    axisA.registerCallback();
     axisB.configureDevice(can, axisBDeviceId);
+    axisB.registerCallback();
     feedWatchdog();
     configured = DualAxis;
 
-    spdlog::info("ODrive Manager Configured");
+    spdlog::info("ODrive Manager {0} Configured", name);
 }
 
 void OdriveSafeVelocityManager::setupMqtt(MqttTransfer * mqtt)
@@ -56,6 +59,7 @@ bool OdriveSafeVelocityManager::isConfigured()
 bool OdriveSafeVelocityManager::hasErrors()
 {
     if(!checkIfConfigured("Has Errors")) return false;
+    if(incomingWatchdogExpired) return true;
     if(configured == SingleAxis) return axisA.hasErrors();
     if(configured == DualAxis) return (axisA.hasErrors() || axisB.hasErrors());
 
@@ -66,25 +70,31 @@ void OdriveSafeVelocityManager::requestErrors(axis_t axis)
 {
     if(!checkIfConfigured("Request Errors")) return;
 
-    if(axis == AxisA)
+    bool useAxisA = (axis == AxisA || axis == AxisAll);
+    bool useAxisB = (configured == DualAxis && (axis == AxisB || axis == AxisAll));
+
+    if(useAxisA)
     {
         spdlog::debug("Requesting Errors from ODrive Manager {0} axis A", name);
         axisA.getMotorError();
         axisA.getEncoderError();
         axisA.getSensorlessError();
     }
-    else if(axis == AxisB)
+    else if(useAxisB)
     {
         spdlog::debug("Requesting Errors from ODrive Manager {0} axis B", name);
         axisB.getMotorError();
         axisB.getEncoderError();
         axisB.getSensorlessError();
     }
+
+    lastErrorRequest = DEFAULT_CLOCK::now();
 }
 
 void OdriveSafeVelocityManager::setVelocity(axis_t axis, float velocity, float torqueFF)
 {
     if(!checkIfConfigured("Set Velocity")) return;
+    if(checkIfErrorsExist("Set Velocity")) return;
 
     if(axis == AxisA)
     {
@@ -115,7 +125,8 @@ void OdriveSafeVelocityManager::eStopBoard()
 
     logStartOfAction("Emergency Stopping");
     
-    axisA.eStopBoard();
+    axisA.eStop();
+    if(configured == DualAxis) axisB.eStop();
 
     spdlog::warn("ODrive Manager {0} was Emergency Stopped", name);
 }
@@ -138,6 +149,7 @@ void OdriveSafeVelocityManager::stopBoard()
 void OdriveSafeVelocityManager::startBoard()
 {
     if(!checkIfConfigured("Start Board")) return;
+    if(checkIfErrorsExist("Start Board")) return;
 
     logStartOfAction("Starting");
 
@@ -177,6 +189,8 @@ void OdriveSafeVelocityManager::stopAxis(axis_t axis)
 void OdriveSafeVelocityManager::startAxis(axis_t axis)
 {
     if(!checkIfConfigured("Start Axis")) return;
+    if(checkIfErrorsExist("Start Axis")) return;
+
     if(axis == AxisB && !checkIfDualAxis("Start Axis")) return;
     
     if(axis == AxisA)
@@ -199,9 +213,9 @@ void OdriveSafeVelocityManager::startAxis(axis_t axis)
 
 void OdriveSafeVelocityManager::feedWatchdog()
 {
-    if(configured == Unconfigured) return;
     spdlog::trace("Watchdog feed on Odrive Manager {0}", name);
-    lastWatchdogFeed = std::chrono::steady_clock::now();
+    lastWatchdogFeed = DEFAULT_CLOCK::now();
+    incomingWatchdogExpired = false;
 }
 
 bool OdriveSafeVelocityManager::checkIfConfigured(std::string caller)
@@ -240,23 +254,41 @@ void OdriveSafeVelocityManager::checkTimers()
     if(configured == Unconfigured) return;
 
     spdlog::trace("Checking timers for Odrive Manager {0}", name);
-    std::chrono::time_point<std::chrono::steady_clock> now = std::chrono::steady_clock::now();
+    std::chrono::time_point<DEFAULT_CLOCK> now = DEFAULT_CLOCK::now();
     std::chrono::milliseconds watchdogElapsedMs = std::chrono::duration_cast<std::chrono::milliseconds>(now - lastWatchdogFeed);
     std::chrono::milliseconds errorRequestElapsedMs = std::chrono::duration_cast<std::chrono::milliseconds>(now - lastErrorRequest);
 
-    if(watchdogElapsedMs > incomingWatchdogTimeout)
+    if(watchdogElapsedMs > incomingWatchdogTimeout && incomingWatchdogExpired == false)
     {
         spdlog::warn("Incoming Watchdog was not fed after {0:d} ms. ODrive Manager {1} will be Emergency Stopped.",
                 watchdogElapsedMs.count(), name);
         eStopBoard();
+        incomingWatchdogExpired = true;
     }
 
     if(errorRequestElapsedMs > errorRequestInterval)
     {
         spdlog::trace("Error request interval for ODrive Manager {0} has elapsed after {1:d} ms",
                 name, errorRequestElapsedMs.count());
-        requestErrors(AxisA);
-        if(configured == DualAxis) requestErrors(AxisB);
-        lastErrorRequest = now;
+        requestErrors(AxisAll);
     }
+}
+
+bool OdriveSafeVelocityManager::checkIfErrorsExist(std::string caller)
+{
+    if(!checkIfConfigured("Check if errors exist")) return true;
+
+    if(incomingWatchdogExpired)
+    {
+        spdlog::warn("Unable to {0} while the incoming watchdog for ODrive Manager {1} is expired", caller, name);
+        return true;
+    }
+
+    if(hasErrors())
+    {
+        spdlog::warn("Unable to {0} while ODrive errors for ODrive Manager {1} exist", caller, name);
+        return true;
+    }
+
+    return false;
 }

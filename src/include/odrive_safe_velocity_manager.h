@@ -25,8 +25,10 @@ class OdriveSafeVelocityManager
 
         enum axis_t
         {
+            AxisNone = 0,
             AxisA = 1,
-            AxisB = 2
+            AxisB = 2,
+            AxisAll = 3
         };
 
         void configureSingleAxis(std::string name, SocketCAN * can, int32_t axisDeviceId);
@@ -50,13 +52,15 @@ class OdriveSafeVelocityManager
         OdriveInterface axisA;
         OdriveInterface axisB;
         std::string name;
+        bool incomingWatchdogExpired;
         std::chrono::time_point<std::chrono::steady_clock> lastErrorRequest;
         std::chrono::time_point<std::chrono::steady_clock> lastWatchdogFeed;
         std::chrono::milliseconds errorRequestInterval = std::chrono::milliseconds(250);
-        std::chrono::milliseconds incomingWatchdogTimeout = std::chrono::milliseconds(500);
+        std::chrono::milliseconds incomingWatchdogTimeout = std::chrono::milliseconds(5000);
         bool checkIfConfigured(std::string caller);
         bool checkIfDualAxis(std::string caller);
         void logStartOfAction(std::string actionName);
+        bool checkIfErrorsExist(std::string caller);
 };
 
 #endif
