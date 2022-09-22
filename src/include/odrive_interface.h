@@ -108,7 +108,7 @@ class OdriveInterface
         bool hasErrors();
         bool isConfigured();
 
-        void eStopBoard();
+        void eStop();
         void getMotorError();
         void getEncoderError();
         void getSensorlessError();
