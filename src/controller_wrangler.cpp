@@ -12,7 +12,6 @@
 #include "include/socketcan.h"
 #include "include/battery_manager_interface.h"
 #include "include/global_defines.h"
-#include "include/version_num.h"
 #include "include/mqtt_transfer.h"
 #include "include/odrive_safe_velocity_manager.h"
 #include "include/controller_wrangler.h"
@@ -85,7 +84,7 @@ void ControllerWrangler::startup()
     spdlog::info("Controller Wrangler Start Up Complete");
 }
 
-int ControllerWrangler::loop()
+void ControllerWrangler::loop()
 {
     spdlog::trace("Controller Wrangler loop iteration");
     can.receiveData();
