@@ -16,7 +16,7 @@
 using namespace std;
 
 ControllerWrangler controllerWrangler;
-cxxopts::Options commandLineOptions("Linux AGV Controller", "Controls a self-driving robot");
+cxxopts::Options commandLineOptions("agv_controller", "Controls a self-driving robot");
 cxxopts::ParseResult commandLineResult;
 
 void shutdownProgram(int32_t exitCode)
@@ -75,10 +75,17 @@ void registerSignals()
 void configureCommandLineOptions(int argc, char ** argv)
 {
     commandLineOptions.add_options()
+    ("h,help", "Print help")
     ("l,log_level", "log level on startup", cxxopts::value<std::string>()->default_value(GLOBAL_LOG_LEVEL))
     ;
 
     commandLineResult = commandLineOptions.parse(argc, argv);
+
+    if (commandLineResult.count("help"))
+    {
+      std::cout << commandLineOptions.help() << std::endl;
+      exit(EXIT_SUCCESS);
+    }
 }
 
 void setLogLevel()
@@ -88,7 +95,7 @@ void setLogLevel()
     newLevel = spdlog::level::from_str(commandLineResult["log_level"].as<std::string>());
 
     spdlog::set_level(spdlog::level::info);
-    
+
     if(newLevel == spdlog::level::off)
         spdlog::warn("Log level set to {0}", spdlog::level::to_string_view(newLevel));
     else
