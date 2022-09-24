@@ -6,33 +6,19 @@
 #include <iostream>
 #include <mosquitto.h>
 
-#include <linux/can.h>
-
 #include "spdlog/spdlog.h"
-#include "include/socketcan.h"
-#include "include/battery_manager_interface.h"
 #include "include/global_defines.h"
 #include "include/version_num.h"
 #include "include/mqtt_transfer.h"
-#include "include/odrive_safe_velocity_manager.h"
+#include "include/controller_wrangler.h"
 
 using namespace std;
 
-SocketCAN can;
-BatteryManager batteryManager;
-MqttTransfer mqtt;
-OdriveSafeVelocityManager odrive[2];
+ControllerWrangler controllerWrangler;
 
 void shutdownProgram(int32_t exitCode)
 {
-    for (int i = 0; i < 4; i++)
-    {
-        if(odrive[i].isConfigured())
-            odrive[i].eStopBoard();
-    }
-
-    can.killSocket();       //MUST come after ALL devices on the bus are stopped
-    mqtt.shutdownMQTT();
+    controllerWrangler.gracefulEnd();
     
     spdlog::info("Goodbye");
     exit(exitCode);
@@ -83,51 +69,6 @@ void registerSignals()
     spdlog::info("Signal Registration Complete");
 }
 
-void configureBatteryManager()
-{
-    batteryManager.configureDevice(&can, CAN_ID_BATTERY_MANAGER);
-    batteryManager.registerCallback();
-    batteryManager.rebootDevice();
-    batteryManager.setupMqtt(&mqtt);
-}
-
-void configureODrives()
-{
-    spdlog::info("Configuring ODrives...");
-
-    odrive[0].configureDualAxis("Front", &can, CAN_ID_FRONT_LEFT_AXIS, CAN_ID_FRONT_RIGHT_AXIS);
-    odrive[0].setupMqtt(&mqtt);
-    odrive[1].configureDualAxis("Rear", &can, CAN_ID_REAR_LEFT_AXIS, CAN_ID_REAR_RIGHT_AXIS);
-    odrive[1].setupMqtt(&mqtt);
-
-    odrive[0].startBoard();
-    odrive[1].startBoard();
-
-    odrive[0].setVelocity(OdriveSafeVelocityManager::axis_t::AxisA, 1, 0);
-
-    spdlog::info("ODrives Configured");
-}
-
-void configureCANBus()
-{
-    spdlog::info("Configuring CAN Bus...");
-
-    can.configureSocketCAN("can0");
-
-    configureBatteryManager();
-    configureODrives();
-
-    spdlog::info("CAN Bus Configured");
-}
-
-void configureMQTT()
-{
-    spdlog::info("Configuring MQTT...");
-    mqtt.setupMQTT("AGV01", "192.168.2.163", 1883, DEVICE_NAME);
-    mqtt.connectBroker();
-    spdlog::info("MQTT configured");
-}
-
 void systemStartup()
 {
     spdlog::set_level(GLOBAL_LOG_LEVEL);
@@ -136,9 +77,7 @@ void systemStartup()
     spdlog::info("Version: {0:d}.{1:d}.{2:d} Build: {3:d}", VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH, VERSION_BUILD);
     spdlog::info("System Starting Up...");
 
-    registerSignals();
-    configureMQTT();
-    configureCANBus();
+    controllerWrangler.startup();
 
     spdlog::info("System Start Up Complete");
 }
@@ -152,8 +91,6 @@ int main(int argc, char ** argv)
     while(1)
     {
         spdlog::trace("Begin main loop iteration");
-        can.receiveData();
-        odrive[0].checkTimers();
-        odrive[1].checkTimers();
+        controllerWrangler.loop();
     }
 }
