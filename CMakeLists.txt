@@ -19,7 +19,12 @@ add_executable(${PROJECT_NAME}
     src/mqtt_transfer.cpp
     src/odrive_interface.cpp
     src/odrive_safe_velocity_manager.cpp
+    src/controller_wrangler.cpp
 )
+
+target_include_directories(${PROJECT_NAME}
+    PRIVATE
+    cxxopts)
 
 add_custom_command(
     TARGET ${PROJECT_NAME}

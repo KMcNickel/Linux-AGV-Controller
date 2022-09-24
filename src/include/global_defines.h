@@ -3,7 +3,7 @@
 
 #include <linux/can.h>
 
-#define GLOBAL_LOG_LEVEL spdlog::level::info
+#define GLOBAL_LOG_LEVEL "info"
 #define DEFAULT_CLOCK std::chrono::steady_clock
 
 #define DEVICE_NAME "agv0"

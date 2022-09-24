@@ -11,10 +11,13 @@
 #include "include/version_num.h"
 #include "include/mqtt_transfer.h"
 #include "include/controller_wrangler.h"
+#include "include/cxxopts.hpp"
 
 using namespace std;
 
 ControllerWrangler controllerWrangler;
+cxxopts::Options commandLineOptions("Linux AGV Controller", "Controls a self-driving robot");
+cxxopts::ParseResult commandLineResult;
 
 void shutdownProgram(int32_t exitCode)
 {
@@ -69,9 +72,36 @@ void registerSignals()
     spdlog::info("Signal Registration Complete");
 }
 
-void systemStartup()
+void configureCommandLineOptions(int argc, char ** argv)
 {
-    spdlog::set_level(GLOBAL_LOG_LEVEL);
+    commandLineOptions.add_options()
+    ("l,log_level", "log level on startup", cxxopts::value<std::string>()->default_value(GLOBAL_LOG_LEVEL))
+    ;
+
+    commandLineResult = commandLineOptions.parse(argc, argv);
+}
+
+void setLogLevel()
+{
+    spdlog::level::level_enum newLevel;
+
+    newLevel = spdlog::level::from_str(commandLineResult["log_level"].as<std::string>());
+
+    spdlog::set_level(spdlog::level::info);
+    
+    if(newLevel == spdlog::level::off)
+        spdlog::warn("Log level set to {0}", spdlog::level::to_string_view(newLevel));
+    else
+        spdlog::info("Log level set to {0}", spdlog::level::to_string_view(newLevel));
+
+    spdlog::set_level(newLevel);
+}
+
+void systemStartup(int argc, char ** argv)
+{
+    configureCommandLineOptions(argc, argv);
+
+    setLogLevel();
 
     spdlog::info("Linux AGV Battery Manager");
     spdlog::info("Version: {0:d}.{1:d}.{2:d} Build: {3:d}", VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH, VERSION_BUILD);
@@ -84,7 +114,7 @@ void systemStartup()
 
 int main(int argc, char ** argv)
 {
-    systemStartup();
+    systemStartup(argc, argv);
 
     spdlog::info("System spinning");
 
