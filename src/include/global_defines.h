@@ -7,6 +7,7 @@
 #define DEFAULT_CLOCK std::chrono::steady_clock
 
 #define DEVICE_NAME "agv0"
+#define PENDANT_INPUT "/dev/input/by-id/usb-8BitDo_8BitDo_Pro_2_000000000003-event-joystick"
 
 //CAN Bus ID's
 #define CAN_ID_FRONT_LEFT_AXIS  0x0

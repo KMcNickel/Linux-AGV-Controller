@@ -18,6 +18,7 @@
 #include "version_num.h"
 #include "mqtt_transfer.h"
 #include "odrive_safe_velocity_manager.h"
+#include "pendant_manager.h"
 
 class ControllerWrangler
 {
@@ -26,10 +27,13 @@ class ControllerWrangler
         BatteryManager batteryManager;
         MqttTransfer mqtt;
         OdriveSafeVelocityManager odrive[2];
+        PendantManager pendant;
+        
         void configureBatteryManager();
         void configureODrives();
         void configureCANBus();
         void configureMQTT();
+        void configurePendant();
 
     public:
         void gracefulEnd();

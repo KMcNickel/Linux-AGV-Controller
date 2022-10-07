@@ -56,7 +56,7 @@ class OdriveSafeVelocityManager
         std::chrono::time_point<std::chrono::steady_clock> lastErrorRequest;
         std::chrono::time_point<std::chrono::steady_clock> lastWatchdogFeed;
         std::chrono::milliseconds errorRequestInterval = std::chrono::milliseconds(250);
-        std::chrono::milliseconds incomingWatchdogTimeout = std::chrono::milliseconds(5000);
+        std::chrono::milliseconds incomingWatchdogTimeout = std::chrono::milliseconds(500);
         bool checkIfConfigured(std::string caller);
         bool checkIfDualAxis(std::string caller);
         void logStartOfAction(std::string actionName);

@@ -74,12 +74,19 @@ void ControllerWrangler::configureMQTT()
     spdlog::info("MQTT configured");
 }
 
+void ControllerWrangler::configurePendant()
+{
+    pendant.startup();
+    pendant.setupMqtt(&mqtt);
+}
+
 void ControllerWrangler::startup()
 {
     spdlog::info("Controller Wrangler Starting Up...");
 
     configureMQTT();
     configureCANBus();
+    configurePendant();
 
     spdlog::info("Controller Wrangler Start Up Complete");
 }
@@ -90,4 +97,5 @@ void ControllerWrangler::loop()
     can.receiveData();
     odrive[0].checkTimers();
     odrive[1].checkTimers();
+    pendant.maintenanceLoop();
 }
