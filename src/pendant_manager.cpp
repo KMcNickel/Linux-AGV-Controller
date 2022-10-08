@@ -15,10 +15,12 @@
 void PendantManager::startup()
 {
     spdlog::info("Starting up Pendant Manager");
+
+    running = false;
     gamepadDevice = open(PENDANT_INPUT, O_RDONLY | O_NONBLOCK);
 
     if(gamepadDevice == -1)
-        spdlog::error("Unable to open pendant device file");
+        spdlog::error("Unable to open pendant device file: {0}", strerror(errno));
         
     if(gamepadDevice != -1)
         running = true;
@@ -177,10 +179,18 @@ void PendantManager::maintenanceLoop()
     std::chrono::time_point<DEFAULT_CLOCK> now = DEFAULT_CLOCK::now();
     std::chrono::milliseconds stateSendElapsedMs = std::chrono::duration_cast<std::chrono::milliseconds>(now - lastStateSend);
 
-    if(stateSendElapsedMs > stateSendElapsedMs)
+    if(stateSendElapsedMs > stateSendInterval)
     {
+        spdlog::trace("Send Pendant State");
+
         sendState();
 
         lastStateSend = now;
     }
+}
+
+
+PendantManager::gamepad_t PendantManager::getCurrentState()
+{
+    return currentState;
 }

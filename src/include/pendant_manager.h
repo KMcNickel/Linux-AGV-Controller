@@ -53,7 +53,7 @@ class PendantManager
         gamepad_t currentState;
         MqttTransfer * mqtt;
         std::chrono::time_point<std::chrono::steady_clock> lastStateSend;
-        std::chrono::milliseconds StateSendInterval = std::chrono::milliseconds(100);
+        std::chrono::milliseconds stateSendInterval = std::chrono::milliseconds(100);
 
         void sendState();
         void readDevice();
@@ -62,6 +62,7 @@ class PendantManager
         void startup();
         void setupMqtt(MqttTransfer * mqtt);
         void maintenanceLoop();
+        gamepad_t getCurrentState();
 };
 
 #endif

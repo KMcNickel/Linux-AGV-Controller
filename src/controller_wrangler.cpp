@@ -93,9 +93,18 @@ void ControllerWrangler::startup()
 
 void ControllerWrangler::loop()
 {
+    PendantManager::gamepad_t pendantState;
+
     spdlog::trace("Controller Wrangler loop iteration");
     can.receiveData();
     odrive[0].checkTimers();
     odrive[1].checkTimers();
     pendant.maintenanceLoop();
+
+    pendantState = pendant.getCurrentState();
+
+    odrive[0].setVelocity(OdriveSafeVelocityManager::AxisA, pendantState.leftJoystick.x / 3277, 0);
+    odrive[0].setVelocity(OdriveSafeVelocityManager::AxisB, pendantState.leftJoystick.y / 3277, 0);
+    odrive[1].setVelocity(OdriveSafeVelocityManager::AxisA, pendantState.rightJoystick.x / 3277, 0);
+    odrive[1].setVelocity(OdriveSafeVelocityManager::AxisB, pendantState.rightJoystick.y / 3277, 0);
 }
