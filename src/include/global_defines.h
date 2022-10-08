@@ -9,6 +9,12 @@
 #define DEVICE_NAME "agv0"
 #define PENDANT_INPUT "/dev/input/by-id/usb-8BitDo_8BitDo_Pro_2_000000000003-event-joystick"
 
+//All measurements are in meters
+#define MECANUM_WHEEL_RADIUS            0.04064
+#define MECANUM_WHEEL_BASE_LENGTH       0.181356
+#define MECANUM_WHEEL_BASE_WIDTH        0.27178
+#define MECANUM_WHEEL_RIGHT_INVERTED    true
+
 //CAN Bus ID's
 #define CAN_ID_FRONT_LEFT_AXIS  0x0
 #define CAN_ID_FRONT_RIGHT_AXIS 0x1

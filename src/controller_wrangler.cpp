@@ -74,10 +74,20 @@ void ControllerWrangler::configureMQTT()
     spdlog::info("MQTT configured");
 }
 
+void ControllerWrangler::configureKinematics()
+{
+    spdlog::info("Configuring Pendant...");
+    kinematics.startup(MECANUM_WHEEL_RADIUS, MECANUM_WHEEL_BASE_WIDTH, MECANUM_WHEEL_BASE_LENGTH, MECANUM_WHEEL_RIGHT_INVERTED);
+    kinematics.setupMqtt(&mqtt);
+    spdlog::info("Pendant configured");
+}
+
 void ControllerWrangler::configurePendant()
 {
+    spdlog::info("Configuring Pendant...");
     pendant.startup();
     pendant.setupMqtt(&mqtt);
+    spdlog::info("Pendant configured");
 }
 
 void ControllerWrangler::startup()
@@ -86,6 +96,7 @@ void ControllerWrangler::startup()
 
     configureMQTT();
     configureCANBus();
+    configureKinematics();
     configurePendant();
 
     spdlog::info("Controller Wrangler Start Up Complete");
@@ -94,6 +105,7 @@ void ControllerWrangler::startup()
 void ControllerWrangler::loop()
 {
     PendantManager::gamepad_t pendantState;
+    Kinematics::pose_t requestedMotion;
 
     spdlog::trace("Controller Wrangler loop iteration");
     can.receiveData();
@@ -102,9 +114,14 @@ void ControllerWrangler::loop()
     pendant.maintenanceLoop();
 
     pendantState = pendant.getCurrentState();
+    requestedMotion.linear.x = (pendantState.leftJoystick.y / 3277) * -1;
+    requestedMotion.linear.y = pendantState.leftJoystick.x / 3277;
+    requestedMotion.angular.z = pendantState.rightJoystick.x / 3277;
 
-    odrive[0].setVelocity(OdriveSafeVelocityManager::AxisA, pendantState.leftJoystick.x / 3277, 0);
-    odrive[0].setVelocity(OdriveSafeVelocityManager::AxisB, pendantState.leftJoystick.y / 3277, 0);
-    odrive[1].setVelocity(OdriveSafeVelocityManager::AxisA, pendantState.rightJoystick.x / 3277, 0);
-    odrive[1].setVelocity(OdriveSafeVelocityManager::AxisB, pendantState.rightJoystick.y / 3277, 0);
+    kinematics.calculateInverseKinematics(requestedMotion);
+
+    odrive[0].setVelocity(OdriveSafeVelocityManager::AxisA, kinematics.getCommandedVelocity(Kinematics::frontLeft), 0);
+    odrive[0].setVelocity(OdriveSafeVelocityManager::AxisB, kinematics.getCommandedVelocity(Kinematics::frontRight), 0);
+    odrive[1].setVelocity(OdriveSafeVelocityManager::AxisA, kinematics.getCommandedVelocity(Kinematics::rearLeft), 0);
+    odrive[1].setVelocity(OdriveSafeVelocityManager::AxisB, kinematics.getCommandedVelocity(Kinematics::rearRight), 0);
 }

@@ -21,6 +21,7 @@ add_executable(${PROJECT_NAME}
     src/odrive_safe_velocity_manager.cpp
     src/controller_wrangler.cpp
     src/pendant_manager.cpp
+    src/kinematics.cpp
 )
 
 target_include_directories(${PROJECT_NAME}

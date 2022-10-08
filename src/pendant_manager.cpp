@@ -165,6 +165,10 @@ void PendantManager::readDevice() {
 
 void PendantManager::sendState()
 {
+    if(!mqtt) return;
+
+    spdlog::trace("Send Pendant State");
+
     nlohmann::json data = currentState;
     std::string serializedData = data.dump();
 
@@ -181,8 +185,6 @@ void PendantManager::maintenanceLoop()
 
     if(stateSendElapsedMs > stateSendInterval)
     {
-        spdlog::trace("Send Pendant State");
-
         sendState();
 
         lastStateSend = now;

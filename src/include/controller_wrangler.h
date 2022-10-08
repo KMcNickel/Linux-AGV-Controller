@@ -19,6 +19,7 @@
 #include "mqtt_transfer.h"
 #include "odrive_safe_velocity_manager.h"
 #include "pendant_manager.h"
+#include "kinematics.h"
 
 class ControllerWrangler
 {
@@ -28,10 +29,12 @@ class ControllerWrangler
         MqttTransfer mqtt;
         OdriveSafeVelocityManager odrive[2];
         PendantManager pendant;
+        Kinematics kinematics;
         
         void configureBatteryManager();
         void configureODrives();
         void configureCANBus();
+        void configureKinematics();
         void configureMQTT();
         void configurePendant();
 
