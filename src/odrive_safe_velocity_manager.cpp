@@ -96,6 +96,8 @@ void OdriveSafeVelocityManager::setVelocity(axis_t axis, float velocity, float t
     if(!checkIfConfigured("Set Velocity")) return;
     if(checkIfErrorsExist("Set Velocity")) return;
 
+    feedWatchdog();
+
     if(axis == AxisA)
     {
         spdlog::debug("Setting Axis A Velocity");
