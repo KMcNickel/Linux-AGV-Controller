@@ -23,6 +23,14 @@
 
 class ControllerWrangler
 {
+    public:
+        enum controlMode_t
+        {
+            Idle,
+            Manual,
+            Automatic
+        };
+
     private:
         SocketCAN can;
         BatteryManager batteryManager;
@@ -30,6 +38,9 @@ class ControllerWrangler
         OdriveSafeVelocityManager odrive[2];
         PendantManager pendant;
         Kinematics kinematics;
+        controlMode_t motorControlMode;
+        std::chrono::time_point<std::chrono::steady_clock> lastMotorUpdate;
+        std::chrono::milliseconds motorUpdateInterval = std::chrono::milliseconds(100);
         
         void configureBatteryManager();
         void configureODrives();
@@ -37,6 +48,7 @@ class ControllerWrangler
         void configureKinematics();
         void configureMQTT();
         void configurePendant();
+        void updateMotorVelocities();
 
     public:
         void gracefulEnd();

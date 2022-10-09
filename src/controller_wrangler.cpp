@@ -18,8 +18,8 @@
 
 void ControllerWrangler::gracefulEnd()
 {
-    for (int i = 0; i < 4; i++)
-         odrive[i].eStopBoard();
+    odrive[0].eStopBoard();
+    odrive[1].eStopBoard();
 
     can.killSocket();       //MUST come after ALL devices on the bus are stopped
     mqtt.shutdownMQTT();
@@ -90,38 +90,71 @@ void ControllerWrangler::configurePendant()
     spdlog::info("Pendant configured");
 }
 
+void ControllerWrangler::updateMotorVelocities()
+{
+    PendantManager::gamepad_t pendantState;
+    Kinematics::pose_t requestedMotion;
+
+    switch(motorControlMode)
+    {
+        case Idle:
+            odrive[0].setVelocity(OdriveSafeVelocityManager::AxisA, 0, 0);
+            odrive[0].setVelocity(OdriveSafeVelocityManager::AxisB, 0, 0);
+            odrive[1].setVelocity(OdriveSafeVelocityManager::AxisA, 0, 0);
+            odrive[1].setVelocity(OdriveSafeVelocityManager::AxisB, 0, 0);
+            break;
+        case Manual:
+            pendantState = pendant.getCurrentState();
+            requestedMotion.linear.x = (pendantState.leftJoystick.y / 3277) * -1;
+            requestedMotion.linear.y = pendantState.leftJoystick.x / 3277;
+            requestedMotion.angular.z = pendantState.rightJoystick.x / 3277;
+
+            kinematics.calculateInverseKinematics(requestedMotion);
+
+            odrive[0].setVelocity(OdriveSafeVelocityManager::AxisA, kinematics.getCommandedVelocity(Kinematics::frontLeft), 0);
+            odrive[0].setVelocity(OdriveSafeVelocityManager::AxisB, kinematics.getCommandedVelocity(Kinematics::frontRight), 0);
+            odrive[1].setVelocity(OdriveSafeVelocityManager::AxisA, kinematics.getCommandedVelocity(Kinematics::rearLeft), 0);
+            odrive[1].setVelocity(OdriveSafeVelocityManager::AxisB, kinematics.getCommandedVelocity(Kinematics::rearRight), 0);
+            break;
+        case Automatic:
+            //Not implemented
+            motorControlMode = Manual;
+            break;
+        }
+    
+}
+
 void ControllerWrangler::startup()
 {
     spdlog::info("Controller Wrangler Starting Up...");
+
+    motorControlMode = Idle;
 
     configureMQTT();
     configureCANBus();
     configureKinematics();
     configurePendant();
 
+    motorControlMode = Manual;
+
     spdlog::info("Controller Wrangler Start Up Complete");
 }
 
 void ControllerWrangler::loop()
 {
-    PendantManager::gamepad_t pendantState;
-    Kinematics::pose_t requestedMotion;
-
     spdlog::trace("Controller Wrangler loop iteration");
     can.receiveData();
     odrive[0].checkTimers();
     odrive[1].checkTimers();
     pendant.maintenanceLoop();
 
-    pendantState = pendant.getCurrentState();
-    requestedMotion.linear.x = (pendantState.leftJoystick.y / 3277) * -1;
-    requestedMotion.linear.y = pendantState.leftJoystick.x / 3277;
-    requestedMotion.angular.z = pendantState.rightJoystick.x / 3277;
+    std::chrono::time_point<DEFAULT_CLOCK> now = DEFAULT_CLOCK::now();
+    std::chrono::milliseconds motorUpdateElapsedMs = std::chrono::duration_cast<std::chrono::milliseconds>(now - lastMotorUpdate);
 
-    kinematics.calculateInverseKinematics(requestedMotion);
+    if(motorUpdateElapsedMs > motorUpdateInterval)
+    {
+        updateMotorVelocities();
 
-    odrive[0].setVelocity(OdriveSafeVelocityManager::AxisA, kinematics.getCommandedVelocity(Kinematics::frontLeft), 0);
-    odrive[0].setVelocity(OdriveSafeVelocityManager::AxisB, kinematics.getCommandedVelocity(Kinematics::frontRight), 0);
-    odrive[1].setVelocity(OdriveSafeVelocityManager::AxisA, kinematics.getCommandedVelocity(Kinematics::rearLeft), 0);
-    odrive[1].setVelocity(OdriveSafeVelocityManager::AxisB, kinematics.getCommandedVelocity(Kinematics::rearRight), 0);
+        lastMotorUpdate = now;
+    }
 }
