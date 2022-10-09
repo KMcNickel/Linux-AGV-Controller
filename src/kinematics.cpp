@@ -32,6 +32,7 @@ void Kinematics::updateCurrentVelocity(wheel_t wheel, float velocity)
     switch(wheel)
     {
         case frontLeft:
+            spdlog::trace("Front Left Wheel Velocity is currently: {0:f}")
             currentVelocity[0] = velocity;
             break;
         case frontRight:
@@ -50,6 +51,8 @@ void Kinematics::updateCurrentVelocity(wheel_t wheel, float velocity)
 
 void Kinematics::calculateForwardKinematics(pose_t * currentMotion)
 {
+    spdlog::trace("Calculating Forward Kinematics");
+
     std::chrono::time_point<DEFAULT_CLOCK> now = DEFAULT_CLOCK::now();
     std::chrono::duration<float> kinematicCalculatorElapsedSec =
             std::chrono::duration_cast<std::chrono::duration<float>>(now - lastForwardCalculation);
@@ -65,12 +68,17 @@ void Kinematics::calculateForwardKinematics(pose_t * currentMotion)
     currentMotion->angular.z = (-currentVelocity[0] + currentVelocity[1] - currentVelocity[2] + currentVelocity[3]) *
             (wheelRadius / (4.0 * ((wheelBaseWidth / 2.0) + (wheelBaseLength / 2.0)))) *
             RADIANS_PER_CIRCLE * kinematicCalculatorElapsedSec.count();
+
+    spdlog::trace("Forward Kinematic Results: Linear X: {0:f} Linear Y: {0:f} Angular Z: {0:f}",
+            currentMotion->linear.x, currentMotion->linear.y, currentMotion->angular.z);
 }
 
 void Kinematics::calculateInverseKinematics(pose_t requestedMotion)
 {
     float reciprocalRadius = 1 / wheelRadius;
     double wheelSeperation = (wheelBaseWidth / 2) + (wheelBaseLength / 2);
+
+    spdlog::trace("Calculating Inverse Kinematics");
 
     // Front Left
     commandedVelocity[0] = (reciprocalRadius * (requestedMotion.linear.x - requestedMotion.linear.y -
@@ -86,6 +94,20 @@ void Kinematics::calculateInverseKinematics(pose_t requestedMotion)
     commandedVelocity[3] = (reciprocalRadius * (requestedMotion.linear.x - requestedMotion.linear.y +
             wheelSeperation * requestedMotion.angular.z)) / RADIANS_PER_CIRCLE;
     if(invertRight) commandedVelocity[3] *= -1;
+
+    spdlog::trace("Inverse Kinematic Result: FL: {0:f} FR: {0:f} RL: {0:f} RR: {0:f}",
+            commandedVelocity[0], commandedVelocity[1], commandedVelocity[2], commandedVelocity[3]);
+
+    nlohmann::json data;
+    data["inverse"]["frontLeft"] = commandedVelocity[0];
+    data["inverse"]["frontRight"] = commandedVelocity[1];
+    data["inverse"]["rearLeft"] = commandedVelocity[2];
+    data["inverse"]["rearRight"] = commandedVelocity[3];
+
+    std::string serializedData = data.dump();
+
+    mqtt->sendMessage("kinematics", (void *) serializedData.c_str(),
+            serializedData.length(), MqttTransfer::QOS_0_AT_MOST_ONCE, false);
 }
 
 float Kinematics::getCommandedVelocity(wheel_t wheel)
