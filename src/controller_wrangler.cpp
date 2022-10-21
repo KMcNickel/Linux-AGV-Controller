@@ -90,6 +90,15 @@ void ControllerWrangler::configurePendant()
     spdlog::info("Pendant configured");
 }
 
+int ControllerWrangler::scalePendantJoystickValues(int raw, int dividend, int deadZone, bool invert)
+{
+    if(raw < deadZone && raw > (deadZone * -1)) return 0;
+
+    if(invert) raw *= -1;
+
+    return (raw - deadZone) / dividend;
+}
+
 void ControllerWrangler::updateMotorVelocities()
 {
     PendantManager::gamepad_t pendantState;
@@ -105,9 +114,15 @@ void ControllerWrangler::updateMotorVelocities()
             break;
         case Manual:
             pendantState = pendant.getCurrentState();
-            requestedMotion.linear.x = (pendantState.leftJoystick.y / pendantJoystickLinearDividend) * -1;
-            requestedMotion.linear.y = pendantState.rightJoystick.x / pendantJoystickLinearDividend;
-            requestedMotion.angular.z = pendantState.leftJoystick.x / pendantJoystickAngularDividend;
+            requestedMotion.linear.x = scalePendantJoystickValues(pendantState.leftJoystick.y,
+                    pendantJoystickLinearDividend, pendantJoystickDeadZone, true);
+            requestedMotion.linear.y = scalePendantJoystickValues(pendantState.rightJoystick.x,
+                    pendantJoystickLinearDividend, pendantJoystickDeadZone, false);
+            requestedMotion.angular.z = scalePendantJoystickValues(pendantState.leftJoystick.x,
+                    pendantJoystickAngularDividend, pendantJoystickDeadZone, false);
+            
+            if(requestedMotion.linear.x < 0) requestedMotion.angular.z *= -1;    //Fix to match ackerman-style steering
+
 
             requestedMotion.linear.x = (pendantJoystickFilterAlpha * requestedMotion.linear.x) +
                     ((1 - pendantJoystickFilterAlpha) * lastPendantCommand.linear.x);

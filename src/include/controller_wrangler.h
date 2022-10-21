@@ -43,6 +43,7 @@ class ControllerWrangler
         std::chrono::milliseconds motorUpdateInterval = std::chrono::milliseconds(100);
         float pendantJoystickLinearDividend = 4000;
         float pendantJoystickAngularDividend = 800;
+        int pendantJoystickDeadZone = 6000;
         float pendantJoystickFilterAlpha = 0.1;
         Kinematics::pose_t lastPendantCommand;
         
@@ -52,6 +53,7 @@ class ControllerWrangler
         void configureKinematics();
         void configureMQTT();
         void configurePendant();
+        int scalePendantJoystickValues(int raw, int dividend, int deadZone, bool invert);
         void updateMotorVelocities();
 
     public:
