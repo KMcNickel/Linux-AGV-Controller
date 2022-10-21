@@ -38,6 +38,7 @@ class OdriveSafeVelocityManager
         bool hasErrors();
         void requestErrors(axis_t axis);
         void setVelocity(axis_t axis, float velocity, float torqueFF);
+        float getVelocity(axis_t axis);
         void rebootBoard();
         void eStopBoard();
         void stopBoard();

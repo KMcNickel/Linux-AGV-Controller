@@ -96,6 +96,8 @@ void OdriveSafeVelocityManager::setVelocity(axis_t axis, float velocity, float t
     if(!checkIfConfigured("Set Velocity")) return;
     if(checkIfErrorsExist("Set Velocity")) return;
 
+    if(axis == AxisB && !checkIfDualAxis("Set Velocity")) return;
+
     feedWatchdog();
 
     if(axis == AxisA)
@@ -108,6 +110,20 @@ void OdriveSafeVelocityManager::setVelocity(axis_t axis, float velocity, float t
         spdlog::debug("Setting Axis B Velocity");
         axisB.setInputVelocity(velocity, torqueFF);
     }
+}
+
+float OdriveSafeVelocityManager::getVelocity(axis_t axis)
+{
+    if(!checkIfConfigured("Get Velocity")) return 0;
+
+    if(axis == AxisB && !checkIfDualAxis("Get Velocity")) return 0;
+
+    if(axis == AxisA)
+        return axisA.currentVelocityEstimate;
+    if(axis == AxisB)
+        return axisB.currentVelocityEstimate;
+
+    return 0;
 }
 
 void OdriveSafeVelocityManager::rebootBoard()
