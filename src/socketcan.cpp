@@ -167,6 +167,6 @@ int32_t SocketCAN::receiveData()
 
 void SocketCAN::addCallback(receiveCallback_t * callback)
 {
-    spdlog::info("Adding SocketCAN Receive Callback with Mask: 0x{0:X} and Match: 0x{1:X}", callback->id_mask, callback->id_match);
+    spdlog::debug("Adding SocketCAN Receive Callback with Mask: 0x{0:X} and Match: 0x{1:X}", callback->id_mask, callback->id_match);
     callbacks.push_back(*callback);
 }
