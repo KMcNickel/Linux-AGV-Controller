@@ -12,6 +12,7 @@
 #include "spdlog/spdlog.h"
 #include "global_defines.h"
 #include "mqtt_transfer.h"
+#include "nlohmann/json.hpp"
 
 class Kinematics
 {
@@ -36,6 +37,9 @@ class Kinematics
             axes_t linear;
             axes_t angular;
         };
+
+        NLOHMANN_DEFINE_TYPE_INTRUSIVE(axes_t, x, y, z)
+        NLOHMANN_DEFINE_TYPE_INTRUSIVE(pose_t, linear, angular)
 
     private:
         float wheelRadius;

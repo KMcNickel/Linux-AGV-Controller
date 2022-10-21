@@ -115,6 +115,12 @@ void ControllerWrangler::updateMotorVelocities()
             odrive[0].setVelocity(OdriveSafeVelocityManager::AxisB, kinematics.getCommandedVelocity(Kinematics::frontRight), 0);
             odrive[1].setVelocity(OdriveSafeVelocityManager::AxisA, kinematics.getCommandedVelocity(Kinematics::rearLeft), 0);
             odrive[1].setVelocity(OdriveSafeVelocityManager::AxisB, kinematics.getCommandedVelocity(Kinematics::rearRight), 0);
+
+            kinematics.updateCurrentVelocity(Kinematics::frontLeft, odrive[0].getVelocity(OdriveSafeVelocityManager::AxisA));
+            kinematics.updateCurrentVelocity(Kinematics::frontRight, odrive[0].getVelocity(OdriveSafeVelocityManager::AxisB));
+            kinematics.updateCurrentVelocity(Kinematics::rearLeft, odrive[0].getVelocity(OdriveSafeVelocityManager::AxisA));
+            kinematics.updateCurrentVelocity(Kinematics::rearRight, odrive[0].getVelocity(OdriveSafeVelocityManager::AxisB));
+            kinematics.calculateForwardKinematics(NULL);
             break;
         case Automatic:
             //Not implemented

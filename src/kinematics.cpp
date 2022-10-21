@@ -11,6 +11,7 @@
 #include "include/pendant_manager.h"
 #include "include/mqtt_transfer.h"
 #include "include/kinematics.h"
+#include "nlohmann/json.hpp"
 
 #define RADIANS_PER_CIRCLE 6.28319
 
@@ -32,17 +33,20 @@ void Kinematics::updateCurrentVelocity(wheel_t wheel, float velocity)
     switch(wheel)
     {
         case frontLeft:
-            spdlog::trace("Front Left Wheel Velocity is currently: {0:f}")
+            spdlog::trace("Front Left Wheel Velocity is currently: {0:f}", velocity);
             currentVelocity[0] = velocity;
             break;
         case frontRight:
+            spdlog::trace("Front Right Wheel Velocity is currently: {0:f}", velocity);
             currentVelocity[1] = velocity;
             if(invertRight) currentVelocity[1] *= -1;
             break;
         case rearLeft:
+            spdlog::trace("Rear Left Wheel Velocity is currently: {0:f}", velocity);
             currentVelocity[2] = velocity;
             break;
         case rearRight:
+            spdlog::trace("Rear Right Wheel Velocity is currently: {0:f}", velocity);
             currentVelocity[3] = velocity;
             if(invertRight) currentVelocity[3] *= -1;
             break;
@@ -52,6 +56,10 @@ void Kinematics::updateCurrentVelocity(wheel_t wheel, float velocity)
 void Kinematics::calculateForwardKinematics(pose_t * currentMotion)
 {
     spdlog::trace("Calculating Forward Kinematics");
+
+    //If we just want to log data, we can use a null argument
+    pose_t motionTemp;
+    if(!currentMotion) currentMotion = &motionTemp;
 
     std::chrono::time_point<DEFAULT_CLOCK> now = DEFAULT_CLOCK::now();
     std::chrono::duration<float> kinematicCalculatorElapsedSec =
@@ -71,6 +79,26 @@ void Kinematics::calculateForwardKinematics(pose_t * currentMotion)
 
     spdlog::trace("Forward Kinematic Results: Linear X: {0:f} Linear Y: {0:f} Angular Z: {0:f}",
             currentMotion->linear.x, currentMotion->linear.y, currentMotion->angular.z);
+
+    if(mqtt)
+    {
+        nlohmann::json data;
+        std::string serializedData;
+
+        data["current"]["motion"]["x"] = currentMotion->linear.x;
+        data["current"]["motion"]["y"] = currentMotion->linear.y;
+        data["current"]["motion"]["z"] = currentMotion->angular.z;
+        data["current"]["velocity"]["frontLeft"] = currentVelocity[0];
+        data["current"]["velocity"]["frontRight"] = currentVelocity[1];
+        data["current"]["velocity"]["rearLeft"] = currentVelocity[2];
+        data["current"]["velocity"]["rearRight"] = currentVelocity[3];
+        data["current"]["dT"] = kinematicCalculatorElapsedSec.count();
+
+        serializedData = data.dump();
+
+        mqtt->sendMessage("kinematics", (void *) serializedData.c_str(),
+                serializedData.length(), MqttTransfer::QOS_0_AT_MOST_ONCE, false);
+    }
 }
 
 void Kinematics::calculateInverseKinematics(pose_t requestedMotion)
@@ -86,28 +114,34 @@ void Kinematics::calculateInverseKinematics(pose_t requestedMotion)
     // Front Right
     commandedVelocity[1] = (reciprocalRadius * (requestedMotion.linear.x + requestedMotion.linear.y +
             wheelSeperation * requestedMotion.angular.z)) / RADIANS_PER_CIRCLE;
-    if(invertRight) commandedVelocity[1] *= -1;
     // Rear Left
     commandedVelocity[2] = (reciprocalRadius * (requestedMotion.linear.x + requestedMotion.linear.y -
             wheelSeperation * requestedMotion.angular.z)) / RADIANS_PER_CIRCLE;
     // Rear Right
     commandedVelocity[3] = (reciprocalRadius * (requestedMotion.linear.x - requestedMotion.linear.y +
             wheelSeperation * requestedMotion.angular.z)) / RADIANS_PER_CIRCLE;
-    if(invertRight) commandedVelocity[3] *= -1;
 
     spdlog::trace("Inverse Kinematic Result: FL: {0:f} FR: {0:f} RL: {0:f} RR: {0:f}",
             commandedVelocity[0], commandedVelocity[1], commandedVelocity[2], commandedVelocity[3]);
 
-    nlohmann::json data;
-    data["inverse"]["frontLeft"] = commandedVelocity[0];
-    data["inverse"]["frontRight"] = commandedVelocity[1];
-    data["inverse"]["rearLeft"] = commandedVelocity[2];
-    data["inverse"]["rearRight"] = commandedVelocity[3];
+    if(mqtt)
+    {
+        nlohmann::json data;
+        std::string serializedData;
 
-    std::string serializedData = data.dump();
+        data["commanded"]["motion"]["x"] = requestedMotion.linear.x;
+        data["commanded"]["motion"]["y"] = requestedMotion.linear.y;
+        data["commanded"]["motion"]["z"] = requestedMotion.angular.z;
+        data["commanded"]["velocity"]["frontLeft"] = commandedVelocity[0];
+        data["commanded"]["velocity"]["frontRight"] = commandedVelocity[1];
+        data["commanded"]["velocity"]["rearLeft"] = commandedVelocity[2];
+        data["commanded"]["velocity"]["rearRight"] = commandedVelocity[3];
 
-    mqtt->sendMessage("kinematics", (void *) serializedData.c_str(),
-            serializedData.length(), MqttTransfer::QOS_0_AT_MOST_ONCE, false);
+        serializedData = data.dump();
+
+        mqtt->sendMessage("kinematics", (void *) serializedData.c_str(),
+                serializedData.length(), MqttTransfer::QOS_0_AT_MOST_ONCE, false);
+    }
 }
 
 float Kinematics::getCommandedVelocity(wheel_t wheel)
@@ -117,11 +151,13 @@ float Kinematics::getCommandedVelocity(wheel_t wheel)
         case frontLeft:
             return commandedVelocity[0];
         case frontRight:
-            return commandedVelocity[1];
+            if(invertRight) return commandedVelocity[1] * -1;
+            else return commandedVelocity[1];
         case rearLeft:
             return commandedVelocity[2];
         case rearRight:
-            return commandedVelocity[3];
+            if(invertRight) return commandedVelocity[3] * -1;
+            else return commandedVelocity[3];
     }
     return 0;
 }
