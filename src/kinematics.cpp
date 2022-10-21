@@ -62,18 +62,17 @@ void Kinematics::calculateForwardKinematics(pose_t * currentMotion)
     if(!currentMotion) currentMotion = &motionTemp;
 
     std::chrono::time_point<DEFAULT_CLOCK> now = DEFAULT_CLOCK::now();
-    std::chrono::duration<float> kinematicCalculatorElapsedSec =
-            std::chrono::duration_cast<std::chrono::duration<float>>(now - lastForwardCalculation);
+    std::chrono::duration<float> kinematicCalculatorElapsedSec = now - lastForwardCalculation;
 
     currentMotion->linear.x = (currentVelocity[0] + currentVelocity[1] + currentVelocity[2] + currentVelocity[3]) * 
             (wheelRadius / 4.0) * RADIANS_PER_CIRCLE * kinematicCalculatorElapsedSec.count();
-    currentMotion->linear.y = (-currentVelocity[0] + currentVelocity[1] + currentVelocity[2] - currentVelocity[3]) * 
+    currentMotion->linear.y = (currentVelocity[0] - currentVelocity[1] - currentVelocity[2] + currentVelocity[3]) * 
             (wheelRadius / 4.0) * RADIANS_PER_CIRCLE * kinematicCalculatorElapsedSec.count();
     currentMotion->linear.z = 0;
 
     currentMotion->angular.x = 0;
     currentMotion->angular.y = 0;
-    currentMotion->angular.z = (-currentVelocity[0] + currentVelocity[1] - currentVelocity[2] + currentVelocity[3]) *
+    currentMotion->angular.z = (currentVelocity[0] - currentVelocity[1] + currentVelocity[2] - currentVelocity[3]) *
             (wheelRadius / (4.0 * ((wheelBaseWidth / 2.0) + (wheelBaseLength / 2.0)))) *
             RADIANS_PER_CIRCLE * kinematicCalculatorElapsedSec.count();
 
@@ -99,6 +98,8 @@ void Kinematics::calculateForwardKinematics(pose_t * currentMotion)
         mqtt->sendMessage("kinematics", (void *) serializedData.c_str(),
                 serializedData.length(), MqttTransfer::QOS_0_AT_MOST_ONCE, false);
     }
+
+    lastForwardCalculation = now;
 }
 
 void Kinematics::calculateInverseKinematics(pose_t requestedMotion)
@@ -109,16 +110,16 @@ void Kinematics::calculateInverseKinematics(pose_t requestedMotion)
     spdlog::trace("Calculating Inverse Kinematics");
 
     // Front Left
-    commandedVelocity[0] = (reciprocalRadius * (requestedMotion.linear.x - requestedMotion.linear.y -
+    commandedVelocity[0] = (reciprocalRadius * (requestedMotion.linear.x + requestedMotion.linear.y +
             wheelSeperation * requestedMotion.angular.z)) / RADIANS_PER_CIRCLE;
     // Front Right
-    commandedVelocity[1] = (reciprocalRadius * (requestedMotion.linear.x + requestedMotion.linear.y +
+    commandedVelocity[1] = (reciprocalRadius * (requestedMotion.linear.x - requestedMotion.linear.y -
             wheelSeperation * requestedMotion.angular.z)) / RADIANS_PER_CIRCLE;
     // Rear Left
-    commandedVelocity[2] = (reciprocalRadius * (requestedMotion.linear.x + requestedMotion.linear.y -
+    commandedVelocity[2] = (reciprocalRadius * (requestedMotion.linear.x - requestedMotion.linear.y +
             wheelSeperation * requestedMotion.angular.z)) / RADIANS_PER_CIRCLE;
     // Rear Right
-    commandedVelocity[3] = (reciprocalRadius * (requestedMotion.linear.x - requestedMotion.linear.y +
+    commandedVelocity[3] = (reciprocalRadius * (requestedMotion.linear.x + requestedMotion.linear.y -
             wheelSeperation * requestedMotion.angular.z)) / RADIANS_PER_CIRCLE;
 
     spdlog::trace("Inverse Kinematic Result: FL: {0:f} FR: {0:f} RL: {0:f} RR: {0:f}",
