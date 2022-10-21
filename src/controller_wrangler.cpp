@@ -105,9 +105,16 @@ void ControllerWrangler::updateMotorVelocities()
             break;
         case Manual:
             pendantState = pendant.getCurrentState();
-            requestedMotion.linear.x = (pendantState.leftJoystick.y / 3277) * -1;
-            requestedMotion.linear.y = pendantState.leftJoystick.x / 3277;
-            requestedMotion.angular.z = pendantState.rightJoystick.x / 3277;
+            requestedMotion.linear.x = (pendantState.leftJoystick.y / pendantJoystickLinearDividend) * -1;
+            requestedMotion.linear.y = pendantState.rightJoystick.x / pendantJoystickLinearDividend;
+            requestedMotion.angular.z = pendantState.leftJoystick.x / pendantJoystickAngularDividend;
+
+            requestedMotion.linear.x = (pendantJoystickFilterAlpha * requestedMotion.linear.x) +
+                    ((1 - pendantJoystickFilterAlpha) * lastPendantCommand.linear.x);
+            requestedMotion.linear.y = (pendantJoystickFilterAlpha * requestedMotion.linear.y) +
+                    ((1 - pendantJoystickFilterAlpha) * lastPendantCommand.linear.y);
+            requestedMotion.angular.z = (pendantJoystickFilterAlpha * requestedMotion.angular.z) +
+                    ((1 - pendantJoystickFilterAlpha) * lastPendantCommand.angular.z);
 
             kinematics.calculateInverseKinematics(requestedMotion);
 
@@ -121,6 +128,8 @@ void ControllerWrangler::updateMotorVelocities()
             kinematics.updateCurrentVelocity(Kinematics::rearLeft, odrive[0].getVelocity(OdriveSafeVelocityManager::AxisA));
             kinematics.updateCurrentVelocity(Kinematics::rearRight, odrive[0].getVelocity(OdriveSafeVelocityManager::AxisB));
             kinematics.calculateForwardKinematics(NULL);
+
+            lastPendantCommand = requestedMotion;
             break;
         case Automatic:
             //Not implemented

@@ -41,6 +41,10 @@ class ControllerWrangler
         controlMode_t motorControlMode;
         std::chrono::time_point<std::chrono::steady_clock> lastMotorUpdate;
         std::chrono::milliseconds motorUpdateInterval = std::chrono::milliseconds(100);
+        float pendantJoystickLinearDividend = 4000;
+        float pendantJoystickAngularDividend = 800;
+        float pendantJoystickFilterAlpha = 0.1;
+        Kinematics::pose_t lastPendantCommand;
         
         void configureBatteryManager();
         void configureODrives();
