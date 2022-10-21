@@ -49,7 +49,7 @@ class Kinematics
         float currentVelocity[4];
         float commandedVelocity[4];
         MqttTransfer * mqtt;
-        std::chrono::time_point<std::chrono::steady_clock> lastForwardCalculation;
+        std::chrono::time_point<DEFAULT_CLOCK> lastForwardCalculation;
 
     public:
         void startup(float length, float width, float radius, float invertRightWheels);
