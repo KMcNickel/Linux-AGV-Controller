@@ -153,10 +153,10 @@ int32_t SocketCAN::receiveData()
                 frame.data[3], frame.data[4], frame.data[5], frame.data[6], frame.data[7]);
 
         std::for_each(callbacks.begin(), callbacks.end(), [frame](const receiveCallback_t cb)
-                {
-                    if((cb.id_mask & frame.can_id) == cb.id_match)
-                        cb.callback(cb.handle, frame);
-                });
+        {
+            if((cb.id_mask & frame.can_id) == cb.id_match)
+                cb.callback(cb.handle, frame);
+        });
         
         return 1;
     }
