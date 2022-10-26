@@ -22,7 +22,6 @@ add_executable(${PROJECT_NAME}
     src/controller_wrangler.cpp
     src/pendant_manager.cpp
     src/kinematics.cpp
-    src/job_manager.cpp
 )
 
 target_include_directories(${PROJECT_NAME}
