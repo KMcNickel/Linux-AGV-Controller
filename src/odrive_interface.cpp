@@ -280,7 +280,7 @@ void OdriveInterface::setInputPosition(float position, int16_t velocityFF, int16
     
     canDevice->sendFrame(frame);
 
-    sprintf(mqttMessageString, "{\"PositionCmd\":%10.4f,\"VelocityFFCmd\":%10.4f,\"TorqueFFCmd\":%10.4f}",
+    sprintf(mqttMessageString, "{\"PositionCmd\":%10.4f,\"VelocityFFCmd\":%d,\"TorqueFFCmd\":%d}",
             position, velocityFF, torqueFF);
 
     sendMqttMessage(mqttTopicString, &mqttMessageString, strlen(mqttMessageString),
@@ -464,7 +464,7 @@ void OdriveInterface::sendEmptyRequestToDevice(int cmdID)
     struct can_frame frame;
 
     frame.can_id = CONVERT_DEVICE_AND_COMMAND_ID_TO_CAN_ID(canDevId, cmdID);
-    SET_CAN_RTR_BIT(frame.can_id);
+    frame.can_id = SET_CAN_RTR_BIT(frame.can_id);
     frame.can_dlc = 0;
     
     canDevice->sendFrame(frame);
