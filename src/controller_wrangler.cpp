@@ -15,11 +15,12 @@
 #include "include/mqtt_transfer.h"
 #include "include/odrive_safe_velocity_manager.h"
 #include "include/controller_wrangler.h"
+#include "include/alarm_manager.h"
 
 void ControllerWrangler::gracefulEnd()
 {
-    odrive[0].eStopBoard();
-    odrive[1].eStopBoard();
+    odriveFront.eStopBoard();
+    odriveRear.eStopBoard();
 
     can.killSocket();       //MUST come after ALL devices on the bus are stopped
     mqtt.shutdownMQTT();
@@ -27,67 +28,85 @@ void ControllerWrangler::gracefulEnd()
 
 void ControllerWrangler::configureBatteryManager()
 {
-    spdlog::info("Configuring Battery Manager...");
+    spdlog::info("Configuring Battery Manager");
 
     batteryManager.configureDevice(&can, CAN_ID_BATTERY_MANAGER);
     batteryManager.registerCallback();
     batteryManager.rebootDevice();
     batteryManager.setupMqtt(&mqtt);
     
-    spdlog::info("Battery Manager Configured");
+    spdlog::debug("Battery Manager Configured");
 }
 
 void ControllerWrangler::configureODrives()
 {
-    spdlog::info("Configuring ODrives...");
+    spdlog::info("Configuring ODrives");
 
-    odrive[0].configureDualAxis("Front", &can, CAN_ID_FRONT_LEFT_AXIS, CAN_ID_FRONT_RIGHT_AXIS);
-    odrive[0].setupMqtt(&mqtt);
-    odrive[1].configureDualAxis("Rear", &can, CAN_ID_REAR_LEFT_AXIS, CAN_ID_REAR_RIGHT_AXIS);
-    odrive[1].setupMqtt(&mqtt);
+    odriveFront.configureDualAxis("Front", &can, CAN_ID_FRONT_LEFT_AXIS, CAN_ID_FRONT_RIGHT_AXIS);
+    odriveFront.setupMqtt(&mqtt);
+    odriveRear.configureDualAxis("Rear", &can, CAN_ID_REAR_LEFT_AXIS, CAN_ID_REAR_RIGHT_AXIS);
+    odriveRear.setupMqtt(&mqtt);
 
-    odrive[0].startBoard();
-    odrive[1].startBoard();
+    odriveFront.startBoard();
+    odriveRear.startBoard();
 
-    odrive[0].setVelocity(OdriveSafeVelocityManager::axis_t::AxisA, 1, 0);
-
-    spdlog::info("ODrives Configured");
+    spdlog::debug("ODrives Configured");
 }
 
 void ControllerWrangler::configureCANBus()
 {
-    spdlog::info("Configuring CAN Bus...");
+    spdlog::info("Configuring CAN Bus");
 
     can.configureSocketCAN("can0");
 
     configureBatteryManager();
     configureODrives();
 
-    spdlog::info("CAN Bus Configured");
+    spdlog::debug("CAN Bus Configured");
 }
 
 void ControllerWrangler::configureMQTT()
 {
-    spdlog::info("Configuring MQTT...");
+    spdlog::info("Configuring MQTT");
+
     mqtt.setupMQTT("AGV01", "192.168.2.163", 1883, DEVICE_NAME);
     mqtt.connectBroker();
-    spdlog::info("MQTT configured");
+
+    spdlog::debug("MQTT configured");
 }
 
 void ControllerWrangler::configureKinematics()
 {
-    spdlog::info("Configuring Pendant...");
+    spdlog::info("Configuring Kinematics");
+
     kinematics.startup(MECANUM_WHEEL_RADIUS, MECANUM_WHEEL_BASE_WIDTH, MECANUM_WHEEL_BASE_LENGTH, MECANUM_WHEEL_RIGHT_INVERTED);
     kinematics.setupMqtt(&mqtt);
-    spdlog::info("Pendant configured");
+
+    spdlog::debug("Kinematics configured");
 }
 
 void ControllerWrangler::configurePendant()
 {
-    spdlog::info("Configuring Pendant...");
+    spdlog::info("Configuring Pendant");
+
     pendant.startup();
     pendant.setupMqtt(&mqtt);
-    spdlog::info("Pendant configured");
+
+    spdlog::debug("Pendant configured");
+}
+
+void ControllerWrangler::configureAlarms()
+{
+    spdlog::info("Registering Alarms");
+
+    alarmManager.setupMqtt(&mqtt);
+
+    alarmManager.addLowValueAlarm(&batteryManager.batterySoC, 25, 5,
+            true, true, "Battery has reached low level", ALARM_ID_TYPE_BATTERY & 1);
+    alarmManager.addLowValueAlarm(&batteryManager.batterySoC, 10, 5,
+            false, true, "Battery has reached critically low level", ALARM_ID_TYPE_BATTERY & 2);
+
+    spdlog::debug("Alarms registered");
 }
 
 int ControllerWrangler::scalePendantJoystickValues(int raw, int dividend, int deadZone, bool invert)
@@ -103,14 +122,16 @@ void ControllerWrangler::updateMotorVelocities()
 {
     PendantManager::gamepad_t pendantState;
     Kinematics::pose_t requestedMotion;
+    if(odriveFront.hasErrors() || odriveRear.hasErrors()) return;
+
 
     switch(motorControlMode)
     {
         case Idle:
-            odrive[0].setVelocity(OdriveSafeVelocityManager::AxisA, 0, 0);
-            odrive[0].setVelocity(OdriveSafeVelocityManager::AxisB, 0, 0);
-            odrive[1].setVelocity(OdriveSafeVelocityManager::AxisA, 0, 0);
-            odrive[1].setVelocity(OdriveSafeVelocityManager::AxisB, 0, 0);
+            odriveFront.setVelocity(OdriveSafeVelocityManager::AxisA, 0, 0);
+            odriveFront.setVelocity(OdriveSafeVelocityManager::AxisB, 0, 0);
+            odriveRear.setVelocity(OdriveSafeVelocityManager::AxisA, 0, 0);
+            odriveRear.setVelocity(OdriveSafeVelocityManager::AxisB, 0, 0);
             break;
         case Manual:
             pendantState = pendant.getCurrentState();
@@ -133,15 +154,15 @@ void ControllerWrangler::updateMotorVelocities()
 
             kinematics.calculateInverseKinematics(requestedMotion);
 
-            odrive[0].setVelocity(OdriveSafeVelocityManager::AxisA, kinematics.getCommandedVelocity(Kinematics::frontLeft), 0);
-            odrive[0].setVelocity(OdriveSafeVelocityManager::AxisB, kinematics.getCommandedVelocity(Kinematics::frontRight), 0);
-            odrive[1].setVelocity(OdriveSafeVelocityManager::AxisA, kinematics.getCommandedVelocity(Kinematics::rearLeft), 0);
-            odrive[1].setVelocity(OdriveSafeVelocityManager::AxisB, kinematics.getCommandedVelocity(Kinematics::rearRight), 0);
+            odriveFront.setVelocity(OdriveSafeVelocityManager::AxisA, kinematics.getCommandedVelocity(Kinematics::frontLeft), 0);
+            odriveFront.setVelocity(OdriveSafeVelocityManager::AxisB, kinematics.getCommandedVelocity(Kinematics::frontRight), 0);
+            odriveRear.setVelocity(OdriveSafeVelocityManager::AxisA, kinematics.getCommandedVelocity(Kinematics::rearLeft), 0);
+            odriveRear.setVelocity(OdriveSafeVelocityManager::AxisB, kinematics.getCommandedVelocity(Kinematics::rearRight), 0);
 
-            kinematics.updateCurrentVelocity(Kinematics::frontLeft, odrive[0].getVelocity(OdriveSafeVelocityManager::AxisA));
-            kinematics.updateCurrentVelocity(Kinematics::frontRight, odrive[0].getVelocity(OdriveSafeVelocityManager::AxisB));
-            kinematics.updateCurrentVelocity(Kinematics::rearLeft, odrive[0].getVelocity(OdriveSafeVelocityManager::AxisA));
-            kinematics.updateCurrentVelocity(Kinematics::rearRight, odrive[0].getVelocity(OdriveSafeVelocityManager::AxisB));
+            kinematics.updateCurrentVelocity(Kinematics::frontLeft, odriveFront.getVelocity(OdriveSafeVelocityManager::AxisA));
+            kinematics.updateCurrentVelocity(Kinematics::frontRight, odriveFront.getVelocity(OdriveSafeVelocityManager::AxisB));
+            kinematics.updateCurrentVelocity(Kinematics::rearLeft, odriveFront.getVelocity(OdriveSafeVelocityManager::AxisA));
+            kinematics.updateCurrentVelocity(Kinematics::rearRight, odriveFront.getVelocity(OdriveSafeVelocityManager::AxisB));
             kinematics.calculateForwardKinematics(NULL);
 
             lastPendantCommand = requestedMotion;
@@ -156,7 +177,7 @@ void ControllerWrangler::updateMotorVelocities()
 
 void ControllerWrangler::startup()
 {
-    spdlog::info("Controller Wrangler Starting Up...");
+    spdlog::info("Controller Wrangler Starting Up");
 
     motorControlMode = Idle;
 
@@ -164,19 +185,28 @@ void ControllerWrangler::startup()
     configureCANBus();
     configureKinematics();
     configurePendant();
+    configureAlarms();
 
     motorControlMode = Manual;
 
-    spdlog::info("Controller Wrangler Start Up Complete");
+    spdlog::info("Controller Wrangler Is Now Running");
+
+    spdlog::debug("Controller Wrangler Start Up Complete");
 }
 
 void ControllerWrangler::loop()
 {
     spdlog::trace("Controller Wrangler loop iteration");
     can.receiveData();
-    odrive[0].checkTimers();
-    odrive[1].checkTimers();
+    odriveFront.checkTimers();
+    odriveRear.checkTimers();
     pendant.maintenanceLoop();
+
+    if(alarmManager.checkAlarms())
+    {
+        odriveFront.eStopBoard();
+        odriveRear.eStopBoard();
+    }
 
     std::chrono::time_point<DEFAULT_CLOCK> now = DEFAULT_CLOCK::now();
     std::chrono::milliseconds motorUpdateElapsedMs = std::chrono::duration_cast<std::chrono::milliseconds>(now - lastMotorUpdate);

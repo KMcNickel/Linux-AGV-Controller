@@ -34,4 +34,6 @@
 #define CONVERT_CAN_ID_TO_DEVICE_ID(id)(id >> 5 & 0x3F)
 #define SET_CAN_RTR_BIT(id)(id | CAN_RTR_FLAG)
 
+#define ALARM_ID_TYPE_BATTERY 0x00010000
+
 #endif

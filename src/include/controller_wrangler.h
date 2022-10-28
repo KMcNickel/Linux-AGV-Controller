@@ -20,6 +20,7 @@
 #include "odrive_safe_velocity_manager.h"
 #include "pendant_manager.h"
 #include "kinematics.h"
+#include "alarm_manager.h"
 
 class ControllerWrangler
 {
@@ -35,10 +36,12 @@ class ControllerWrangler
         SocketCAN can;
         BatteryManager batteryManager;
         MqttTransfer mqtt;
-        OdriveSafeVelocityManager odrive[2];
+        OdriveSafeVelocityManager odriveFront;
+        OdriveSafeVelocityManager odriveRear;
         PendantManager pendant;
         Kinematics kinematics;
         controlMode_t motorControlMode;
+        AlarmManager alarmManager;
         std::chrono::time_point<std::chrono::steady_clock> lastMotorUpdate;
         std::chrono::milliseconds motorUpdateInterval = std::chrono::milliseconds(100);
         float pendantJoystickLinearDividend = 4000;
@@ -53,6 +56,7 @@ class ControllerWrangler
         void configureKinematics();
         void configureMQTT();
         void configurePendant();
+        void configureAlarms();
         int scalePendantJoystickValues(int raw, int dividend, int deadZone, bool invert);
         void updateMotorVelocities();
 
