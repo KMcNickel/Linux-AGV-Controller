@@ -110,7 +110,7 @@ void systemStartup(int argc, char ** argv)
 
     setLogLevel();
 
-    spdlog::info("Linux AGV Battery Manager");
+    spdlog::info("Linux AGV Manager");
     spdlog::info("Version: {0:d}.{1:d}.{2:d} Build: {3:d}", VERSION_MAJOR, VERSION_MINOR, VERSION_PATCH, VERSION_BUILD);
     spdlog::info("System Starting Up...");
 
