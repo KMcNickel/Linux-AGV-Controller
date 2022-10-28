@@ -167,7 +167,6 @@ void OdriveSafeVelocityManager::stopBoard()
 void OdriveSafeVelocityManager::startBoard()
 {
     if(!checkIfConfigured("Start Board")) return;
-    if(checkIfErrorsExist("Start Board")) return;
 
     logStartOfAction("Starting");
 
@@ -289,6 +288,7 @@ void OdriveSafeVelocityManager::checkTimers()
         spdlog::trace("Error request interval for ODrive Manager {0} has elapsed after {1:d} ms",
                 name, errorRequestElapsedMs.count());
         requestErrors(AxisAll);
+        lastErrorRequest = now;
     }
 }
 
