@@ -30,11 +30,9 @@ void PendantManager::startup()
 
 void PendantManager::setupMqtt(MqttTransfer * mqtt)
 {
-    spdlog::info("Setting up MQTT for Pendant Manager");
+    spdlog::debug("Setting up MQTT for Pendant Manager");
 
     this->mqtt = mqtt;
-
-    spdlog::info("MQTT Set up for Pendant Manager");
 }
 
 void PendantManager::readDevice() {

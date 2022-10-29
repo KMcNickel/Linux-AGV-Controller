@@ -61,7 +61,7 @@ void BatteryManager::rebootDevice()
 
 void BatteryManager::setupMqtt(MqttTransfer * mqtt)
 {
-    spdlog::info("Setting up MQTT for battery manager");
+    spdlog::debug("Setting up MQTT for battery manager");
 
     mqttBackhaul = mqtt;
 }

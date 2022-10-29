@@ -32,12 +32,12 @@ void OdriveInterface::receiveCAN(void * handle, struct can_frame frame)
             uint8_t newControllerStatus;
 
             memcpy(&newAxisError, frame.data, sizeof(newAxisError));
-            spdlog::debug("New Axis Error is 0x{0:X}", newAxisError);
+            spdlog::trace("New Axis Error is 0x{0:X}", newAxisError);
             if(newAxisError != odrive->currentErrors.axis)
             {
-                if(newAxisError == 0) spdlog::info("Axis 0x{0:X} Error changed from {1:d} to {2:d}",
+                if(newAxisError == 0) spdlog::debug("Axis 0x{0:X} Error changed from {1:d} to {2:d}",
                         odrive->canDevId, odrive->currentErrors.axis, newAxisError);
-                else spdlog::warn("Axis 0x{0:X} Error changed from {1:d} to {2:d}",
+                else spdlog::debug("Axis 0x{0:X} Error changed from {1:d} to {2:d}",
                         odrive->canDevId, odrive->currentErrors.axis, newAxisError);
 
                 odrive->currentErrors.axis = newAxisError;
@@ -47,10 +47,10 @@ void OdriveInterface::receiveCAN(void * handle, struct can_frame frame)
                     MqttTransfer::QOS_0_AT_MOST_ONCE, false);
 
             memcpy(&newAxisState, frame.data + 4, sizeof(newAxisState));
-            spdlog::debug("New Axis State is 0x{0:X}", newAxisState);
+            spdlog::trace("New Axis State is 0x{0:X}", newAxisState);
             if(newAxisState != odrive->currentState)
             {
-                spdlog::info("Axis 0x{0:X} State changed from {1:d} to {2:d}",
+                spdlog::debug("Axis 0x{0:X} State changed from {1:d} to {2:d}",
                         odrive->canDevId, odrive->currentState, newAxisState);
 
                 odrive->currentState = newAxisState;
@@ -60,7 +60,7 @@ void OdriveInterface::receiveCAN(void * handle, struct can_frame frame)
                     MqttTransfer::QOS_0_AT_MOST_ONCE, false);
 
             memcpy(&newControllerStatus, frame.data + 7, sizeof(newControllerStatus));
-            spdlog::debug("New Controller Status is 0x{0:X}", newControllerStatus);
+            spdlog::trace("New Controller Status is 0x{0:X}", newControllerStatus);
             sprintf(mqttMessageString, "{\"Status\":%d}", newControllerStatus);
             odrive->sendMqttMessage(odrive->mqttTopicString, &mqttMessageString, strlen(mqttMessageString),
                     MqttTransfer::QOS_0_AT_MOST_ONCE, false);
@@ -72,9 +72,9 @@ void OdriveInterface::receiveCAN(void * handle, struct can_frame frame)
             memcpy(&newMotorError, frame.data, sizeof(newMotorError));
             if(newMotorError != odrive->currentErrors.motor)
             {
-                if(newMotorError == 0) spdlog::info("Motor on axis 0x{0:X} Error changed from {1:d} to {2:d}",
+                if(newMotorError == 0) spdlog::debug("Motor on axis 0x{0:X} Error changed from {1:d} to {2:d}",
                         odrive->canDevId, odrive->currentErrors.motor, newMotorError);
-                else spdlog::warn("Motor on axis 0x{0:X} Error changed from {1:d} to {2:d}",
+                else spdlog::debug("Motor on axis 0x{0:X} Error changed from {1:d} to {2:d}",
                         odrive->canDevId, odrive->currentErrors.motor, newMotorError);
 
                 odrive->currentErrors.motor = newMotorError;
@@ -89,9 +89,9 @@ void OdriveInterface::receiveCAN(void * handle, struct can_frame frame)
             memcpy(&newEncoderError, frame.data, sizeof(newEncoderError));
             if(newEncoderError != odrive->currentErrors.encoder)
             {
-                if(newEncoderError == 0) spdlog::info("Encoder Error on axis 0x{0:X} changed from {1:d} to {2:d}",
+                if(newEncoderError == 0) spdlog::debug("Encoder Error on axis 0x{0:X} changed from {1:d} to {2:d}",
                         odrive->canDevId, odrive->currentErrors.encoder, newEncoderError);
-                else spdlog::warn("Encoder Error on axis 0x{0:X} changed from {1:d} to {2:d}",
+                else spdlog::debug("Encoder Error on axis 0x{0:X} changed from {1:d} to {2:d}",
                         odrive->canDevId, odrive->currentErrors.encoder, newEncoderError);
 
                 odrive->currentErrors.encoder = newEncoderError;
@@ -106,9 +106,9 @@ void OdriveInterface::receiveCAN(void * handle, struct can_frame frame)
             memcpy(&newSensorlessError, frame.data, sizeof(newSensorlessError));
             if(newSensorlessError != odrive->currentErrors.sensorless)
             {
-                if(newSensorlessError == 0) spdlog::info("Sensorless Error on axis 0x{0:X} changed from {1:d} to {2:d}",
+                if(newSensorlessError == 0) spdlog::debug("Sensorless Error on axis 0x{0:X} changed from {1:d} to {2:d}",
                         odrive->canDevId, odrive->currentErrors.sensorless, newSensorlessError);
-                else spdlog::warn("Sensorless Error on axis 0x{0:X} changed from {1:d} to {2:d}",
+                else spdlog::debug("Sensorless Error on axis 0x{0:X} changed from {1:d} to {2:d}",
                         odrive->canDevId, odrive->currentErrors.sensorless, newSensorlessError);
 
                 odrive->currentErrors.sensorless = newSensorlessError;
@@ -134,7 +134,7 @@ void OdriveInterface::receiveCAN(void * handle, struct can_frame frame)
         case ODRIVE_CAN_CMD_ID_GET_SENSORLESS_ESTIMATES:
             break;
         default:
-            spdlog::warn("Message command id unknown");
+            spdlog::info("Message command id unknown");
             break;
     }
 }
@@ -167,7 +167,7 @@ void OdriveInterface::configureDevice(SocketCAN * can, int32_t deviceId)
 
 void OdriveInterface::setupMqtt(MqttTransfer * mqtt)
 {
-    spdlog::info("Setting up MQTT for ODrive 0x{0:X}", canDevId);
+    spdlog::debug("Setting up MQTT for ODrive 0x{0:X}", canDevId);
 
     mqttBackhaul = mqtt;
 
