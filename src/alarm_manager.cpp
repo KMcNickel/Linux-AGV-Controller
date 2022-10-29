@@ -75,9 +75,11 @@ void AlarmManager::enableValueAlarm(valueAlarm_t * alarm)
 
 bool AlarmManager::checkAlarms()
 {
-    bool alarmsPreviuslyActive = alarmsActive;
+    bool alarmsPreviouslyActive = alarmsActive;
+    std::list<uint32_t> activeAlarms;
+    bool changedStates;
 
-    std::for_each(valueAlarms.begin(), valueAlarms.end(), [this](valueAlarm_t & alarm)
+    std::for_each(valueAlarms.begin(), valueAlarms.end(), [&](valueAlarm_t & alarm)
     {
         if(alarm.info.isActive)
         {
@@ -87,46 +89,65 @@ bool AlarmManager::checkAlarms()
                 {
                     case ValueAlarmTypeLow:
                         if(*alarm.currentValue > (alarm.triggerValue + alarm.hysteresisValue))
+                        {
                             clearValueAlarm(&alarm);
+                            changedStates = true;
+                        }
                         break;
                     case ValueAlarmTypeHigh:
                         if(*alarm.currentValue < (alarm.triggerValue - alarm.hysteresisValue))
+                        {
                             clearValueAlarm(&alarm);
+                            changedStates = true;
+                        }
                         break;
                 }
             }
-            alarmsActive = true;
-            return;
         } else {
             switch(alarm.type)
-                {
-                    case ValueAlarmTypeLow:
-                        if(*alarm.currentValue < alarm.triggerValue)
-                        {
-                            if(alarm.info.isWarning) throwValueWarning(&alarm);
-                            else
-                            {
-                                throwValueAlarm(&alarm);
-                                alarmsActive = true;
-                            }
-                        }
-                        break;
-                    case ValueAlarmTypeHigh:
-                        if(*alarm.currentValue > alarm.triggerValue)
-                        {
-                            if(alarm.info.isWarning) throwValueWarning(&alarm);
-                            else 
-                            {
-                                throwValueAlarm(&alarm);
-                                alarmsActive = true;
-                            }
-                        }
-                        break;
-                }
+            {
+                case ValueAlarmTypeLow:
+                    if(*alarm.currentValue < alarm.triggerValue)
+                    {
+                        if(alarm.info.isWarning) throwValueWarning(&alarm);
+                        else throwValueAlarm(&alarm);
+                        changedStates = true;
+                    }
+                    break;
+                case ValueAlarmTypeHigh:
+                    if(*alarm.currentValue > alarm.triggerValue)
+                    {
+                        if(alarm.info.isWarning) throwValueWarning(&alarm);
+                        else throwValueAlarm(&alarm);
+                        changedStates = true;
+                    }
+                    break;
+            }
+        }
+        if(alarm.info.isActive)
+        {
+            alarmsActive = true;
+            activeAlarms.push_back(alarm.info.id);
         }
     });
 
-    return alarmsActive & !alarmsPreviuslyActive;
+    if(mqtt && changedStates)
+    {
+        nlohmann::json data;
+        data["alarmsActive"] = activeAlarms.size() != 0;
+        std::string mqttTopicString = "alarms";
+        if(data["alarmsActive"])
+        {
+            nlohmann::json alarmList = activeAlarms;
+            data["alarmList"] = alarmList;
+        }
+        std::string serializedData = data.dump();
+
+        mqtt->sendMessage(mqttTopicString, (void *) serializedData.c_str(),
+                serializedData.length(), MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
+    }
+
+    return alarmsActive && !alarmsPreviouslyActive;
 }
 
 bool AlarmManager::alarmsAreActive()
@@ -139,20 +160,7 @@ void AlarmManager::clearAlarms()
     std::for_each(valueAlarms.begin(), valueAlarms.end(), [this](valueAlarm_t & alarm)
     {
         if(!alarm.info.isActive) return;
-        else
-        {
-            switch(alarm.type)
-                {
-                    case ValueAlarmTypeLow:
-                        if(*alarm.currentValue > (alarm.triggerValue + alarm.hysteresisValue))
-                            clearValueAlarm(&alarm);
-                        break;
-                    case ValueAlarmTypeHigh:
-                        if(*alarm.currentValue < (alarm.triggerValue - alarm.hysteresisValue))
-                            clearValueAlarm(&alarm);
-                        break;
-                }
-        }
+        else clearValueAlarm(&alarm);
     });
 }
 
@@ -167,16 +175,6 @@ void AlarmManager::throwValueWarning(valueAlarm_t * alarm)
     alarm->info.isActive = true;
 
     spdlog::warn("Warning: {0:d} - {1}", alarm->info.id, alarm->info.message);
-
-    if(mqtt)
-    {
-        std::string mqttTopicString = "alarms";
-        char mqttMessageString[64];
-
-        sprintf(mqttMessageString, "{Warnings: {\"%d\": 1}}", alarm->info.id);
-
-        mqtt->sendMessage(mqttTopicString, mqttMessageString, strlen(mqttMessageString), MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
-    }
 }
 
 void AlarmManager::throwValueAlarm(valueAlarm_t * alarm)
@@ -190,16 +188,6 @@ void AlarmManager::throwValueAlarm(valueAlarm_t * alarm)
     alarm->info.isActive = true;
 
     spdlog::error("Alarm: {0:d} - {1}", alarm->info.id, alarm->info.message);
-
-    if(mqtt)
-    {
-        std::string mqttTopicString = "alarms";
-        char mqttMessageString[64];
-
-        sprintf(mqttMessageString, "{Alarms: {\"%d\": 1}}", alarm->info.id);
-
-        mqtt->sendMessage(mqttTopicString, mqttMessageString, strlen(mqttMessageString), MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
-    }
 }
 
 void AlarmManager::clearValueAlarm(valueAlarm_t * alarm)
@@ -213,17 +201,4 @@ void AlarmManager::clearValueAlarm(valueAlarm_t * alarm)
     alarm->info.isActive = false;
 
     spdlog::info("Cleared alarm: {0:d}", alarm->info.id);
-
-    if(mqtt)
-    {
-        std::string mqttTopicString = "alarms";
-        char mqttMessageString[64];
-
-        if(alarm->info.isWarning)
-            sprintf(mqttMessageString, "{Warnings: {\"%d\": 0}}", alarm->info.id);
-        else
-            sprintf(mqttMessageString, "{Alarms: {\"%d\": 0}}", alarm->info.id);
-
-        mqtt->sendMessage(mqttTopicString, mqttMessageString, strlen(mqttMessageString), MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
-    }
 }
