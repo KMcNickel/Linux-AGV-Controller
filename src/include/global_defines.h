@@ -7,7 +7,7 @@
 #define DEFAULT_CLOCK std::chrono::steady_clock
 
 #define MQTT_DEVICE_ID "AGV0"
-#define MQTT_BROKER_IP "192.168.2.59"
+#define MQTT_BROKER_IP "192.168.2.163"
 #define MQTT_BROKER_PORT 1883
 
 #define DEVICE_NAME "agv0"
