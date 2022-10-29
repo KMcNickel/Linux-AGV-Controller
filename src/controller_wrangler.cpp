@@ -69,7 +69,7 @@ void ControllerWrangler::configureMQTT()
 {
     spdlog::info("Configuring MQTT");
 
-    mqtt.setupMQTT("AGV01", "192.168.2.163", 1883, DEVICE_NAME);
+    mqtt.setupMQTT(MQTT_DEVICE_ID, MQTT_BROKER_IP, MQTT_BROKER_PORT, DEVICE_NAME);
     mqtt.connectBroker();
 
     spdlog::debug("MQTT configured");

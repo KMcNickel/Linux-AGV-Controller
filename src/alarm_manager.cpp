@@ -77,7 +77,7 @@ bool AlarmManager::checkAlarms()
 {
     bool alarmsPreviuslyActive = alarmsActive;
 
-    std::for_each(valueAlarms.begin(), valueAlarms.end(), [this](valueAlarm_t alarm)
+    std::for_each(valueAlarms.begin(), valueAlarms.end(), [this](valueAlarm_t & alarm)
     {
         if(alarm.info.isActive)
         {
@@ -136,7 +136,7 @@ bool AlarmManager::alarmsAreActive()
 
 void AlarmManager::clearAlarms()
 {
-    std::for_each(valueAlarms.begin(), valueAlarms.end(), [this](valueAlarm_t alarm)
+    std::for_each(valueAlarms.begin(), valueAlarms.end(), [this](valueAlarm_t & alarm)
     {
         if(!alarm.info.isActive) return;
         else
@@ -175,7 +175,7 @@ void AlarmManager::throwValueWarning(valueAlarm_t * alarm)
 
         sprintf(mqttMessageString, "{Warnings: {%d: 1}}", alarm->info.id);
 
-        mqtt->sendMessage(mqttTopicString, mqttMessageString, strlen(mqttMessageString), MqttTransfer::QOS_2_EXACTLY_ONCE, true);
+        mqtt->sendMessage(mqttTopicString, mqttMessageString, strlen(mqttMessageString), MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
     }
 }
 
@@ -198,7 +198,7 @@ void AlarmManager::throwValueAlarm(valueAlarm_t * alarm)
 
         sprintf(mqttMessageString, "{Alarms: {%d: 1}}", alarm->info.id);
 
-        mqtt->sendMessage(mqttTopicString, mqttMessageString, strlen(mqttMessageString), MqttTransfer::QOS_2_EXACTLY_ONCE, true);
+        mqtt->sendMessage(mqttTopicString, mqttMessageString, strlen(mqttMessageString), MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
     }
 }
 
@@ -224,6 +224,6 @@ void AlarmManager::clearValueAlarm(valueAlarm_t * alarm)
         else
             sprintf(mqttMessageString, "{Alarms: {%d: 0}}", alarm->info.id);
 
-        mqtt->sendMessage(mqttTopicString, mqttMessageString, strlen(mqttMessageString), MqttTransfer::QOS_2_EXACTLY_ONCE, true);
+        mqtt->sendMessage(mqttTopicString, mqttMessageString, strlen(mqttMessageString), MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
     }
 }

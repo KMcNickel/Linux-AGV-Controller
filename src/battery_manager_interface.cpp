@@ -29,7 +29,7 @@ void BatteryManager::receiveCAN(void * handle, struct can_frame frame)
         case CAN_COMMAND_ID_VERSION_NUMBER:
             sprintf(mqttMessageString, "{\"Version\":{\"Major\":%X,\"Minor\":%X,\"Patch\":%X,\"Build\":%X}}",
                     frame.data[3], frame.data[2], frame.data[1], frame.data[0]);
-            batMan->sendMqttMessage("battery", &mqttMessageString, strlen(mqttMessageString), MqttTransfer::QOS_2_EXACTLY_ONCE, true);
+            batMan->sendMqttMessage("battery", &mqttMessageString, strlen(mqttMessageString), MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
             spdlog::info("Battery manager is version: {0:d}.{1:d}.{2:d} build: {3:d}",
                     frame.data[3], frame.data[2], frame.data[1], frame.data[0]);
             break;
