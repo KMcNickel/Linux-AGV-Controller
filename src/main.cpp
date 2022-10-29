@@ -69,7 +69,7 @@ void registerSignals()
     signal(SIGABRT, signalHandler);
     signal(SIGFPE, signalHandler);
     
-    spdlog::info("Signal Registration Complete");
+    spdlog::debug("Signal Registration Complete");
 }
 
 void configureCommandLineOptions(int argc, char ** argv)

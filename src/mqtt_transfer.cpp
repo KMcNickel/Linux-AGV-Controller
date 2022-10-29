@@ -10,7 +10,7 @@
 
 void MqttTransfer::setupMQTT(std::string id, std::string addr, int port, std::string deviceName)
 {
-    spdlog::info("Configuring MQTT for {0} with broker address: {1} and port: {2:d}", deviceName, addr, port);
+    spdlog::debug("Configuring MQTT for {0} with broker address: {1} and port: {2:d}", deviceName, addr, port);
     address = addr;
     portNum = port;
     devName = deviceName;
@@ -96,7 +96,7 @@ void MqttTransfer::addCallback(mqttReceiveCallback_t * callback)
 {
     int rc;
 
-    spdlog::info("Adding MQTT Transfer Receive Callback");
+    spdlog::debug("Adding MQTT Transfer Receive Callback");
     if(isConnected)
     {
         rc = mosquitto_subscribe(mqttClient, NULL, callback->topic.c_str(), callback->qos);
@@ -137,7 +137,7 @@ void MqttTransfer::subscribeToCallbackTopics()
         return;
     }
 
-    spdlog::info("Subscribing to {0:d} MQTT {1}", externalCallbacks.size(), externalCallbacks.size() == 1 ? "topic" : "topics");
+    spdlog::debug("Subscribing to {0:d} MQTT {1}", externalCallbacks.size(), externalCallbacks.size() == 1 ? "topic" : "topics");
     std::for_each(externalCallbacks.begin(), externalCallbacks.end(), [this](const MqttTransfer::mqttReceiveCallback_t cb)
     {
         int rc;

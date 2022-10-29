@@ -15,19 +15,19 @@
 
 void OdriveSafeVelocityManager::configureSingleAxis(std::string name, SocketCAN * can, int32_t axisDeviceId)
 {
-    spdlog::info("Configuring ODrive Manager {0} with single axis 0x{1:X}...", name, axisDeviceId);
+    spdlog::info("Configuring ODrive Manager {0} with single axis 0x{1:X}", name, axisDeviceId);
 
     this->name = name;
     axisA.configureDevice(can, axisDeviceId);
     axisA.registerCallback();
     feedWatchdog();
     configured = SingleAxis;
-    spdlog::info("ODrive Manager {0} Configured", name);
+    spdlog::debug("ODrive Manager {0} Configured", name);
 }
 
 void OdriveSafeVelocityManager::configureDualAxis(std::string name, SocketCAN * can, int32_t axisADeviceId, int32_t axisBDeviceId)
 {
-    spdlog::info("Configuring ODrive Manager {0} with dual axes 0x{1:X} and 0x{2:X}...", name, axisADeviceId, axisBDeviceId);
+    spdlog::info("Configuring ODrive Manager {0} with dual axes 0x{1:X} and 0x{2:X}", name, axisADeviceId, axisBDeviceId);
 
     this->name = name;
     axisA.configureDevice(can, axisADeviceId);
@@ -37,7 +37,7 @@ void OdriveSafeVelocityManager::configureDualAxis(std::string name, SocketCAN * 
     feedWatchdog();
     configured = DualAxis;
 
-    spdlog::info("ODrive Manager {0} Configured", name);
+    spdlog::debug("ODrive Manager {0} Configured", name);
 }
 
 void OdriveSafeVelocityManager::setupMqtt(MqttTransfer * mqtt)
@@ -253,17 +253,10 @@ bool OdriveSafeVelocityManager::checkIfDualAxis(std::string caller)
 
 void OdriveSafeVelocityManager::logStartOfAction(std::string actionName)
 {
-    switch(configured)
-    {
-        case Unconfigured:
-            break;
-        case SingleAxis:
-            spdlog::info("{0} ODrive Manager {1}...", actionName, name);
-            break;
-        case DualAxis:
-            spdlog::info("{0} ODrive Manager {1}...", actionName, name);
-            break;
-    }
+    if(configured == Unconfigured) return;
+    
+    spdlog::info("{0} ODrive Manager {1}", actionName, name);
+
 }
 
 void OdriveSafeVelocityManager::checkTimers()
@@ -277,9 +270,13 @@ void OdriveSafeVelocityManager::checkTimers()
 
     if(watchdogElapsedMs > incomingWatchdogTimeout && incomingWatchdogExpired == false)
     {
-        spdlog::warn("Incoming Watchdog was not fed after {0:d} ms. ODrive Manager {1} will be Emergency Stopped.",
-                watchdogElapsedMs.count(), name);
-        eStopBoard();
+        //Only log message and trigger E-Stop if we haven't done so somewhere else for another reason
+        if(!(axisA.isEStopped() && (configured == SingleAxis || axisB.isEStopped())))
+        {
+            spdlog::warn("Incoming Watchdog was not fed after {0:d} ms. ODrive Manager {1} will be Emergency Stopped.",
+                    watchdogElapsedMs.count(), name);
+            eStopBoard();
+        }
         incomingWatchdogExpired = true;
     }
 

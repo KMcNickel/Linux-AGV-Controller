@@ -189,8 +189,13 @@ void OdriveInterface::eStop()
 {
     if(!checkIfConfigured("E-Stop Board")) return;
 
-    spdlog::warn("E-Stopping ODrive 0x{0:X}", canDevId);
+    spdlog::debug("E-Stopping ODrive 0x{0:X}", canDevId);
     sendEmptyRequestToDevice(ODRIVE_CAN_CMD_ID_ESTOP);
+}
+
+bool OdriveInterface::isEStopped()
+{
+    return currentErrors.axis == ODRIVE_AXIS_ERROR_ESTOP_REQUESTED;
 }
 
 void OdriveInterface::getMotorError()

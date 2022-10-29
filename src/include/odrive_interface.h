@@ -44,6 +44,15 @@
 #define ODRIVE_CAN_CMD_ID_SET_POSITION_GAIN         0x1A
 #define ODRIVE_CAN_CMD_ID_SET_VEL_GAINS             0x1B
 
+#define ODRIVE_AXIS_ERROR_INVALID_STATE             0x1
+#define ODRIVE_AXIS_ERROR_WATCHDOG_TIMER_EXPIRED    0x800
+#define ODRIVE_AXIS_ERROR_MIN_ENDSTOP_PRESSED       0x1000
+#define ODRIVE_AXIS_ERROR_MAX_ENDSTOP_PRESSED       0x2000
+#define ODRIVE_AXIS_ERROR_ESTOP_REQUESTED           0x4000
+#define ODRIVE_AXIS_ERROR_HOMING_WITHOUT_ENDSTOP    0x20000
+#define ODRIVE_AXIS_ERROR_OVER_TEMP                 0x40000
+#define ODRIVE_AXIS_ERROR_UNKNOWN_POSITION          0x80000
+
 class OdriveInterface
 {
     public:
@@ -109,6 +118,7 @@ class OdriveInterface
         bool isConfigured();
 
         void eStop();
+        bool isEStopped();
         void getMotorError();
         void getEncoderError();
         void getSensorlessError();

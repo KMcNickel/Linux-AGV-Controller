@@ -61,7 +61,7 @@ int32_t SocketCAN::configureSocketCAN(std::string iface)
     pollDesc.fd = socketID;
     pollDesc.events = POLLIN;
 
-    spdlog::info("Configuration complete");
+    spdlog::debug("Configuration complete");
     
     return 0;
 }
@@ -77,7 +77,7 @@ int32_t SocketCAN::killSocket()
     }
     socketID = SOCKET_CLOSED_PROGRAMATICALLY;
 
-    spdlog::info("CAN socket killed");
+    spdlog::debug("CAN socket killed");
     
     return 0;
 }
