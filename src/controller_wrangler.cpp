@@ -102,9 +102,9 @@ void ControllerWrangler::configureAlarms()
     alarmManager.setupMqtt(&mqtt);
 
     alarmManager.addLowValueAlarm(&batteryManager.batterySoC, 25, 5,
-            true, true, "Battery has reached low level", ALARM_ID_TYPE_BATTERY & 1);
+            true, true, "Battery has reached low level", ALARM_ID_TYPE_BATTERY | 1);
     alarmManager.addLowValueAlarm(&batteryManager.batterySoC, 10, 5,
-            false, true, "Battery has reached critically low level", ALARM_ID_TYPE_BATTERY & 2);
+            false, true, "Battery has reached critically low level", ALARM_ID_TYPE_BATTERY | 2);
 
     spdlog::debug("Alarms registered");
 }

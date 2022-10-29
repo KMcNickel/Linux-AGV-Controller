@@ -173,7 +173,7 @@ void AlarmManager::throwValueWarning(valueAlarm_t * alarm)
         std::string mqttTopicString = "alarms";
         char mqttMessageString[64];
 
-        sprintf(mqttMessageString, "{Warnings: {%d: 1}}", alarm->info.id);
+        sprintf(mqttMessageString, "{Warnings: {\"%d\": 1}}", alarm->info.id);
 
         mqtt->sendMessage(mqttTopicString, mqttMessageString, strlen(mqttMessageString), MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
     }
@@ -196,7 +196,7 @@ void AlarmManager::throwValueAlarm(valueAlarm_t * alarm)
         std::string mqttTopicString = "alarms";
         char mqttMessageString[64];
 
-        sprintf(mqttMessageString, "{Alarms: {%d: 1}}", alarm->info.id);
+        sprintf(mqttMessageString, "{Alarms: {\"%d\": 1}}", alarm->info.id);
 
         mqtt->sendMessage(mqttTopicString, mqttMessageString, strlen(mqttMessageString), MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
     }
@@ -220,9 +220,9 @@ void AlarmManager::clearValueAlarm(valueAlarm_t * alarm)
         char mqttMessageString[64];
 
         if(alarm->info.isWarning)
-            sprintf(mqttMessageString, "{Warnings: {%d: 0}}", alarm->info.id);
+            sprintf(mqttMessageString, "{Warnings: {\"%d\": 0}}", alarm->info.id);
         else
-            sprintf(mqttMessageString, "{Alarms: {%d: 0}}", alarm->info.id);
+            sprintf(mqttMessageString, "{Alarms: {\"%d\": 0}}", alarm->info.id);
 
         mqtt->sendMessage(mqttTopicString, mqttMessageString, strlen(mqttMessageString), MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
     }
