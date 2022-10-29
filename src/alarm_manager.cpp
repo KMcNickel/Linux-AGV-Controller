@@ -136,11 +136,10 @@ bool AlarmManager::checkAlarms()
         nlohmann::json data;
         data["alarmsActive"] = activeAlarms.size() != 0;
         std::string mqttTopicString = "alarms";
-        if(data["alarmsActive"])
-        {
-            nlohmann::json alarmList = activeAlarms;
-            data["alarmList"] = alarmList;
-        }
+        if(data["alarmsActive"] == false)
+            activeAlarms.push_back(0);
+        nlohmann::json alarmList = activeAlarms;
+        data["alarmList"] = alarmList;
         std::string serializedData = data.dump();
 
         mqtt->sendMessage(mqttTopicString, (void *) serializedData.c_str(),

@@ -84,18 +84,18 @@ void Kinematics::calculateForwardKinematics(pose_t * currentMotion)
         nlohmann::json data;
         std::string serializedData;
 
-        data["current"]["motion"]["x"] = currentMotion->linear.x;
-        data["current"]["motion"]["y"] = currentMotion->linear.y;
-        data["current"]["motion"]["z"] = currentMotion->angular.z;
-        data["current"]["velocity"]["frontLeft"] = currentVelocity[0];
-        data["current"]["velocity"]["frontRight"] = currentVelocity[1];
-        data["current"]["velocity"]["rearLeft"] = currentVelocity[2];
-        data["current"]["velocity"]["rearRight"] = currentVelocity[3];
-        data["current"]["dT"] = kinematicCalculatorElapsedSec.count();
+        data["motion"]["x"] = currentMotion->linear.x;
+        data["motion"]["y"] = currentMotion->linear.y;
+        data["motion"]["z"] = currentMotion->angular.z;
+        data["velocity"]["frontLeft"] = currentVelocity[0];
+        data["velocity"]["frontRight"] = currentVelocity[1];
+        data["velocity"]["rearLeft"] = currentVelocity[2];
+        data["velocity"]["rearRight"] = currentVelocity[3];
+        data["dT"] = kinematicCalculatorElapsedSec.count();
 
         serializedData = data.dump();
 
-        mqtt->sendMessage("kinematics", (void *) serializedData.c_str(),
+        mqtt->sendMessage("kinematics/forward", (void *) serializedData.c_str(),
                 serializedData.length(), MqttTransfer::QOS_0_AT_MOST_ONCE, false);
     }
 
@@ -130,17 +130,17 @@ void Kinematics::calculateInverseKinematics(pose_t requestedMotion)
         nlohmann::json data;
         std::string serializedData;
 
-        data["commanded"]["motion"]["x"] = requestedMotion.linear.x;
-        data["commanded"]["motion"]["y"] = requestedMotion.linear.y;
-        data["commanded"]["motion"]["z"] = requestedMotion.angular.z;
-        data["commanded"]["velocity"]["frontLeft"] = commandedVelocity[0];
-        data["commanded"]["velocity"]["frontRight"] = commandedVelocity[1];
-        data["commanded"]["velocity"]["rearLeft"] = commandedVelocity[2];
-        data["commanded"]["velocity"]["rearRight"] = commandedVelocity[3];
+        data["motion"]["x"] = requestedMotion.linear.x;
+        data["motion"]["y"] = requestedMotion.linear.y;
+        data["motion"]["z"] = requestedMotion.angular.z;
+        data["velocity"]["frontLeft"] = commandedVelocity[0];
+        data["velocity"]["frontRight"] = commandedVelocity[1];
+        data["velocity"]["rearLeft"] = commandedVelocity[2];
+        data["velocity"]["rearRight"] = commandedVelocity[3];
 
         serializedData = data.dump();
 
-        mqtt->sendMessage("kinematics", (void *) serializedData.c_str(),
+        mqtt->sendMessage("kinematics/inverse", (void *) serializedData.c_str(),
                 serializedData.length(), MqttTransfer::QOS_0_AT_MOST_ONCE, false);
     }
 }

@@ -152,7 +152,6 @@ class OdriveInterface
         bool configured = false;
         bool checkIfConfigured(std::string caller);
         MqttTransfer * mqttBackhaul = NULL;
-        char mqttTopicString[16];
 
         void sendMqttMessage(std::string topic, void *data, size_t length, MqttTransfer::qos_t qos, bool retain)
         {

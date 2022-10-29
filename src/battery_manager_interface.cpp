@@ -27,22 +27,22 @@ void BatteryManager::receiveCAN(void * handle, struct can_frame frame)
     switch(commandID)
     {
         case CAN_COMMAND_ID_VERSION_NUMBER:
-            sprintf(mqttMessageString, "{\"Version\":{\"Major\":%X,\"Minor\":%X,\"Patch\":%X,\"Build\":%X}}",
+            sprintf(mqttMessageString, "{\"Major\":%X,\"Minor\":%X,\"Patch\":%X,\"Build\":%X}",
                     frame.data[3], frame.data[2], frame.data[1], frame.data[0]);
-            batMan->sendMqttMessage("battery", &mqttMessageString, strlen(mqttMessageString), MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
+            batMan->sendMqttMessage("battery/version", &mqttMessageString, strlen(mqttMessageString), MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
             spdlog::info("Battery manager is version: {0:d}.{1:d}.{2:d} build: {3:d}",
                     frame.data[3], frame.data[2], frame.data[1], frame.data[0]);
             break;
         case CAN_COMMAND_ID_STATE_OF_CHARGE:
             memcpy(&(batMan->batterySoC), &(frame.data[1]), sizeof(float));
-            sprintf(mqttMessageString, "{\"SoC\":%3.0f}", batMan->batterySoC);
-            batMan->sendMqttMessage("battery", &mqttMessageString, strlen(mqttMessageString), MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
+            sprintf(mqttMessageString, "{\"value\":%3.0f}", batMan->batterySoC);
+            batMan->sendMqttMessage("battery/soc", &mqttMessageString, strlen(mqttMessageString), MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
             spdlog::trace("Battery State of Charge: {0:3.0f}%", batMan->batterySoC);
             break;
         case CAN_COMMAND_ID_BATTERY_VOLTAGE:
             memcpy(&(batMan->batteryVoltage), &(frame.data[1]), sizeof(float));
-            sprintf(mqttMessageString, "{\"Voltage\":%3.1f}", batMan->batteryVoltage);
-            batMan->sendMqttMessage("battery", &mqttMessageString, strlen(mqttMessageString), MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
+            sprintf(mqttMessageString, "{\"value\":%3.1f}", batMan->batteryVoltage);
+            batMan->sendMqttMessage("battery/voltage", &mqttMessageString, strlen(mqttMessageString), MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
             spdlog::trace("Battery Voltage: {0:3.1f}V", batMan->batteryVoltage);
             break;
     }
