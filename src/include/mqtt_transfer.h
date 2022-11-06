@@ -42,7 +42,7 @@ class MqttTransfer
         static void setLogLevelByMQTT(void * handle, mosquitto_message * msg);
 
     private:
-        int keepalive = 15;
+        int keepalive = 5;
         std::string address;
         std::string devName;
         int portNum;
@@ -50,6 +50,7 @@ class MqttTransfer
         struct mosquitto * mqttClient;
         std::list<mqttReceiveCallback_t> externalCallbacks;
         mqttReceiveCallback_t loggerLevelSetCallback;
+        std::string commStatusTopic;
 };
 
 #endif

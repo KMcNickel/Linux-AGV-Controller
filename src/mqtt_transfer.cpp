@@ -27,6 +27,28 @@ void MqttTransfer::setupMQTT(std::string id, std::string addr, int port, std::st
     loggerLevelSetCallback.topic = devName + "/logger/level";
     loggerLevelSetCallback.qos = MqttTransfer::QOS_1_AT_LEAST_ONCE;
     addCallback(&loggerLevelSetCallback);
+
+    commStatusTopic = devName + "/online";
+    int8_t stat = -1;
+    int rc = mosquitto_will_set(mqttClient, commStatusTopic.c_str(), sizeof(int8_t), &stat, QOS_2_EXACTLY_ONCE, true);
+    switch(rc)
+    {
+        case MOSQ_ERR_SUCCESS:
+            spdlog::info("Set MQTT will");
+            break;
+        case MOSQ_ERR_INVAL:
+            spdlog::error("Unable to set MQTT will due to invalid parameters");
+            break;
+        case MOSQ_ERR_NOMEM:
+            spdlog::error("Unable to set MQTT will due to an out of memory condition");
+            break;
+        case MOSQ_ERR_PAYLOAD_SIZE:
+            spdlog::error("Unable to set MQTT will due to the payload length is too large");
+            break;
+        case MOSQ_ERR_MALFORMED_UTF8:
+            spdlog::error("Unable to set MQTT will due to the topic is not valid UTF-8");
+            break;
+    }
 }
 
 bool MqttTransfer::connectBroker()
@@ -62,6 +84,9 @@ bool MqttTransfer::shutdownMQTT()
     int rc;
 
     spdlog::info("Shutting down MQTT Client");
+    int8_t stat = 0;
+    mosquitto_publish(mqttClient, NULL, commStatusTopic.c_str(), sizeof(int8_t), &stat, QOS_2_EXACTLY_ONCE, true);
+    sleep(1);
     rc = mosquitto_disconnect(mqttClient);
     if(rc != 0)
     {
@@ -272,6 +297,9 @@ void MqttTransfer::brokerConnected(struct mosquitto * mosq, void * obj, int rc)
 
     spdlog::info("MQTT Broker connected!");
     mqttObj->isConnected = true;
+
+    int8_t stat = 1;
+    mosquitto_publish(mqttObj->mqttClient, NULL, mqttObj->commStatusTopic.c_str(), sizeof(int8_t), &stat, QOS_2_EXACTLY_ONCE, true);
 
     mqttObj->subscribeToCallbackTopics();
 }
