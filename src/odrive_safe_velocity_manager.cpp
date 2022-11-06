@@ -139,6 +139,10 @@ void OdriveSafeVelocityManager::rebootBoard()
 
 void OdriveSafeVelocityManager::eStopBoard()
 {
+    if(configured != Unconfigured)
+        if(axisA.isEStopped() && axisB.isEStopped())
+            return;
+
     if(!checkIfConfigured("Emergency Stop Board")) return;
 
     logStartOfAction("Emergency Stopping");
