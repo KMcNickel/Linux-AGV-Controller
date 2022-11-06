@@ -4,59 +4,51 @@
 #include <list>
 #include <stdint.h>
 #include <string>
+#include <stdlib.h>
 #include "mqtt_transfer.h"
+#include "nlohmann/json.hpp"
 
 class AlarmManager
 {
+
     public:
-        struct alarmInfo_t
+        enum alarmLevel
         {
-            bool isEnabled;
-            bool isActive;
-            bool isWarning;
-            bool autoClear;
-            std::string message;
-            int32_t id;
+            Info = 1,
+            Warn = 2,
+            Error = 3
         };
-
-        enum valueAlarmType
-        {
-            ValueAlarmTypeLow,
-            ValueAlarmTypeHigh
-        };
-
-        struct valueAlarm_t
-        {
-            float * currentValue;
-            float triggerValue;
-            float hysteresisValue;
-            valueAlarmType type;
-            alarmInfo_t info;
-        };
-
-        void setupMqtt(MqttTransfer * mqtt);
         
-        valueAlarm_t * addLowValueAlarm
-                (float * value, float trigger, float hysteresis, bool isWarning, bool autoClear, std::string message, int32_t id);
-        valueAlarm_t * addHighValueAlarm
-                (float * value, float trigger, float hysteresis, bool isWarning, bool autoClear, std::string message, int32_t id);
+        struct alarmListInfo_t
+        {
+            int32_t id;
+            std::string message;
+            alarmLevel level;
+            bool masked;
+            bool thrown;
+            bool acknowledged;
+        };
+        
+        NLOHMANN_DEFINE_TYPE_INTRUSIVE(alarmListInfo_t, id, message, level)
 
-        void removeValueAlarm(valueAlarm_t * alarm);
-        void disableValueAlarm(valueAlarm_t * alarm);
-        void enableValueAlarm(valueAlarm_t * alarm);
+        void initializeAlarmList();
+        void setupMqtt(MqttTransfer * mqtt);
+        void setCallback(std::function<void()> cb);
 
-        bool checkAlarms();
         bool alarmsAreActive();
-        void clearAlarms();
+
+        void unmaskAlarm(int id);
+        void maskAlarm(int id);
+        void throwAlarm(int id);
+        void clearAlarm(int id);
+        void unmaskAllAlarms();
+        void clearAllAlarms();
+        void acknowledgeAllAlarms();
 
     private:
-        std::list<valueAlarm_t> valueAlarms;
-        bool alarmsActive;
+        std::list<alarmListInfo_t> alarms;
         MqttTransfer * mqtt;
-
-        void throwValueWarning(valueAlarm_t * alarm);
-        void throwValueAlarm(valueAlarm_t * alarm);
-        void clearValueAlarm(valueAlarm_t * alarm);
+        std::function<void()> callback;
 };
 
 #endif

@@ -59,6 +59,7 @@ class ControllerWrangler
         void configureAlarms();
         int scalePendantJoystickValues(int raw, int dividend, int deadZone, bool invert);
         void updateMotorVelocities();
+        void newAlarmsThrown();
 
     public:
         void gracefulEnd();

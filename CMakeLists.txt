@@ -37,6 +37,8 @@ add_custom_command(
         -P "${CMAKE_SOURCE_DIR}/set_build_number.cmake"
 )
 
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/src/include/alarmList.json ${CMAKE_CURRENT_BINARY_DIR}/alarmList.json COPYONLY)
+
 target_link_libraries(${PROJECT_NAME}
     spdlog
     mosquitto

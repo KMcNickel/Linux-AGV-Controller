@@ -1,0 +1,4 @@
+[
+    {"id": 1, "message": "The battery has reached a low level", "level": 2},
+    {"id": 2, "message": "The battery has reached a critically low level", "level": 3}
+]

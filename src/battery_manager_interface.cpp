@@ -38,6 +38,11 @@ void BatteryManager::receiveCAN(void * handle, struct can_frame frame)
             sprintf(mqttMessageString, "{\"value\":%3.0f}", batMan->batterySoC);
             batMan->sendMqttMessage("battery/soc", &mqttMessageString, strlen(mqttMessageString), MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
             spdlog::trace("Battery State of Charge: {0:3.0f}%", batMan->batterySoC);
+
+            if(batMan->alarmManager && batMan->batterySoC < LOW_BAT_WARN_THRESHOLD)
+                batMan->alarmManager->throwAlarm(LOW_BAT_WARN_ID);
+            if(batMan->alarmManager && batMan->batterySoC < LOW_BAT_ERROR_THRESHOLD)
+                batMan->alarmManager->throwAlarm(LOW_BAT_ERROR_ID);
             break;
         case CAN_COMMAND_ID_BATTERY_VOLTAGE:
             memcpy(&(batMan->batteryVoltage), &(frame.data[1]), sizeof(float));
@@ -64,6 +69,11 @@ void BatteryManager::setupMqtt(MqttTransfer * mqtt)
     spdlog::debug("Setting up MQTT for battery manager");
 
     mqttBackhaul = mqtt;
+}
+
+void BatteryManager::setupAlarmManager(AlarmManager * alarmMan)
+{
+    alarmManager = alarmMan;
 }
 
 void BatteryManager::configureDevice(SocketCAN * can, int32_t deviceId)

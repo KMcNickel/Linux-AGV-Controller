@@ -34,6 +34,7 @@ void ControllerWrangler::configureBatteryManager()
     batteryManager.registerCallback();
     batteryManager.rebootDevice();
     batteryManager.setupMqtt(&mqtt);
+    batteryManager.setupAlarmManager(&alarmManager);
     
     spdlog::debug("Battery Manager Configured");
 }
@@ -99,12 +100,9 @@ void ControllerWrangler::configureAlarms()
 {
     spdlog::info("Registering Alarms");
 
+    alarmManager.initializeAlarmList();
     alarmManager.setupMqtt(&mqtt);
-
-    alarmManager.addLowValueAlarm(&batteryManager.batterySoC, 25, 5,
-            true, true, "Battery has reached low level", ALARM_ID_TYPE_BATTERY | 1);
-    alarmManager.addLowValueAlarm(&batteryManager.batterySoC, 10, 5,
-            false, true, "Battery has reached critically low level", ALARM_ID_TYPE_BATTERY | 2);
+    alarmManager.setCallback(std::bind(&ControllerWrangler::newAlarmsThrown, this));
 
     spdlog::debug("Alarms registered");
 }
@@ -175,6 +173,12 @@ void ControllerWrangler::updateMotorVelocities()
     
 }
 
+void ControllerWrangler::newAlarmsThrown()
+{
+    odriveFront.eStopBoard();
+    odriveRear.eStopBoard();
+}
+
 void ControllerWrangler::startup()
 {
     spdlog::info("Controller Wrangler Starting Up");
@@ -182,10 +186,10 @@ void ControllerWrangler::startup()
     motorControlMode = Idle;
 
     configureMQTT();
+    configureAlarms();
     configureCANBus();
     configureKinematics();
     configurePendant();
-    configureAlarms();
 
     motorControlMode = Manual;
 
@@ -202,7 +206,7 @@ void ControllerWrangler::loop()
     odriveRear.checkTimers();
     pendant.maintenanceLoop();
 
-    if(alarmManager.checkAlarms())
+    if(alarmManager.alarmsAreActive())
     {
         odriveFront.eStopBoard();
         odriveRear.eStopBoard();
