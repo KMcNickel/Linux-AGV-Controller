@@ -8,6 +8,7 @@ set(CMAKE_CXX_STANDARD 17)
 set(JSON_BuildTests OFF CACHE INTERNAL "")
 
 find_package(spdlog REQUIRED)
+find_package(open62541 REQUIRED COMPONENTS FullNamespace)
 
 # Ready for when we need it
 add_subdirectory(json)
@@ -23,6 +24,7 @@ add_executable(${PROJECT_NAME}
     src/pendant_manager.cpp
     src/kinematics.cpp
     src/alarm_manager.cpp
+    src/opc_ua_server.cpp
 )
 
 target_include_directories(${PROJECT_NAME}
@@ -43,4 +45,5 @@ target_link_libraries(${PROJECT_NAME}
     spdlog
     mosquitto
     nlohmann_json::nlohmann_json
+    open62541::open62541
 )

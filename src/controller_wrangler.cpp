@@ -24,6 +24,7 @@ void ControllerWrangler::gracefulEnd()
 
     can.killSocket();       //MUST come after ALL devices on the bus are stopped
     mqtt.shutdownMQTT();
+    opcUaServer.stopServer();
 }
 
 void ControllerWrangler::configureBatteryManager()
@@ -74,6 +75,13 @@ void ControllerWrangler::configureMQTT()
     mqtt.connectBroker();
 
     spdlog::debug("MQTT configured");
+}
+
+void ControllerWrangler::configureOPCUA()
+{
+    spdlog::info("Starting OPC UA Server");
+    opcUaServer.startServer();
+    spdlog::debug("OPC UA Server Started");
 }
 
 void ControllerWrangler::configureKinematics()
@@ -186,6 +194,7 @@ void ControllerWrangler::startup()
     motorControlMode = Idle;
 
     configureMQTT();
+    configureOPCUA();
     configureAlarms();
     configureCANBus();
     configureKinematics();
@@ -205,6 +214,7 @@ void ControllerWrangler::loop()
     odriveFront.checkTimers();
     odriveRear.checkTimers();
     pendant.maintenanceLoop();
+    opcUaServer.checkServer();
 
     if(alarmManager.alarmsAreActive())
     {

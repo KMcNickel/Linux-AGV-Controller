@@ -21,6 +21,7 @@
 #include "pendant_manager.h"
 #include "kinematics.h"
 #include "alarm_manager.h"
+#include "opc_ua_server.h"
 
 class ControllerWrangler
 {
@@ -36,6 +37,7 @@ class ControllerWrangler
         SocketCAN can;
         BatteryManager batteryManager;
         MqttTransfer mqtt;
+        OPCUAServer opcUaServer;
         OdriveSafeVelocityManager odriveFront;
         OdriveSafeVelocityManager odriveRear;
         PendantManager pendant;
@@ -55,6 +57,7 @@ class ControllerWrangler
         void configureCANBus();
         void configureKinematics();
         void configureMQTT();
+        void configureOPCUA();
         void configurePendant();
         void configureAlarms();
         int scalePendantJoystickValues(int raw, int dividend, int deadZone, bool invert);
