@@ -73,6 +73,7 @@ class SocketCAN
         struct sockaddr_can addr;
         struct pollfd pollDesc;
         std::list<receiveCallback_t> callbacks;
+        bool lastActionSucceeded = true;
 };
 
 #endif
