@@ -20,9 +20,6 @@
 
 #include "include/socketcan.h"
 
-#define SOCKET_CLOSED_PROGRAMATICALLY -10
-#define CAN_ID_LARGER_THAN_29_BIT_MASK 0xE0000000
-#define CAN_ID_LARGER_THAN_11_BIT_MASK 0xFFFFF800
 #define SOCKET_POLL_TIMEOUT 0       //in milliseconds. 0 returns immediately
 
 
@@ -32,31 +29,21 @@ int32_t SocketCAN::configureSocketCAN(std::string iface)
 
     if ((socketID = socket(PF_CAN, SOCK_RAW, CAN_RAW)) < 0)
     {
-        if(lastActionSucceeded)
-            spdlog::error("Socket Error: Unable to create socket: {0:d}", socketID);
-        else
-            spdlog::trace("Socket Error: Unable to create socket: {0:d}", socketID);
+        spdlog::error("Socket Error: Unable to create socket: {0:d}", socketID);
 
-        lastActionSucceeded = false;
+        socketID = -1;
         return -1;
     }
-
-    lastActionSucceeded = true;
 
     strcpy(ifr.ifr_name, iface.c_str());
     
     if(ioctl(socketID, SIOCGIFINDEX, &ifr) < 0)
     {
-        if(lastActionSucceeded)
-            spdlog::error("Socket Error: Unable to find interface: {0} - Errno: {1}", iface.c_str(), std::strerror(errno));
-        else
-            spdlog::trace("Socket Error: Unable to find interface: {0} - Errno: {1}", iface.c_str(), std::strerror(errno));
+        spdlog::error("Socket Error: Unable to find interface: {0} - Errno: {1}", iface.c_str(), std::strerror(errno));
 
-        lastActionSucceeded = false;
+        socketID = -1;
         return -1;
     }
-
-    lastActionSucceeded = true;
 
     if(!(ifr.ifr_flags & IFF_UP))
         spdlog::warn("Selected interface '{0}' is not UP", iface.c_str());
@@ -67,16 +54,11 @@ int32_t SocketCAN::configureSocketCAN(std::string iface)
 
     if(bind(socketID, (struct sockaddr *)&addr, sizeof(addr)) < 0)
     {
-        if(lastActionSucceeded)
-            spdlog::error("Socket Error: Unable to bind to socket: {0}", std::strerror(errno));
-        else
-            spdlog::trace("Socket Error: Unable to bind to socket: {0}", std::strerror(errno));
+        spdlog::error("Socket Error: Unable to bind to socket: {0}", std::strerror(errno));
 
-        lastActionSucceeded = false;
+        socketID = -1;
         return -1;
     }
-    
-    lastActionSucceeded = true;
 
     pollDesc.fd = socketID;
     pollDesc.events = POLLIN;
@@ -90,19 +72,13 @@ int32_t SocketCAN::killSocket()
 {
     spdlog::info("Killing CAN Socket");
     
-    if(socketID != SOCKET_CLOSED_PROGRAMATICALLY && close(socketID) < 0)
+    if(socketID != -1 && close(socketID) < 0)
     {
-        if(lastActionSucceeded)
-            spdlog::error("Socket Error: Unable to close socket: {0}", std::strerror(errno));
-        else
-            spdlog::trace("Socket Error: Unable to close socket: {0}", std::strerror(errno));
-
-            lastActionSucceeded = false;
+        spdlog::error("Socket Error: Unable to close socket: {0}", std::strerror(errno));
         return -1;
     }
 
-    lastActionSucceeded = true;
-    socketID = SOCKET_CLOSED_PROGRAMATICALLY;
+    socketID = -1;
 
     spdlog::debug("CAN socket killed");
     
@@ -113,31 +89,29 @@ int32_t SocketCAN::sendFrame(struct can_frame frame)
 {
     int err = 0;
 
-    spdlog::trace("Preparing to send CAN data");
-
-    if(!((frame.can_id & CAN_EFF_FLAG) || frame.can_id & CAN_EFF_MASK < CAN_SFF_MASK))
-
-    if(frame.can_dlc > CAN_MAX_DLC)
+    if(socketID = -1)
     {
-        if(lastActionSucceeded)
-            spdlog::error("Message has an invalid DLC: {0:d} - ID: {1:X}", 
-                    frame.can_dlc, frame.can_id);
-        else
-            spdlog::trace("Message has an invalid DLC: {0:d} - ID: {1:X}", 
-                    frame.can_dlc, frame.can_id);
-
-        lastActionSucceeded = false;
+        spdlog::trace("Attempted to send CAN frame to unopened socket");
         return -1;
     }
 
-    /*if((incomingData.is_extended_id && (incomingData.can_id & CAN_ID_LARGER_THAN_29_BIT_MASK))
-            || (!incomingData.is_extended_id && (incomingData.can_id & CAN_ID_LARGER_THAN_11_BIT_MASK)))
-    {
-        spdlog::warn("Message was sent with an invalid ID: {0:d}", incomingData.can_id);
-        err += -2;
-    }*/
+    spdlog::trace("Preparing to send CAN data");
 
-    lastActionSucceeded = true;
+    if(!((frame.can_id & CAN_EFF_FLAG) || frame.can_id & CAN_EFF_MASK < CAN_SFF_MASK))
+    {
+        spdlog::error("Message has an invalid ID: ID: 0x{0:X} - EFF Flag: {1:b}",
+                frame.can_id & CAN_EFF_MASK, frame.can_id & CAN_EFF_FLAG);
+
+        return -1;
+    }
+
+    if(frame.can_dlc > CAN_MAX_DLC)
+    {
+        spdlog::error("Message has an invalid DLC: {0:d} - ID: {1:X}", 
+                frame.can_dlc, frame.can_id);
+
+        return -2;
+    }
 
     spdlog::trace("Sending:\n\tID: 0x{0:X}\n\tLength: {1:d}\n\tData: 0x{2:X} 0x{3:X} 0x{4:X} 0x{5:X} 0x{6:X} 0x{7:X} 0x{8:X} 0x{9:X}",
             frame.can_id, frame.can_dlc, frame.data[0], frame.data[1], frame.data[2],
@@ -162,13 +136,22 @@ int32_t SocketCAN::receiveData()
     struct can_frame frame;
     int event;
 
+        if(socketID = -1)
+    {
+        spdlog::trace("Attempted to poll unopened socket");
+        return -1;
+    }
+
     spdlog::trace("Checking for CAN data");
 
     event = poll(&pollDesc, 1, SOCKET_POLL_TIMEOUT);
 
-    if(event < 0 && errno != EINTR) //EINTR = Function interrupted (like if we Ctrl + C)
+    if(event < 0)
     {
-        spdlog::error("Socket Error: Unable to poll socket: {0}", std::strerror(errno));
+        if(errno == EINTR) //EINTR = Function interrupted (like if we Ctrl + C)
+            spdlog::trace("Socket Error: Unable to poll socket: {0}", std::strerror(errno));
+        else
+            spdlog::error("Socket Error: Unable to poll socket: {0}", std::strerror(errno));
         return event;
     }
     if(event > 0)
