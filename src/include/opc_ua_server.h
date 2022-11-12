@@ -14,6 +14,7 @@ class OPCUAServer
         void startServer();
         void stopServer();
         void checkServer();
+        UA_StatusCode writeValueToServer(UA_NodeId id, UA_Variant value);
 
     private:
         void setVersionNodeValues();

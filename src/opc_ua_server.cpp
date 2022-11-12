@@ -7,6 +7,7 @@
 #include "include/opc_ua_server.h"
 #include "include/version_num.h"
 #include "include/nodeset.h"
+#include "include/node_ids.h"
 
 void OPCUAServer::startServer()
 {
@@ -85,11 +86,21 @@ void OPCUAServer::setVersionNodeValues()
     version[3] = VERSION_BUILD;
 
     UA_Variant_setArray(&value, version, 4, &UA_TYPES[UA_TYPES_UINT32]);
-    UA_NodeId nodeID = UA_NODEID_NUMERIC(2, 2117);
+    UA_NodeId nodeID = UA_NODEID_NUMERIC(OPCUA_NODE_NAMESPACE_MAIN, OPCUA_NODE_ID_SOFTWARE_VERSION);
 
     stat = UA_Server_writeValue(server, nodeID, value);
 
 
     if(stat != UA_STATUSCODE_GOOD)
         spdlog::error("OPC UA Server could not set values of version node: {0}", UA_StatusCode_name(stat));    
+}
+
+UA_StatusCode OPCUAServer::writeValueToServer(UA_NodeId id, UA_Variant value)
+{
+    if(server == NULL)
+    {
+        spdlog::trace("Attempting to set value while server is not running");
+        return UA_STATUSCODE_BADSERVERHALTED;
+    }
+    return UA_Server_writeValue(server, id, value);
 }

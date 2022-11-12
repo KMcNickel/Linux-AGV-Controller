@@ -12,6 +12,7 @@
 #include "include/mqtt_transfer.h"
 #include "include/kinematics.h"
 #include "nlohmann/json.hpp"
+#include "include/opc_ua_server.h"
 
 #define RADIANS_PER_CIRCLE 6.28319
 
@@ -23,9 +24,12 @@ void Kinematics::startup(float length, float width, float radius, float invertRi
     invertRight = invertRightWheels;
 }
 
-void Kinematics::setupMqtt(MqttTransfer * mqtt)
+void Kinematics::setupOPCUA(OPCUAServer * opcua, uint16_t ns, nodeIds_t fwdNodeIds, nodeIds_t invNodeIds)
 {
-    this->mqtt = mqtt;
+    this->opcua = opcua;
+    nodeNs = ns;
+    forwardNodeIds = fwdNodeIds;
+    inverseNodeIds = invNodeIds;
 }
 
 void Kinematics::updateCurrentVelocity(wheel_t wheel, float velocity)
@@ -79,24 +83,15 @@ void Kinematics::calculateForwardKinematics(pose_t * currentMotion)
     spdlog::trace("Forward Kinematic Results: Linear X: {0:f} Linear Y: {0:f} Angular Z: {0:f}",
             currentMotion->linear.x, currentMotion->linear.y, currentMotion->angular.z);
 
-    if(mqtt)
+    if(opcua)
     {
-        nlohmann::json data;
-        std::string serializedData;
-
-        data["motion"]["x"] = currentMotion->linear.x;
-        data["motion"]["y"] = currentMotion->linear.y;
-        data["motion"]["z"] = currentMotion->angular.z;
-        data["velocity"]["frontLeft"] = currentVelocity[0];
-        data["velocity"]["frontRight"] = currentVelocity[1];
-        data["velocity"]["rearLeft"] = currentVelocity[2];
-        data["velocity"]["rearRight"] = currentVelocity[3];
-        data["dT"] = kinematicCalculatorElapsedSec.count();
-
-        serializedData = data.dump();
-
-        mqtt->sendMessage("kinematics/forward", (void *) serializedData.c_str(),
-                serializedData.length(), MqttTransfer::QOS_0_AT_MOST_ONCE, false);
+        writeOPCUAValue(forwardNodeIds.motion.x, currentMotion->linear.x);
+        writeOPCUAValue(forwardNodeIds.motion.y, currentMotion->linear.y);
+        writeOPCUAValue(forwardNodeIds.motion.z, currentMotion->angular.z);
+        writeOPCUAValue(forwardNodeIds.velocities.frontLeft, currentVelocity[0]);
+        writeOPCUAValue(forwardNodeIds.velocities.frontRight, currentVelocity[1]);
+        writeOPCUAValue(forwardNodeIds.velocities.RearLeft, currentVelocity[2]);
+        writeOPCUAValue(forwardNodeIds.velocities.rearRight, currentVelocity[3]);
     }
 
     lastForwardCalculation = now;
@@ -125,23 +120,15 @@ void Kinematics::calculateInverseKinematics(pose_t requestedMotion)
     spdlog::trace("Inverse Kinematic Result: FL: {0:f} FR: {0:f} RL: {0:f} RR: {0:f}",
             commandedVelocity[0], commandedVelocity[1], commandedVelocity[2], commandedVelocity[3]);
 
-    if(mqtt)
+    if(opcua)
     {
-        nlohmann::json data;
-        std::string serializedData;
-
-        data["motion"]["x"] = requestedMotion.linear.x;
-        data["motion"]["y"] = requestedMotion.linear.y;
-        data["motion"]["z"] = requestedMotion.angular.z;
-        data["velocity"]["frontLeft"] = commandedVelocity[0];
-        data["velocity"]["frontRight"] = commandedVelocity[1];
-        data["velocity"]["rearLeft"] = commandedVelocity[2];
-        data["velocity"]["rearRight"] = commandedVelocity[3];
-
-        serializedData = data.dump();
-
-        mqtt->sendMessage("kinematics/inverse", (void *) serializedData.c_str(),
-                serializedData.length(), MqttTransfer::QOS_0_AT_MOST_ONCE, false);
+        writeOPCUAValue(inverseNodeIds.motion.x, requestedMotion.linear.x);
+        writeOPCUAValue(inverseNodeIds.motion.y, requestedMotion.linear.y);
+        writeOPCUAValue(inverseNodeIds.motion.z, requestedMotion.angular.z);
+        writeOPCUAValue(inverseNodeIds.velocities.frontLeft, commandedVelocity[0]);
+        writeOPCUAValue(inverseNodeIds.velocities.frontRight, currentVelocity[1]);
+        writeOPCUAValue(inverseNodeIds.velocities.RearLeft, currentVelocity[2]);
+        writeOPCUAValue(inverseNodeIds.velocities.rearRight, currentVelocity[3]);
     }
 }
 
@@ -161,4 +148,17 @@ float Kinematics::getCommandedVelocity(wheel_t wheel)
             else return commandedVelocity[3];
     }
     return 0;
+}
+
+void Kinematics::writeOPCUAValue(uint32_t id, float value)
+{
+    UA_StatusCode stat;
+    UA_Variant variant;
+    UA_Variant_setScalar(&variant, &value, &UA_TYPES[UA_TYPES_FLOAT]);
+
+    UA_NodeId nodeId = UA_NODEID_NUMERIC(nodeNs, id);
+    stat = opcua->writeValueToServer(nodeId, variant);
+
+    if(stat != UA_STATUSCODE_GOOD)
+        spdlog::trace("Unable to send kinematic value update: {0}", UA_StatusCode_name(stat));
 }

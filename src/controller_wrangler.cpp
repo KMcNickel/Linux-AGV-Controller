@@ -16,6 +16,7 @@
 #include "include/odrive_safe_velocity_manager.h"
 #include "include/controller_wrangler.h"
 #include "include/alarm_manager.h"
+#include "include/node_ids.h"
 
 void ControllerWrangler::gracefulEnd()
 {
@@ -86,10 +87,25 @@ void ControllerWrangler::configureOPCUA()
 
 void ControllerWrangler::configureKinematics()
 {
+    Kinematics::nodeIds_t fwdNodeIds, invNodeIds;
+    fwdNodeIds.motion.x = OPCUA_NODE_ID_KINEMATICS_FORWARD_MOTION_X;
+    fwdNodeIds.motion.y = OPCUA_NODE_ID_KINEMATICS_FORWARD_MOTION_Y;
+    fwdNodeIds.motion.z = OPCUA_NODE_ID_KINEMATICS_FORWARD_MOTION_Z;
+    fwdNodeIds.velocities.frontLeft = OPCUA_NODE_ID_KINEMATICS_FORWARD_VELOCITY_FL;
+    fwdNodeIds.velocities.frontRight = OPCUA_NODE_ID_KINEMATICS_FORWARD_VELOCITY_FR;
+    fwdNodeIds.velocities.RearLeft = OPCUA_NODE_ID_KINEMATICS_FORWARD_VELOCITY_RL;
+    fwdNodeIds.velocities.rearRight = OPCUA_NODE_ID_KINEMATICS_FORWARD_VELOCITY_RR;
+    invNodeIds.motion.x = OPCUA_NODE_ID_KINEMATICS_INVERSE_MOTION_X;
+    invNodeIds.motion.y = OPCUA_NODE_ID_KINEMATICS_INVERSE_MOTION_Y;
+    invNodeIds.motion.z = OPCUA_NODE_ID_KINEMATICS_INVERSE_MOTION_Z;
+    invNodeIds.velocities.frontLeft = OPCUA_NODE_ID_KINEMATICS_INVERSE_VELOCITY_FL;
+    invNodeIds.velocities.frontRight = OPCUA_NODE_ID_KINEMATICS_INVERSE_VELOCITY_FR;
+    invNodeIds.velocities.RearLeft = OPCUA_NODE_ID_KINEMATICS_INVERSE_VELOCITY_RL;
+    invNodeIds.velocities.rearRight = OPCUA_NODE_ID_KINEMATICS_INVERSE_VELOCITY_RR;
     spdlog::info("Configuring Kinematics");
 
     kinematics.startup(MECANUM_WHEEL_RADIUS, MECANUM_WHEEL_BASE_WIDTH, MECANUM_WHEEL_BASE_LENGTH, MECANUM_WHEEL_RIGHT_INVERTED);
-    kinematics.setupMqtt(&mqtt);
+    kinematics.setupOPCUA(&opcUaServer, OPCUA_NODE_NAMESPACE_MAIN, fwdNodeIds, invNodeIds);
 
     spdlog::debug("Kinematics configured");
 }
@@ -193,7 +209,7 @@ void ControllerWrangler::startup()
 
     motorControlMode = Idle;
 
-    //configureMQTT();
+    configureMQTT();
     configureOPCUA();
     configureAlarms();
     configureCANBus();
