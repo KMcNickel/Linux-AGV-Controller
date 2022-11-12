@@ -25,6 +25,7 @@ add_executable(${PROJECT_NAME}
     src/kinematics.cpp
     src/alarm_manager.cpp
     src/opc_ua_server.cpp
+    src/nodeset.c
 )
 
 target_include_directories(${PROJECT_NAME}

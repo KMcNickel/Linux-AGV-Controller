@@ -16,8 +16,8 @@ class OPCUAServer
         void checkServer();
 
     private:
-        void addVersionStringNode();
-        UA_Server * server;
+        void setVersionNodeValues();
+        UA_Server * server = NULL;
 };
 
 #endif

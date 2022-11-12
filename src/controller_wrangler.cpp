@@ -23,7 +23,7 @@ void ControllerWrangler::gracefulEnd()
     odriveRear.eStopBoard();
 
     can.killSocket();       //MUST come after ALL devices on the bus are stopped
-    mqtt.shutdownMQTT();
+    //mqtt.shutdownMQTT();
     opcUaServer.stopServer();
 }
 
@@ -193,7 +193,7 @@ void ControllerWrangler::startup()
 
     motorControlMode = Idle;
 
-    configureMQTT();
+    //configureMQTT();
     configureOPCUA();
     configureAlarms();
     configureCANBus();
