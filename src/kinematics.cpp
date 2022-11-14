@@ -11,7 +11,6 @@
 #include "include/pendant_manager.h"
 #include "include/mqtt_transfer.h"
 #include "include/kinematics.h"
-#include "nlohmann/json.hpp"
 #include "include/opc_ua_server.h"
 
 #define RADIANS_PER_CIRCLE 6.28319
