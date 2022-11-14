@@ -151,7 +151,7 @@ class OdriveInterface
         int32_t canDevId;
         bool configured = false;
         bool checkIfConfigured(std::string caller);
-        OPCUAServer * opcua;
+        OPCUAServer * opcua = NULL;
         std::string nodeIdBase;
         uint16_t nodeNs;
 

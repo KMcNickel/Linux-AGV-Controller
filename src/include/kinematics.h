@@ -48,7 +48,7 @@ class Kinematics
         bool invertRight;
         float currentVelocity[4];
         float commandedVelocity[4];
-        OPCUAServer * opcua;
+        OPCUAServer * opcua = NULL;
         std::chrono::time_point<DEFAULT_CLOCK> lastForwardCalculation;
         std::string nodeIdBase;
         uint16_t nodeNs;

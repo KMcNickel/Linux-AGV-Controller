@@ -158,7 +158,7 @@ void OdriveInterface::configureDevice(SocketCAN * can, int32_t deviceId)
 
 void OdriveInterface::setupOPCUA(OPCUAServer * opcua, uint16_t ns, std::string nodeIdBase)
 {
-    spdlog::debug("Setting up OPC UA for Kinematics with node base: {0} and namespace {1:d}", nodeIdBase, ns);
+    spdlog::debug("Setting up OPC UA for ODrive with node base: {0} and namespace {1:d}", nodeIdBase, ns);
     this->opcua = opcua;
     nodeNs = ns;
     this->nodeIdBase = nodeIdBase;
