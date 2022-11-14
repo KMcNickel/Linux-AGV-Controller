@@ -24,12 +24,11 @@ void Kinematics::startup(float length, float width, float radius, float invertRi
     invertRight = invertRightWheels;
 }
 
-void Kinematics::setupOPCUA(OPCUAServer * opcua, uint16_t ns, nodeIds_t fwdNodeIds, nodeIds_t invNodeIds)
+void Kinematics::setupOPCUA(OPCUAServer * opcua, uint16_t ns, std::string nodeIdBase)
 {
     this->opcua = opcua;
     nodeNs = ns;
-    forwardNodeIds = fwdNodeIds;
-    inverseNodeIds = invNodeIds;
+    this->nodeIdBase = nodeIdBase;
 }
 
 void Kinematics::updateCurrentVelocity(wheel_t wheel, float velocity)
@@ -85,13 +84,13 @@ void Kinematics::calculateForwardKinematics(pose_t * currentMotion)
 
     if(opcua)
     {
-        writeOPCUAValue(forwardNodeIds.motion.x, currentMotion->linear.x);
-        writeOPCUAValue(forwardNodeIds.motion.y, currentMotion->linear.y);
-        writeOPCUAValue(forwardNodeIds.motion.z, currentMotion->angular.z);
-        writeOPCUAValue(forwardNodeIds.velocities.frontLeft, currentVelocity[0]);
-        writeOPCUAValue(forwardNodeIds.velocities.frontRight, currentVelocity[1]);
-        writeOPCUAValue(forwardNodeIds.velocities.RearLeft, currentVelocity[2]);
-        writeOPCUAValue(forwardNodeIds.velocities.rearRight, currentVelocity[3]);
+        writeOPCUAValue("forward.motion.x", currentMotion->linear.x);
+        writeOPCUAValue("forward.motion.y", currentMotion->linear.y);
+        writeOPCUAValue("forward.motion.z", currentMotion->angular.z);
+        writeOPCUAValue("forward.velocities.frontleft", currentVelocity[0]);
+        writeOPCUAValue("forward.velocities.frontright", currentVelocity[1]);
+        writeOPCUAValue("forward.velocities.rearleft", currentVelocity[2]);
+        writeOPCUAValue("forward.velocities.rearright", currentVelocity[3]);
     }
 
     lastForwardCalculation = now;
@@ -122,13 +121,13 @@ void Kinematics::calculateInverseKinematics(pose_t requestedMotion)
 
     if(opcua)
     {
-        writeOPCUAValue(inverseNodeIds.motion.x, requestedMotion.linear.x);
-        writeOPCUAValue(inverseNodeIds.motion.y, requestedMotion.linear.y);
-        writeOPCUAValue(inverseNodeIds.motion.z, requestedMotion.angular.z);
-        writeOPCUAValue(inverseNodeIds.velocities.frontLeft, commandedVelocity[0]);
-        writeOPCUAValue(inverseNodeIds.velocities.frontRight, currentVelocity[1]);
-        writeOPCUAValue(inverseNodeIds.velocities.RearLeft, currentVelocity[2]);
-        writeOPCUAValue(inverseNodeIds.velocities.rearRight, currentVelocity[3]);
+        writeOPCUAValue("inverse.motion.x", requestedMotion.linear.x);
+        writeOPCUAValue("inverse.motion.y", requestedMotion.linear.y);
+        writeOPCUAValue("inverse.motion.z", requestedMotion.angular.z);
+        writeOPCUAValue("inverse.velocities.frontleft", commandedVelocity[0]);
+        writeOPCUAValue("inverse.velocities.frontright", commandedVelocity[1]);
+        writeOPCUAValue("inverse.velocities.rearleft", commandedVelocity[2]);
+        writeOPCUAValue("inverse.velocities.rearright", commandedVelocity[3]);
     }
 }
 
@@ -150,13 +149,14 @@ float Kinematics::getCommandedVelocity(wheel_t wheel)
     return 0;
 }
 
-void Kinematics::writeOPCUAValue(uint32_t id, float value)
+void Kinematics::writeOPCUAValue(std::string id_ext, float value)
 {
     UA_StatusCode stat;
     UA_Variant variant;
+    std::string node_id = nodeIdBase + "." + id_ext;
     UA_Variant_setScalar(&variant, &value, &UA_TYPES[UA_TYPES_FLOAT]);
 
-    UA_NodeId nodeId = UA_NODEID_NUMERIC(nodeNs, id);
+    UA_NodeId nodeId = UA_NODEID_STRING(nodeNs, (char *) node_id.c_str());
     stat = opcua->writeValueToServer(nodeId, variant);
 
     if(stat != UA_STATUSCODE_GOOD)

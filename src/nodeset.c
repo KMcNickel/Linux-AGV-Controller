@@ -4,14 +4,14 @@
 #include "include/nodeset.h"
 
 
-/* Kinematics - ns=1;i=2130 */
+/* Kinematics - ns=1;s=kinematics */
 
 static UA_StatusCode function_nodeset_0_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
 attr.displayName = UA_LOCALIZEDTEXT("", "Kinematics");
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2130LU),
+UA_NODEID_STRING(ns[1], "kinematics"),
 UA_NODEID_NUMERIC(ns[0], 85LU),
 UA_NODEID_NUMERIC(ns[0], 35LU),
 UA_QUALIFIEDNAME(ns[1], "Kinematics"),
@@ -23,7 +23,7 @@ return retVal;
 
 static UA_StatusCode function_nodeset_0_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2130LU)
+UA_NODEID_STRING(ns[1], "kinematics")
 );
 }
 
@@ -53,7 +53,7 @@ UA_NODEID_NUMERIC(ns[1], 2118LU)
 );
 }
 
-/* Inverse - ns=1;i=2141 */
+/* Inverse - ns=1;s=kinematics.inverse */
 
 static UA_StatusCode function_nodeset_2_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -63,8 +63,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Inverse");
 attr.description = UA_LOCALIZEDTEXT("", "KinematicData");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2141LU),
-UA_NODEID_NUMERIC(ns[1], 2130LU),
+UA_NODEID_STRING(ns[1], "kinematics.inverse"),
+UA_NODEID_STRING(ns[1], "kinematics"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Inverse"),
 UA_NODEID_NUMERIC(ns[1], 2118LU),
@@ -75,19 +75,19 @@ return retVal;
 
 static UA_StatusCode function_nodeset_2_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2141LU)
+UA_NODEID_STRING(ns[1], "kinematics.inverse")
 );
 }
 
-/* Velocities - ns=1;i=2146 */
+/* Velocities - ns=1;s=kinematics.inverse.velocities */
 
 static UA_StatusCode function_nodeset_3_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
 attr.displayName = UA_LOCALIZEDTEXT("", "Velocities");
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2146LU),
-UA_NODEID_NUMERIC(ns[1], 2141LU),
+UA_NODEID_STRING(ns[1], "kinematics.inverse.velocities"),
+UA_NODEID_STRING(ns[1], "kinematics.inverse"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Velocities"),
 UA_NODEID_NUMERIC(ns[0], 58LU),
@@ -98,11 +98,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_3_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2146LU)
+UA_NODEID_STRING(ns[1], "kinematics.inverse.velocities")
 );
 }
 
-/* RearRight - ns=1;i=2150 */
+/* RearRight - ns=1;s=kinematics.inverse.velocities.rearright */
 
 static UA_StatusCode function_nodeset_4_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -118,8 +118,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "RearRight");
 attr.description = UA_LOCALIZEDTEXT("", "RearRight");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2150LU),
-UA_NODEID_NUMERIC(ns[1], 2146LU),
+UA_NODEID_STRING(ns[1], "kinematics.inverse.velocities.rearright"),
+UA_NODEID_STRING(ns[1], "kinematics.inverse.velocities"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "RearRight"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -130,11 +130,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_4_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2150LU)
+UA_NODEID_STRING(ns[1], "kinematics.inverse.velocities.rearright")
 );
 }
 
-/* RearLeft - ns=1;i=2149 */
+/* RearLeft - ns=1;s=kinematics.inverse.velocities.rearleft */
 
 static UA_StatusCode function_nodeset_5_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -150,8 +150,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "RearLeft");
 attr.description = UA_LOCALIZEDTEXT("", "RearLeft");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2149LU),
-UA_NODEID_NUMERIC(ns[1], 2146LU),
+UA_NODEID_STRING(ns[1], "kinematics.inverse.velocities.rearleft"),
+UA_NODEID_STRING(ns[1], "kinematics.inverse.velocities"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "RearLeft"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -162,11 +162,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_5_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2149LU)
+UA_NODEID_STRING(ns[1], "kinematics.inverse.velocities.rearleft")
 );
 }
 
-/* FrontRight - ns=1;i=2148 */
+/* FrontRight - ns=1;s=kinematics.inverse.velocities.frontright */
 
 static UA_StatusCode function_nodeset_6_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -182,8 +182,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "FrontRight");
 attr.description = UA_LOCALIZEDTEXT("", "FrontRight");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2148LU),
-UA_NODEID_NUMERIC(ns[1], 2146LU),
+UA_NODEID_STRING(ns[1], "kinematics.inverse.velocities.frontright"),
+UA_NODEID_STRING(ns[1], "kinematics.inverse.velocities"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "FrontRight"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -194,11 +194,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_6_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2148LU)
+UA_NODEID_STRING(ns[1], "kinematics.inverse.velocities.frontright")
 );
 }
 
-/* FrontLeft - ns=1;i=2147 */
+/* FrontLeft - ns=1;s=kinematics.inverse.velocities.frontleft */
 
 static UA_StatusCode function_nodeset_7_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -214,8 +214,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "FrontLeft");
 attr.description = UA_LOCALIZEDTEXT("", "FrontLeft");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2147LU),
-UA_NODEID_NUMERIC(ns[1], 2146LU),
+UA_NODEID_STRING(ns[1], "kinematics.inverse.velocities.frontleft"),
+UA_NODEID_STRING(ns[1], "kinematics.inverse.velocities"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "FrontLeft"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -226,19 +226,19 @@ return retVal;
 
 static UA_StatusCode function_nodeset_7_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2147LU)
+UA_NODEID_STRING(ns[1], "kinematics.inverse.velocities.frontleft")
 );
 }
 
-/* Motion - ns=1;i=2142 */
+/* Motion - ns=1;s=kinematics.inverse.motion */
 
 static UA_StatusCode function_nodeset_8_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
 attr.displayName = UA_LOCALIZEDTEXT("", "Motion");
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2142LU),
-UA_NODEID_NUMERIC(ns[1], 2141LU),
+UA_NODEID_STRING(ns[1], "kinematics.inverse.motion"),
+UA_NODEID_STRING(ns[1], "kinematics.inverse"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Motion"),
 UA_NODEID_NUMERIC(ns[0], 58LU),
@@ -249,11 +249,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_8_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2142LU)
+UA_NODEID_STRING(ns[1], "kinematics.inverse.motion")
 );
 }
 
-/* Z - ns=1;i=2145 */
+/* Z - ns=1;s=kinematics.inverse.motion.z */
 
 static UA_StatusCode function_nodeset_9_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -269,8 +269,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Z");
 attr.description = UA_LOCALIZEDTEXT("", "Z");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2145LU),
-UA_NODEID_NUMERIC(ns[1], 2142LU),
+UA_NODEID_STRING(ns[1], "kinematics.inverse.motion.z"),
+UA_NODEID_STRING(ns[1], "kinematics.inverse.motion"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Z"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -281,11 +281,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_9_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2145LU)
+UA_NODEID_STRING(ns[1], "kinematics.inverse.motion.z")
 );
 }
 
-/* Y - ns=1;i=2144 */
+/* Y - ns=1;s=kinematics.inverse.motion.y */
 
 static UA_StatusCode function_nodeset_10_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -301,8 +301,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Y");
 attr.description = UA_LOCALIZEDTEXT("", "Y");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2144LU),
-UA_NODEID_NUMERIC(ns[1], 2142LU),
+UA_NODEID_STRING(ns[1], "kinematics.inverse.motion.y"),
+UA_NODEID_STRING(ns[1], "kinematics.inverse.motion"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Y"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -313,11 +313,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_10_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2144LU)
+UA_NODEID_STRING(ns[1], "kinematics.inverse.motion.y")
 );
 }
 
-/* X - ns=1;i=2143 */
+/* X - ns=1;s=kinematics.inverse.motion.x */
 
 static UA_StatusCode function_nodeset_11_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -333,8 +333,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "X");
 attr.description = UA_LOCALIZEDTEXT("", "X");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2143LU),
-UA_NODEID_NUMERIC(ns[1], 2142LU),
+UA_NODEID_STRING(ns[1], "kinematics.inverse.motion.x"),
+UA_NODEID_STRING(ns[1], "kinematics.inverse.motion"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "X"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -345,11 +345,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_11_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2143LU)
+UA_NODEID_STRING(ns[1], "kinematics.inverse.motion.x")
 );
 }
 
-/* Forward - ns=1;i=2131 */
+/* Forward - ns=1;s=kinematics.forward */
 
 static UA_StatusCode function_nodeset_12_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -359,8 +359,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Forward");
 attr.description = UA_LOCALIZEDTEXT("", "KinematicData");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2131LU),
-UA_NODEID_NUMERIC(ns[1], 2130LU),
+UA_NODEID_STRING(ns[1], "kinematics.forward"),
+UA_NODEID_STRING(ns[1], "kinematics"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Forward"),
 UA_NODEID_NUMERIC(ns[1], 2118LU),
@@ -371,19 +371,19 @@ return retVal;
 
 static UA_StatusCode function_nodeset_12_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2131LU)
+UA_NODEID_STRING(ns[1], "kinematics.forward")
 );
 }
 
-/* Velocities - ns=1;i=2136 */
+/* Velocities - ns=1;s=kinematics.forward.velocities */
 
 static UA_StatusCode function_nodeset_13_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
 attr.displayName = UA_LOCALIZEDTEXT("", "Velocities");
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2136LU),
-UA_NODEID_NUMERIC(ns[1], 2131LU),
+UA_NODEID_STRING(ns[1], "kinematics.forward.velocities"),
+UA_NODEID_STRING(ns[1], "kinematics.forward"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Velocities"),
 UA_NODEID_NUMERIC(ns[0], 58LU),
@@ -394,11 +394,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_13_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2136LU)
+UA_NODEID_STRING(ns[1], "kinematics.forward.velocities")
 );
 }
 
-/* RearRight - ns=1;i=2140 */
+/* RearRight - ns=1;s=kinematics.forward.velocities.rearright */
 
 static UA_StatusCode function_nodeset_14_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -414,8 +414,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "RearRight");
 attr.description = UA_LOCALIZEDTEXT("", "RearRight");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2140LU),
-UA_NODEID_NUMERIC(ns[1], 2136LU),
+UA_NODEID_STRING(ns[1], "kinematics.forward.velocities.rearright"),
+UA_NODEID_STRING(ns[1], "kinematics.forward.velocities"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "RearRight"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -426,11 +426,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_14_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2140LU)
+UA_NODEID_STRING(ns[1], "kinematics.forward.velocities.rearright")
 );
 }
 
-/* RearLeft - ns=1;i=2139 */
+/* RearLeft - ns=1;s=kinematics.forward.velocities.rearleft */
 
 static UA_StatusCode function_nodeset_15_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -446,8 +446,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "RearLeft");
 attr.description = UA_LOCALIZEDTEXT("", "RearLeft");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2139LU),
-UA_NODEID_NUMERIC(ns[1], 2136LU),
+UA_NODEID_STRING(ns[1], "kinematics.forward.velocities.rearleft"),
+UA_NODEID_STRING(ns[1], "kinematics.forward.velocities"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "RearLeft"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -458,11 +458,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_15_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2139LU)
+UA_NODEID_STRING(ns[1], "kinematics.forward.velocities.rearleft")
 );
 }
 
-/* FrontRight - ns=1;i=2138 */
+/* FrontRight - ns=1;s=kinematics.forward.velocities.frontright */
 
 static UA_StatusCode function_nodeset_16_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -478,8 +478,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "FrontRight");
 attr.description = UA_LOCALIZEDTEXT("", "FrontRight");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2138LU),
-UA_NODEID_NUMERIC(ns[1], 2136LU),
+UA_NODEID_STRING(ns[1], "kinematics.forward.velocities.frontright"),
+UA_NODEID_STRING(ns[1], "kinematics.forward.velocities"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "FrontRight"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -490,11 +490,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_16_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2138LU)
+UA_NODEID_STRING(ns[1], "kinematics.forward.velocities.frontright")
 );
 }
 
-/* FrontLeft - ns=1;i=2137 */
+/* FrontLeft - ns=1;s=kinematics.forward.velocities.frontleft */
 
 static UA_StatusCode function_nodeset_17_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -510,8 +510,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "FrontLeft");
 attr.description = UA_LOCALIZEDTEXT("", "FrontLeft");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2137LU),
-UA_NODEID_NUMERIC(ns[1], 2136LU),
+UA_NODEID_STRING(ns[1], "kinematics.forward.velocities.frontleft"),
+UA_NODEID_STRING(ns[1], "kinematics.forward.velocities"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "FrontLeft"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -522,19 +522,19 @@ return retVal;
 
 static UA_StatusCode function_nodeset_17_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2137LU)
+UA_NODEID_STRING(ns[1], "kinematics.forward.velocities.frontleft")
 );
 }
 
-/* Motion - ns=1;i=2132 */
+/* Motion - ns=1;s=kinematics.forward.motion */
 
 static UA_StatusCode function_nodeset_18_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
 attr.displayName = UA_LOCALIZEDTEXT("", "Motion");
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2132LU),
-UA_NODEID_NUMERIC(ns[1], 2131LU),
+UA_NODEID_STRING(ns[1], "kinematics.forward.motion"),
+UA_NODEID_STRING(ns[1], "kinematics.forward"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Motion"),
 UA_NODEID_NUMERIC(ns[0], 58LU),
@@ -545,11 +545,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_18_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2132LU)
+UA_NODEID_STRING(ns[1], "kinematics.forward.motion")
 );
 }
 
-/* Z - ns=1;i=2135 */
+/* Z - ns=1;s=kinematics.forward.motion.z */
 
 static UA_StatusCode function_nodeset_19_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -565,8 +565,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Z");
 attr.description = UA_LOCALIZEDTEXT("", "Z");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2135LU),
-UA_NODEID_NUMERIC(ns[1], 2132LU),
+UA_NODEID_STRING(ns[1], "kinematics.forward.motion.z"),
+UA_NODEID_STRING(ns[1], "kinematics.forward.motion"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Z"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -577,11 +577,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_19_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2135LU)
+UA_NODEID_STRING(ns[1], "kinematics.forward.motion.z")
 );
 }
 
-/* Y - ns=1;i=2134 */
+/* Y - ns=1;s=kinematics.forward.motion.y */
 
 static UA_StatusCode function_nodeset_20_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -597,8 +597,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Y");
 attr.description = UA_LOCALIZEDTEXT("", "Y");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2134LU),
-UA_NODEID_NUMERIC(ns[1], 2132LU),
+UA_NODEID_STRING(ns[1], "kinematics.forward.motion.y"),
+UA_NODEID_STRING(ns[1], "kinematics.forward.motion"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Y"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -609,11 +609,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_20_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2134LU)
+UA_NODEID_STRING(ns[1], "kinematics.forward.motion.y")
 );
 }
 
-/* X - ns=1;i=2133 */
+/* X - ns=1;s=kinematics.forward.motion.x */
 
 static UA_StatusCode function_nodeset_21_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -629,8 +629,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "X");
 attr.description = UA_LOCALIZEDTEXT("", "X");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2133LU),
-UA_NODEID_NUMERIC(ns[1], 2132LU),
+UA_NODEID_STRING(ns[1], "kinematics.forward.motion.x"),
+UA_NODEID_STRING(ns[1], "kinematics.forward.motion"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "X"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -641,7 +641,7 @@ return retVal;
 
 static UA_StatusCode function_nodeset_21_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2133LU)
+UA_NODEID_STRING(ns[1], "kinematics.forward.motion.x")
 );
 }
 
@@ -933,7 +933,7 @@ UA_NODEID_NUMERIC(ns[1], 2122LU)
 );
 }
 
-/* SoftwareVersion - ns=1;i=2117 */
+/* SoftwareVersion - ns=1;s=softwareversion */
 
 static UA_StatusCode function_nodeset_31_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -952,7 +952,7 @@ attr.displayName = UA_LOCALIZEDTEXT("", "SoftwareVersion");
 attr.description = UA_LOCALIZEDTEXT("", "SoftwareVersion");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2117LU),
+UA_NODEID_STRING(ns[1], "softwareversion"),
 UA_NODEID_NUMERIC(ns[0], 85LU),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "SoftwareVersion"),
@@ -964,18 +964,18 @@ return retVal;
 
 static UA_StatusCode function_nodeset_31_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2117LU)
+UA_NODEID_STRING(ns[1], "softwareversion")
 );
 }
 
-/* ODrives - ns=1;i=2024 */
+/* ODrives - ns=1;s=odrives */
 
 static UA_StatusCode function_nodeset_32_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
 attr.displayName = UA_LOCALIZEDTEXT("", "ODrives");
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2024LU),
+UA_NODEID_STRING(ns[1], "odrives"),
 UA_NODEID_NUMERIC(ns[0], 85LU),
 UA_NODEID_NUMERIC(ns[0], 35LU),
 UA_QUALIFIEDNAME(ns[1], "ODrives"),
@@ -987,7 +987,7 @@ return retVal;
 
 static UA_StatusCode function_nodeset_32_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2024LU)
+UA_NODEID_STRING(ns[1], "odrives")
 );
 }
 
@@ -1017,20 +1017,20 @@ UA_NODEID_NUMERIC(ns[1], 2001LU)
 );
 }
 
-/* RearRight - ns=1;i=2094 */
+/* rearright - ns=1;s=odrives.rearright */
 
 static UA_StatusCode function_nodeset_34_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
-attr.displayName = UA_LOCALIZEDTEXT("", "RearRight");
+attr.displayName = UA_LOCALIZEDTEXT("", "rearright");
 #ifdef UA_ENABLE_NODESET_COMPILER_DESCRIPTIONS
 attr.description = UA_LOCALIZEDTEXT("", "ODrive");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2094LU),
-UA_NODEID_NUMERIC(ns[1], 2024LU),
+UA_NODEID_STRING(ns[1], "odrives.rearright"),
+UA_NODEID_STRING(ns[1], "odrives"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
-UA_QUALIFIEDNAME(ns[1], "RearRight"),
+UA_QUALIFIEDNAME(ns[1], "rearright"),
 UA_NODEID_NUMERIC(ns[1], 2001LU),
 (const UA_NodeAttributes*)&attr, &UA_TYPES[UA_TYPES_OBJECTATTRIBUTES],NULL, NULL);
 if (retVal != UA_STATUSCODE_GOOD) return retVal;
@@ -1039,11 +1039,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_34_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2094LU)
+UA_NODEID_STRING(ns[1], "odrives.rearright")
 );
 }
 
-/* VbusVoltage - ns=1;i=2116 */
+/* VbusVoltage - ns=1;s=odrives.rearright.vbusvoltage */
 
 static UA_StatusCode function_nodeset_35_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -1059,8 +1059,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "VbusVoltage");
 attr.description = UA_LOCALIZEDTEXT("", "VbusVoltage");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2116LU),
-UA_NODEID_NUMERIC(ns[1], 2094LU),
+UA_NODEID_STRING(ns[1], "odrives.rearright.vbusvoltage"),
+UA_NODEID_STRING(ns[1], "odrives.rearright"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "VbusVoltage"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -1071,19 +1071,19 @@ return retVal;
 
 static UA_StatusCode function_nodeset_35_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2116LU)
+UA_NODEID_STRING(ns[1], "odrives.rearright.vbusvoltage")
 );
 }
 
-/* SensorlessEstimates - ns=1;i=2113 */
+/* SensorlessEstimates - ns=1;s=odrives.rearright.sensorlessestimates */
 
 static UA_StatusCode function_nodeset_36_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
 attr.displayName = UA_LOCALIZEDTEXT("", "SensorlessEstimates");
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2113LU),
-UA_NODEID_NUMERIC(ns[1], 2094LU),
+UA_NODEID_STRING(ns[1], "odrives.rearright.sensorlessestimates"),
+UA_NODEID_STRING(ns[1], "odrives.rearright"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Sensorless"),
 UA_NODEID_NUMERIC(ns[0], 58LU),
@@ -1094,11 +1094,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_36_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2113LU)
+UA_NODEID_STRING(ns[1], "odrives.rearright.sensorlessestimates")
 );
 }
 
-/* Velocity - ns=1;i=2115 */
+/* Velocity - ns=1;s=odrives.rearright.sensorlessestimates.velocity */
 
 static UA_StatusCode function_nodeset_37_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -1114,8 +1114,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Velocity");
 attr.description = UA_LOCALIZEDTEXT("", "Velocity");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2115LU),
-UA_NODEID_NUMERIC(ns[1], 2113LU),
+UA_NODEID_STRING(ns[1], "odrives.rearright.sensorlessestimates.velocity"),
+UA_NODEID_STRING(ns[1], "odrives.rearright.sensorlessestimates"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Velocity"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -1126,11 +1126,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_37_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2115LU)
+UA_NODEID_STRING(ns[1], "odrives.rearright.sensorlessestimates.velocity")
 );
 }
 
-/* Position - ns=1;i=2114 */
+/* Position - ns=1;s=odrives.rearright.sensorlessestimates.position */
 
 static UA_StatusCode function_nodeset_38_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -1146,8 +1146,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Position");
 attr.description = UA_LOCALIZEDTEXT("", "Position");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2114LU),
-UA_NODEID_NUMERIC(ns[1], 2113LU),
+UA_NODEID_STRING(ns[1], "odrives.rearright.sensorlessestimates.position"),
+UA_NODEID_STRING(ns[1], "odrives.rearright.sensorlessestimates"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Position"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -1158,19 +1158,19 @@ return retVal;
 
 static UA_StatusCode function_nodeset_38_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2114LU)
+UA_NODEID_STRING(ns[1], "odrives.rearright.sensorlessestimates.position")
 );
 }
 
-/* IQ - ns=1;i=2110 */
+/* IQ - ns=1;s=odrives.rearright.iq */
 
 static UA_StatusCode function_nodeset_39_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
 attr.displayName = UA_LOCALIZEDTEXT("", "IQ");
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2110LU),
-UA_NODEID_NUMERIC(ns[1], 2094LU),
+UA_NODEID_STRING(ns[1], "odrives.rearright.iq"),
+UA_NODEID_STRING(ns[1], "odrives.rearright"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "IQ"),
 UA_NODEID_NUMERIC(ns[0], 58LU),
@@ -1181,11 +1181,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_39_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2110LU)
+UA_NODEID_STRING(ns[1], "odrives.rearright.iq")
 );
 }
 
-/* Setpoint - ns=1;i=2112 */
+/* Setpoint - ns=1;s=odrives.rearright.iq.setpoint */
 
 static UA_StatusCode function_nodeset_40_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -1201,8 +1201,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Setpoint");
 attr.description = UA_LOCALIZEDTEXT("", "Setpoint");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2112LU),
-UA_NODEID_NUMERIC(ns[1], 2110LU),
+UA_NODEID_STRING(ns[1], "odrives.rearright.iq.setpoint"),
+UA_NODEID_STRING(ns[1], "odrives.rearright.iq"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Setpoint"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -1213,11 +1213,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_40_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2112LU)
+UA_NODEID_STRING(ns[1], "odrives.rearright.iq.setpoint")
 );
 }
 
-/* Measured - ns=1;i=2111 */
+/* Measured - ns=1;s=odrives.rearright.iq.measured */
 
 static UA_StatusCode function_nodeset_41_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -1233,8 +1233,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Measured");
 attr.description = UA_LOCALIZEDTEXT("", "Measured");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2111LU),
-UA_NODEID_NUMERIC(ns[1], 2110LU),
+UA_NODEID_STRING(ns[1], "odrives.rearright.iq.measured"),
+UA_NODEID_STRING(ns[1], "odrives.rearright.iq"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Measured"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -1245,19 +1245,19 @@ return retVal;
 
 static UA_StatusCode function_nodeset_41_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2111LU)
+UA_NODEID_STRING(ns[1], "odrives.rearright.iq.measured")
 );
 }
 
-/* Error - ns=1;i=2103 */
+/* Error - ns=1;s=odrives.rearright.error */
 
 static UA_StatusCode function_nodeset_42_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
 attr.displayName = UA_LOCALIZEDTEXT("", "Error");
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2103LU),
-UA_NODEID_NUMERIC(ns[1], 2094LU),
+UA_NODEID_STRING(ns[1], "odrives.rearright.error"),
+UA_NODEID_STRING(ns[1], "odrives.rearright"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Error"),
 UA_NODEID_NUMERIC(ns[0], 58LU),
@@ -1268,11 +1268,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_42_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2103LU)
+UA_NODEID_STRING(ns[1], "odrives.rearright.error")
 );
 }
 
-/* Sensorless - ns=1;i=2109 */
+/* Sensorless - ns=1;s=odrives.rearright.error.sensorless */
 
 static UA_StatusCode function_nodeset_43_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -1288,8 +1288,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Sensorless");
 attr.description = UA_LOCALIZEDTEXT("", "Sensorless");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2109LU),
-UA_NODEID_NUMERIC(ns[1], 2103LU),
+UA_NODEID_STRING(ns[1], "odrives.rearright.error.sensorless"),
+UA_NODEID_STRING(ns[1], "odrives.rearright.error"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Sensorless"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -1300,11 +1300,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_43_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2109LU)
+UA_NODEID_STRING(ns[1], "odrives.rearright.error.sensorless")
 );
 }
 
-/* Motor - ns=1;i=2108 */
+/* Motor - ns=1;s=odrives.rearright.error.motor */
 
 static UA_StatusCode function_nodeset_44_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -1320,8 +1320,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Motor");
 attr.description = UA_LOCALIZEDTEXT("", "Motor");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2108LU),
-UA_NODEID_NUMERIC(ns[1], 2103LU),
+UA_NODEID_STRING(ns[1], "odrives.rearright.error.motor"),
+UA_NODEID_STRING(ns[1], "odrives.rearright.error"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Motor"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -1332,11 +1332,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_44_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2108LU)
+UA_NODEID_STRING(ns[1], "odrives.rearright.error.motor")
 );
 }
 
-/* Encoder - ns=1;i=2107 */
+/* Encoder - ns=1;s=odrives.rearright.error.encoder */
 
 static UA_StatusCode function_nodeset_45_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -1352,8 +1352,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Encoder");
 attr.description = UA_LOCALIZEDTEXT("", "Encoder");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2107LU),
-UA_NODEID_NUMERIC(ns[1], 2103LU),
+UA_NODEID_STRING(ns[1], "odrives.rearright.error.encoder"),
+UA_NODEID_STRING(ns[1], "odrives.rearright.error"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Encoder"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -1364,11 +1364,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_45_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2107LU)
+UA_NODEID_STRING(ns[1], "odrives.rearright.error.encoder")
 );
 }
 
-/* Controller - ns=1;i=2106 */
+/* Controller - ns=1;s=odrives.rearright.error.controller */
 
 static UA_StatusCode function_nodeset_46_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -1384,8 +1384,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Controller");
 attr.description = UA_LOCALIZEDTEXT("", "Controller");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2106LU),
-UA_NODEID_NUMERIC(ns[1], 2103LU),
+UA_NODEID_STRING(ns[1], "odrives.rearright.error.controller"),
+UA_NODEID_STRING(ns[1], "odrives.rearright.error"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Controller"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -1396,11 +1396,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_46_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2106LU)
+UA_NODEID_STRING(ns[1], "odrives.rearright.error.controller")
 );
 }
 
-/* Board - ns=1;i=2105 */
+/* Board - ns=1;s=odrives.rearright.error.board */
 
 static UA_StatusCode function_nodeset_47_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -1416,8 +1416,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Board");
 attr.description = UA_LOCALIZEDTEXT("", "Board");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2105LU),
-UA_NODEID_NUMERIC(ns[1], 2103LU),
+UA_NODEID_STRING(ns[1], "odrives.rearright.error.board"),
+UA_NODEID_STRING(ns[1], "odrives.rearright.error"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Board"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -1428,11 +1428,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_47_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2105LU)
+UA_NODEID_STRING(ns[1], "odrives.rearright.error.board")
 );
 }
 
-/* Axis - ns=1;i=2104 */
+/* Axis - ns=1;s=odrives.rearright.error.axis */
 
 static UA_StatusCode function_nodeset_48_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -1448,8 +1448,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Axis");
 attr.description = UA_LOCALIZEDTEXT("", "Axis");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2104LU),
-UA_NODEID_NUMERIC(ns[1], 2103LU),
+UA_NODEID_STRING(ns[1], "odrives.rearright.error.axis"),
+UA_NODEID_STRING(ns[1], "odrives.rearright.error"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Axis"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -1460,19 +1460,19 @@ return retVal;
 
 static UA_StatusCode function_nodeset_48_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2104LU)
+UA_NODEID_STRING(ns[1], "odrives.rearright.error.axis")
 );
 }
 
-/* EncoderEstimates - ns=1;i=2100 */
+/* EncoderEstimates - ns=1;s=odrives.rearright.encoderestimates */
 
 static UA_StatusCode function_nodeset_49_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
 attr.displayName = UA_LOCALIZEDTEXT("", "EncoderEstimates");
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2100LU),
-UA_NODEID_NUMERIC(ns[1], 2094LU),
+UA_NODEID_STRING(ns[1], "odrives.rearright.encoderestimates"),
+UA_NODEID_STRING(ns[1], "odrives.rearright"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "EncoderEstimates"),
 UA_NODEID_NUMERIC(ns[0], 58LU),
@@ -1483,11 +1483,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_49_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2100LU)
+UA_NODEID_STRING(ns[1], "odrives.rearright.encoderestimates")
 );
 }
 
-/* Velocity - ns=1;i=2102 */
+/* Velocity - ns=1;s=odrives.rearright.encoderestimates.velocity */
 
 static UA_StatusCode function_nodeset_50_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -1503,8 +1503,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Velocity");
 attr.description = UA_LOCALIZEDTEXT("", "Velocity");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2102LU),
-UA_NODEID_NUMERIC(ns[1], 2100LU),
+UA_NODEID_STRING(ns[1], "odrives.rearright.encoderestimates.velocity"),
+UA_NODEID_STRING(ns[1], "odrives.rearright.encoderestimates"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Velocity"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -1515,11 +1515,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_50_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2102LU)
+UA_NODEID_STRING(ns[1], "odrives.rearright.encoderestimates.velocity")
 );
 }
 
-/* Position - ns=1;i=2101 */
+/* Position - ns=1;s=odrives.rearright.encoderestimates.position */
 
 static UA_StatusCode function_nodeset_51_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -1535,8 +1535,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Position");
 attr.description = UA_LOCALIZEDTEXT("", "Position");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2101LU),
-UA_NODEID_NUMERIC(ns[1], 2100LU),
+UA_NODEID_STRING(ns[1], "odrives.rearright.encoderestimates.position"),
+UA_NODEID_STRING(ns[1], "odrives.rearright.encoderestimates"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Position"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -1547,19 +1547,19 @@ return retVal;
 
 static UA_StatusCode function_nodeset_51_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2101LU)
+UA_NODEID_STRING(ns[1], "odrives.rearright.encoderestimates.position")
 );
 }
 
-/* EncoderCounts - ns=1;i=2097 */
+/* EncoderCounts - ns=1;s=odrives.rearright.encodercounts */
 
 static UA_StatusCode function_nodeset_52_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
 attr.displayName = UA_LOCALIZEDTEXT("", "EncoderCounts");
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2097LU),
-UA_NODEID_NUMERIC(ns[1], 2094LU),
+UA_NODEID_STRING(ns[1], "odrives.rearright.encodercounts"),
+UA_NODEID_STRING(ns[1], "odrives.rearright"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "EncoderCounts"),
 UA_NODEID_NUMERIC(ns[0], 58LU),
@@ -1570,11 +1570,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_52_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2097LU)
+UA_NODEID_STRING(ns[1], "odrives.rearright.encodercounts")
 );
 }
 
-/* Shadow - ns=1;i=2099 */
+/* Shadow - ns=1;s=odrives.rearright.encodercounts.shadow */
 
 static UA_StatusCode function_nodeset_53_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -1590,8 +1590,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Shadow");
 attr.description = UA_LOCALIZEDTEXT("", "Shadow");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2099LU),
-UA_NODEID_NUMERIC(ns[1], 2097LU),
+UA_NODEID_STRING(ns[1], "odrives.rearright.encodercounts.shadow"),
+UA_NODEID_STRING(ns[1], "odrives.rearright.encodercounts"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Shadow"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -1602,11 +1602,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_53_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2099LU)
+UA_NODEID_STRING(ns[1], "odrives.rearright.encodercounts.shadow")
 );
 }
 
-/* CPR - ns=1;i=2098 */
+/* CPR - ns=1;s=odrives.rearright.encodercounts.cpr */
 
 static UA_StatusCode function_nodeset_54_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -1622,8 +1622,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "CPR");
 attr.description = UA_LOCALIZEDTEXT("", "CPR");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2098LU),
-UA_NODEID_NUMERIC(ns[1], 2097LU),
+UA_NODEID_STRING(ns[1], "odrives.rearright.encodercounts.cpr"),
+UA_NODEID_STRING(ns[1], "odrives.rearright.encodercounts"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "CPR"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -1634,11 +1634,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_54_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2098LU)
+UA_NODEID_STRING(ns[1], "odrives.rearright.encodercounts.cpr")
 );
 }
 
-/* ControllerStatus - ns=1;i=2096 */
+/* ControllerStatus - ns=1;s=odrives.rearright.controllerstatus */
 
 static UA_StatusCode function_nodeset_55_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -1654,8 +1654,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "ControllerStatus");
 attr.description = UA_LOCALIZEDTEXT("", "ControllerStatus");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2096LU),
-UA_NODEID_NUMERIC(ns[1], 2094LU),
+UA_NODEID_STRING(ns[1], "odrives.rearright.controllerstatus"),
+UA_NODEID_STRING(ns[1], "odrives.rearright"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "ControllerStatus"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -1666,11 +1666,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_55_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2096LU)
+UA_NODEID_STRING(ns[1], "odrives.rearright.controllerstatus")
 );
 }
 
-/* AxisState - ns=1;i=2095 */
+/* AxisState - ns=1;s=odrives.rearright.axisstate */
 
 static UA_StatusCode function_nodeset_56_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -1686,8 +1686,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "AxisState");
 attr.description = UA_LOCALIZEDTEXT("", "AxisState");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2095LU),
-UA_NODEID_NUMERIC(ns[1], 2094LU),
+UA_NODEID_STRING(ns[1], "odrives.rearright.axisstate"),
+UA_NODEID_STRING(ns[1], "odrives.rearright"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "AxisState"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -1698,24 +1698,24 @@ return retVal;
 
 static UA_StatusCode function_nodeset_56_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2095LU)
+UA_NODEID_STRING(ns[1], "odrives.rearright.axisstate")
 );
 }
 
-/* RearLeft - ns=1;i=2071 */
+/* rearleft - ns=1;s=odrives.rearleft */
 
 static UA_StatusCode function_nodeset_57_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
-attr.displayName = UA_LOCALIZEDTEXT("", "RearLeft");
+attr.displayName = UA_LOCALIZEDTEXT("", "rearleft");
 #ifdef UA_ENABLE_NODESET_COMPILER_DESCRIPTIONS
 attr.description = UA_LOCALIZEDTEXT("", "ODrive");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2071LU),
-UA_NODEID_NUMERIC(ns[1], 2024LU),
+UA_NODEID_STRING(ns[1], "odrives.rearleft"),
+UA_NODEID_STRING(ns[1], "odrives"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
-UA_QUALIFIEDNAME(ns[1], "RearLeft"),
+UA_QUALIFIEDNAME(ns[1], "rearleft"),
 UA_NODEID_NUMERIC(ns[1], 2001LU),
 (const UA_NodeAttributes*)&attr, &UA_TYPES[UA_TYPES_OBJECTATTRIBUTES],NULL, NULL);
 if (retVal != UA_STATUSCODE_GOOD) return retVal;
@@ -1724,11 +1724,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_57_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2071LU)
+UA_NODEID_STRING(ns[1], "odrives.rearleft")
 );
 }
 
-/* VbusVoltage - ns=1;i=2093 */
+/* VbusVoltage - ns=1;s=odrives.rearleft.vbusvoltage */
 
 static UA_StatusCode function_nodeset_58_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -1744,8 +1744,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "VbusVoltage");
 attr.description = UA_LOCALIZEDTEXT("", "VbusVoltage");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2093LU),
-UA_NODEID_NUMERIC(ns[1], 2071LU),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.vbusvoltage"),
+UA_NODEID_STRING(ns[1], "odrives.rearleft"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "VbusVoltage"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -1756,19 +1756,19 @@ return retVal;
 
 static UA_StatusCode function_nodeset_58_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2093LU)
+UA_NODEID_STRING(ns[1], "odrives.rearleft.vbusvoltage")
 );
 }
 
-/* SensorlessEstimates - ns=1;i=2090 */
+/* SensorlessEstimates - ns=1;s=odrives.rearleft.sensorlessestimates */
 
 static UA_StatusCode function_nodeset_59_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
 attr.displayName = UA_LOCALIZEDTEXT("", "SensorlessEstimates");
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2090LU),
-UA_NODEID_NUMERIC(ns[1], 2071LU),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.sensorlessestimates"),
+UA_NODEID_STRING(ns[1], "odrives.rearleft"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Sensorless"),
 UA_NODEID_NUMERIC(ns[0], 58LU),
@@ -1779,11 +1779,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_59_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2090LU)
+UA_NODEID_STRING(ns[1], "odrives.rearleft.sensorlessestimates")
 );
 }
 
-/* Velocity - ns=1;i=2092 */
+/* Velocity - ns=1;s=odrives.rearleft.sensorlessestimates.velocity */
 
 static UA_StatusCode function_nodeset_60_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -1799,8 +1799,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Velocity");
 attr.description = UA_LOCALIZEDTEXT("", "Velocity");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2092LU),
-UA_NODEID_NUMERIC(ns[1], 2090LU),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.sensorlessestimates.velocity"),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.sensorlessestimates"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Velocity"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -1811,11 +1811,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_60_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2092LU)
+UA_NODEID_STRING(ns[1], "odrives.rearleft.sensorlessestimates.velocity")
 );
 }
 
-/* Position - ns=1;i=2091 */
+/* Position - ns=1;s=odrives.rearleft.sensorlessestimates.position */
 
 static UA_StatusCode function_nodeset_61_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -1831,8 +1831,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Position");
 attr.description = UA_LOCALIZEDTEXT("", "Position");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2091LU),
-UA_NODEID_NUMERIC(ns[1], 2090LU),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.sensorlessestimates.position"),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.sensorlessestimates"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Position"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -1843,19 +1843,19 @@ return retVal;
 
 static UA_StatusCode function_nodeset_61_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2091LU)
+UA_NODEID_STRING(ns[1], "odrives.rearleft.sensorlessestimates.position")
 );
 }
 
-/* IQ - ns=1;i=2087 */
+/* IQ - ns=1;s=odrives.rearleft.iq */
 
 static UA_StatusCode function_nodeset_62_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
 attr.displayName = UA_LOCALIZEDTEXT("", "IQ");
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2087LU),
-UA_NODEID_NUMERIC(ns[1], 2071LU),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.iq"),
+UA_NODEID_STRING(ns[1], "odrives.rearleft"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "IQ"),
 UA_NODEID_NUMERIC(ns[0], 58LU),
@@ -1866,11 +1866,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_62_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2087LU)
+UA_NODEID_STRING(ns[1], "odrives.rearleft.iq")
 );
 }
 
-/* Setpoint - ns=1;i=2089 */
+/* Setpoint - ns=1;s=odrives.rearleft.iq.setpoint */
 
 static UA_StatusCode function_nodeset_63_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -1886,8 +1886,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Setpoint");
 attr.description = UA_LOCALIZEDTEXT("", "Setpoint");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2089LU),
-UA_NODEID_NUMERIC(ns[1], 2087LU),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.iq.setpoint"),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.iq"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Setpoint"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -1898,11 +1898,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_63_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2089LU)
+UA_NODEID_STRING(ns[1], "odrives.rearleft.iq.setpoint")
 );
 }
 
-/* Measured - ns=1;i=2088 */
+/* Measured - ns=1;s=odrives.rearleft.iq.measured */
 
 static UA_StatusCode function_nodeset_64_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -1918,8 +1918,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Measured");
 attr.description = UA_LOCALIZEDTEXT("", "Measured");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2088LU),
-UA_NODEID_NUMERIC(ns[1], 2087LU),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.iq.measured"),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.iq"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Measured"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -1930,19 +1930,19 @@ return retVal;
 
 static UA_StatusCode function_nodeset_64_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2088LU)
+UA_NODEID_STRING(ns[1], "odrives.rearleft.iq.measured")
 );
 }
 
-/* Error - ns=1;i=2080 */
+/* Error - ns=1;s=odrives.rearleft.error */
 
 static UA_StatusCode function_nodeset_65_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
 attr.displayName = UA_LOCALIZEDTEXT("", "Error");
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2080LU),
-UA_NODEID_NUMERIC(ns[1], 2071LU),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.error"),
+UA_NODEID_STRING(ns[1], "odrives.rearleft"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Error"),
 UA_NODEID_NUMERIC(ns[0], 58LU),
@@ -1953,11 +1953,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_65_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2080LU)
+UA_NODEID_STRING(ns[1], "odrives.rearleft.error")
 );
 }
 
-/* Sensorless - ns=1;i=2086 */
+/* Sensorless - ns=1;s=odrives.rearleft.error.sensorless */
 
 static UA_StatusCode function_nodeset_66_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -1973,8 +1973,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Sensorless");
 attr.description = UA_LOCALIZEDTEXT("", "Sensorless");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2086LU),
-UA_NODEID_NUMERIC(ns[1], 2080LU),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.error.sensorless"),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.error"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Sensorless"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -1985,11 +1985,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_66_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2086LU)
+UA_NODEID_STRING(ns[1], "odrives.rearleft.error.sensorless")
 );
 }
 
-/* Motor - ns=1;i=2085 */
+/* Motor - ns=1;s=odrives.rearleft.error.motor */
 
 static UA_StatusCode function_nodeset_67_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -2005,8 +2005,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Motor");
 attr.description = UA_LOCALIZEDTEXT("", "Motor");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2085LU),
-UA_NODEID_NUMERIC(ns[1], 2080LU),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.error.motor"),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.error"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Motor"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -2017,11 +2017,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_67_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2085LU)
+UA_NODEID_STRING(ns[1], "odrives.rearleft.error.motor")
 );
 }
 
-/* Encoder - ns=1;i=2084 */
+/* Encoder - ns=1;s=odrives.rearleft.error.encoder */
 
 static UA_StatusCode function_nodeset_68_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -2037,8 +2037,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Encoder");
 attr.description = UA_LOCALIZEDTEXT("", "Encoder");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2084LU),
-UA_NODEID_NUMERIC(ns[1], 2080LU),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.error.encoder"),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.error"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Encoder"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -2049,11 +2049,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_68_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2084LU)
+UA_NODEID_STRING(ns[1], "odrives.rearleft.error.encoder")
 );
 }
 
-/* Controller - ns=1;i=2083 */
+/* Controller - ns=1;s=odrives.rearleft.error.controller */
 
 static UA_StatusCode function_nodeset_69_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -2069,8 +2069,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Controller");
 attr.description = UA_LOCALIZEDTEXT("", "Controller");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2083LU),
-UA_NODEID_NUMERIC(ns[1], 2080LU),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.error.controller"),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.error"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Controller"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -2081,11 +2081,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_69_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2083LU)
+UA_NODEID_STRING(ns[1], "odrives.rearleft.error.controller")
 );
 }
 
-/* Board - ns=1;i=2082 */
+/* Board - ns=1;s=odrives.rearleft.error.board */
 
 static UA_StatusCode function_nodeset_70_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -2101,8 +2101,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Board");
 attr.description = UA_LOCALIZEDTEXT("", "Board");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2082LU),
-UA_NODEID_NUMERIC(ns[1], 2080LU),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.error.board"),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.error"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Board"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -2113,11 +2113,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_70_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2082LU)
+UA_NODEID_STRING(ns[1], "odrives.rearleft.error.board")
 );
 }
 
-/* Axis - ns=1;i=2081 */
+/* Axis - ns=1;s=odrives.rearleft.error.axis */
 
 static UA_StatusCode function_nodeset_71_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -2133,8 +2133,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Axis");
 attr.description = UA_LOCALIZEDTEXT("", "Axis");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2081LU),
-UA_NODEID_NUMERIC(ns[1], 2080LU),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.error.axis"),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.error"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Axis"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -2145,19 +2145,19 @@ return retVal;
 
 static UA_StatusCode function_nodeset_71_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2081LU)
+UA_NODEID_STRING(ns[1], "odrives.rearleft.error.axis")
 );
 }
 
-/* EncoderEstimates - ns=1;i=2077 */
+/* EncoderEstimates - ns=1;s=odrives.rearleft.encoderestimates */
 
 static UA_StatusCode function_nodeset_72_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
 attr.displayName = UA_LOCALIZEDTEXT("", "EncoderEstimates");
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2077LU),
-UA_NODEID_NUMERIC(ns[1], 2071LU),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.encoderestimates"),
+UA_NODEID_STRING(ns[1], "odrives.rearleft"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "EncoderEstimates"),
 UA_NODEID_NUMERIC(ns[0], 58LU),
@@ -2168,11 +2168,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_72_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2077LU)
+UA_NODEID_STRING(ns[1], "odrives.rearleft.encoderestimates")
 );
 }
 
-/* Velocity - ns=1;i=2079 */
+/* Velocity - ns=1;s=odrives.rearleft.encoderestimates.velocity */
 
 static UA_StatusCode function_nodeset_73_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -2188,8 +2188,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Velocity");
 attr.description = UA_LOCALIZEDTEXT("", "Velocity");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2079LU),
-UA_NODEID_NUMERIC(ns[1], 2077LU),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.encoderestimates.velocity"),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.encoderestimates"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Velocity"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -2200,11 +2200,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_73_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2079LU)
+UA_NODEID_STRING(ns[1], "odrives.rearleft.encoderestimates.velocity")
 );
 }
 
-/* Position - ns=1;i=2078 */
+/* Position - ns=1;s=odrives.rearleft.encoderestimates.position */
 
 static UA_StatusCode function_nodeset_74_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -2220,8 +2220,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Position");
 attr.description = UA_LOCALIZEDTEXT("", "Position");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2078LU),
-UA_NODEID_NUMERIC(ns[1], 2077LU),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.encoderestimates.position"),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.encoderestimates"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Position"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -2232,19 +2232,19 @@ return retVal;
 
 static UA_StatusCode function_nodeset_74_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2078LU)
+UA_NODEID_STRING(ns[1], "odrives.rearleft.encoderestimates.position")
 );
 }
 
-/* EncoderCounts - ns=1;i=2074 */
+/* EncoderCounts - ns=1;s=odrives.rearleft.encodercounts */
 
 static UA_StatusCode function_nodeset_75_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
 attr.displayName = UA_LOCALIZEDTEXT("", "EncoderCounts");
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2074LU),
-UA_NODEID_NUMERIC(ns[1], 2071LU),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.encodercounts"),
+UA_NODEID_STRING(ns[1], "odrives.rearleft"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "EncoderCounts"),
 UA_NODEID_NUMERIC(ns[0], 58LU),
@@ -2255,11 +2255,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_75_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2074LU)
+UA_NODEID_STRING(ns[1], "odrives.rearleft.encodercounts")
 );
 }
 
-/* Shadow - ns=1;i=2076 */
+/* Shadow - ns=1;s=odrives.rearleft.encodercounts.shadow */
 
 static UA_StatusCode function_nodeset_76_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -2275,8 +2275,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Shadow");
 attr.description = UA_LOCALIZEDTEXT("", "Shadow");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2076LU),
-UA_NODEID_NUMERIC(ns[1], 2074LU),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.encodercounts.shadow"),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.encodercounts"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Shadow"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -2287,11 +2287,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_76_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2076LU)
+UA_NODEID_STRING(ns[1], "odrives.rearleft.encodercounts.shadow")
 );
 }
 
-/* CPR - ns=1;i=2075 */
+/* CPR - ns=1;s=odrives.rearleft.encodercounts.cpr */
 
 static UA_StatusCode function_nodeset_77_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -2307,8 +2307,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "CPR");
 attr.description = UA_LOCALIZEDTEXT("", "CPR");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2075LU),
-UA_NODEID_NUMERIC(ns[1], 2074LU),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.encodercounts.cpr"),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.encodercounts"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "CPR"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -2319,11 +2319,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_77_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2075LU)
+UA_NODEID_STRING(ns[1], "odrives.rearleft.encodercounts.cpr")
 );
 }
 
-/* ControllerStatus - ns=1;i=2073 */
+/* ControllerStatus - ns=1;s=odrives.rearleft.controllerstatus */
 
 static UA_StatusCode function_nodeset_78_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -2339,8 +2339,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "ControllerStatus");
 attr.description = UA_LOCALIZEDTEXT("", "ControllerStatus");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2073LU),
-UA_NODEID_NUMERIC(ns[1], 2071LU),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.controllerstatus"),
+UA_NODEID_STRING(ns[1], "odrives.rearleft"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "ControllerStatus"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -2351,11 +2351,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_78_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2073LU)
+UA_NODEID_STRING(ns[1], "odrives.rearleft.controllerstatus")
 );
 }
 
-/* AxisState - ns=1;i=2072 */
+/* AxisState - ns=1;s=odrives.rearleft.axisstate */
 
 static UA_StatusCode function_nodeset_79_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -2371,8 +2371,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "AxisState");
 attr.description = UA_LOCALIZEDTEXT("", "AxisState");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2072LU),
-UA_NODEID_NUMERIC(ns[1], 2071LU),
+UA_NODEID_STRING(ns[1], "odrives.rearleft.axisstate"),
+UA_NODEID_STRING(ns[1], "odrives.rearleft"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "AxisState"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -2383,11 +2383,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_79_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2072LU)
+UA_NODEID_STRING(ns[1], "odrives.rearleft.axisstate")
 );
 }
 
-/* FrontRight - ns=1;i=2048 */
+/* FrontRight - ns=1;s=odrives.frontright */
 
 static UA_StatusCode function_nodeset_80_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -2397,8 +2397,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "FrontRight");
 attr.description = UA_LOCALIZEDTEXT("", "ODrive");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2048LU),
-UA_NODEID_NUMERIC(ns[1], 2024LU),
+UA_NODEID_STRING(ns[1], "odrives.frontright"),
+UA_NODEID_STRING(ns[1], "odrives"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "FrontRight"),
 UA_NODEID_NUMERIC(ns[1], 2001LU),
@@ -2409,11 +2409,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_80_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2048LU)
+UA_NODEID_STRING(ns[1], "odrives.frontright")
 );
 }
 
-/* VbusVoltage - ns=1;i=2070 */
+/* VbusVoltage - ns=1;s=odrives.frontright.vbusvoltage */
 
 static UA_StatusCode function_nodeset_81_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -2429,8 +2429,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "VbusVoltage");
 attr.description = UA_LOCALIZEDTEXT("", "VbusVoltage");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2070LU),
-UA_NODEID_NUMERIC(ns[1], 2048LU),
+UA_NODEID_STRING(ns[1], "odrives.frontright.vbusvoltage"),
+UA_NODEID_STRING(ns[1], "odrives.frontright"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "VbusVoltage"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -2441,19 +2441,19 @@ return retVal;
 
 static UA_StatusCode function_nodeset_81_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2070LU)
+UA_NODEID_STRING(ns[1], "odrives.frontright.vbusvoltage")
 );
 }
 
-/* SensorlessEstimates - ns=1;i=2067 */
+/* SensorlessEstimates - ns=1;s=odrives.frontright.sensorlessestimates */
 
 static UA_StatusCode function_nodeset_82_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
 attr.displayName = UA_LOCALIZEDTEXT("", "SensorlessEstimates");
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2067LU),
-UA_NODEID_NUMERIC(ns[1], 2048LU),
+UA_NODEID_STRING(ns[1], "odrives.frontright.sensorlessestimates"),
+UA_NODEID_STRING(ns[1], "odrives.frontright"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Sensorless"),
 UA_NODEID_NUMERIC(ns[0], 58LU),
@@ -2464,11 +2464,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_82_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2067LU)
+UA_NODEID_STRING(ns[1], "odrives.frontright.sensorlessestimates")
 );
 }
 
-/* Velocity - ns=1;i=2069 */
+/* Velocity - ns=1;s=odrives.frontright.sensorlessestimates.velocity */
 
 static UA_StatusCode function_nodeset_83_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -2484,8 +2484,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Velocity");
 attr.description = UA_LOCALIZEDTEXT("", "Velocity");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2069LU),
-UA_NODEID_NUMERIC(ns[1], 2067LU),
+UA_NODEID_STRING(ns[1], "odrives.frontright.sensorlessestimates.velocity"),
+UA_NODEID_STRING(ns[1], "odrives.frontright.sensorlessestimates"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Velocity"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -2496,11 +2496,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_83_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2069LU)
+UA_NODEID_STRING(ns[1], "odrives.frontright.sensorlessestimates.velocity")
 );
 }
 
-/* Position - ns=1;i=2068 */
+/* Position - ns=1;s=odrives.frontright.sensorlessestimates.position */
 
 static UA_StatusCode function_nodeset_84_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -2516,8 +2516,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Position");
 attr.description = UA_LOCALIZEDTEXT("", "Position");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2068LU),
-UA_NODEID_NUMERIC(ns[1], 2067LU),
+UA_NODEID_STRING(ns[1], "odrives.frontright.sensorlessestimates.position"),
+UA_NODEID_STRING(ns[1], "odrives.frontright.sensorlessestimates"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Position"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -2528,19 +2528,19 @@ return retVal;
 
 static UA_StatusCode function_nodeset_84_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2068LU)
+UA_NODEID_STRING(ns[1], "odrives.frontright.sensorlessestimates.position")
 );
 }
 
-/* IQ - ns=1;i=2064 */
+/* IQ - ns=1;s=odrives.frontright.iq */
 
 static UA_StatusCode function_nodeset_85_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
 attr.displayName = UA_LOCALIZEDTEXT("", "IQ");
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2064LU),
-UA_NODEID_NUMERIC(ns[1], 2048LU),
+UA_NODEID_STRING(ns[1], "odrives.frontright.iq"),
+UA_NODEID_STRING(ns[1], "odrives.frontright"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "IQ"),
 UA_NODEID_NUMERIC(ns[0], 58LU),
@@ -2551,11 +2551,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_85_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2064LU)
+UA_NODEID_STRING(ns[1], "odrives.frontright.iq")
 );
 }
 
-/* Setpoint - ns=1;i=2066 */
+/* Setpoint - ns=1;s=odrives.frontright.iq.setpoint */
 
 static UA_StatusCode function_nodeset_86_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -2571,8 +2571,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Setpoint");
 attr.description = UA_LOCALIZEDTEXT("", "Setpoint");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2066LU),
-UA_NODEID_NUMERIC(ns[1], 2064LU),
+UA_NODEID_STRING(ns[1], "odrives.frontright.iq.setpoint"),
+UA_NODEID_STRING(ns[1], "odrives.frontright.iq"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Setpoint"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -2583,11 +2583,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_86_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2066LU)
+UA_NODEID_STRING(ns[1], "odrives.frontright.iq.setpoint")
 );
 }
 
-/* Measured - ns=1;i=2065 */
+/* Measured - ns=1;s=odrives.frontright.iq.measured */
 
 static UA_StatusCode function_nodeset_87_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -2603,8 +2603,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Measured");
 attr.description = UA_LOCALIZEDTEXT("", "Measured");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2065LU),
-UA_NODEID_NUMERIC(ns[1], 2064LU),
+UA_NODEID_STRING(ns[1], "odrives.frontright.iq.measured"),
+UA_NODEID_STRING(ns[1], "odrives.frontright.iq"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Measured"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -2615,19 +2615,19 @@ return retVal;
 
 static UA_StatusCode function_nodeset_87_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2065LU)
+UA_NODEID_STRING(ns[1], "odrives.frontright.iq.measured")
 );
 }
 
-/* Error - ns=1;i=2057 */
+/* Error - ns=1;s=odrives.frontright.error */
 
 static UA_StatusCode function_nodeset_88_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
 attr.displayName = UA_LOCALIZEDTEXT("", "Error");
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2057LU),
-UA_NODEID_NUMERIC(ns[1], 2048LU),
+UA_NODEID_STRING(ns[1], "odrives.frontright.error"),
+UA_NODEID_STRING(ns[1], "odrives.frontright"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Error"),
 UA_NODEID_NUMERIC(ns[0], 58LU),
@@ -2638,11 +2638,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_88_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2057LU)
+UA_NODEID_STRING(ns[1], "odrives.frontright.error")
 );
 }
 
-/* Sensorless - ns=1;i=2063 */
+/* Sensorless - ns=1;s=odrives.frontright.error.sensorless */
 
 static UA_StatusCode function_nodeset_89_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -2658,8 +2658,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Sensorless");
 attr.description = UA_LOCALIZEDTEXT("", "Sensorless");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2063LU),
-UA_NODEID_NUMERIC(ns[1], 2057LU),
+UA_NODEID_STRING(ns[1], "odrives.frontright.error.sensorless"),
+UA_NODEID_STRING(ns[1], "odrives.frontright.error"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Sensorless"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -2670,11 +2670,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_89_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2063LU)
+UA_NODEID_STRING(ns[1], "odrives.frontright.error.sensorless")
 );
 }
 
-/* Motor - ns=1;i=2062 */
+/* Motor - ns=1;s=odrives.frontright.error.motor */
 
 static UA_StatusCode function_nodeset_90_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -2690,8 +2690,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Motor");
 attr.description = UA_LOCALIZEDTEXT("", "Motor");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2062LU),
-UA_NODEID_NUMERIC(ns[1], 2057LU),
+UA_NODEID_STRING(ns[1], "odrives.frontright.error.motor"),
+UA_NODEID_STRING(ns[1], "odrives.frontright.error"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Motor"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -2702,11 +2702,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_90_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2062LU)
+UA_NODEID_STRING(ns[1], "odrives.frontright.error.motor")
 );
 }
 
-/* Encoder - ns=1;i=2061 */
+/* Encoder - ns=1;s=odrives.frontright.error.encoder */
 
 static UA_StatusCode function_nodeset_91_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -2722,8 +2722,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Encoder");
 attr.description = UA_LOCALIZEDTEXT("", "Encoder");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2061LU),
-UA_NODEID_NUMERIC(ns[1], 2057LU),
+UA_NODEID_STRING(ns[1], "odrives.frontright.error.encoder"),
+UA_NODEID_STRING(ns[1], "odrives.frontright.error"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Encoder"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -2734,11 +2734,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_91_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2061LU)
+UA_NODEID_STRING(ns[1], "odrives.frontright.error.encoder")
 );
 }
 
-/* Controller - ns=1;i=2060 */
+/* Controller - ns=1;s=odrives.frontright.error.controller */
 
 static UA_StatusCode function_nodeset_92_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -2754,8 +2754,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Controller");
 attr.description = UA_LOCALIZEDTEXT("", "Controller");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2060LU),
-UA_NODEID_NUMERIC(ns[1], 2057LU),
+UA_NODEID_STRING(ns[1], "odrives.frontright.error.controller"),
+UA_NODEID_STRING(ns[1], "odrives.frontright.error"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Controller"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -2766,11 +2766,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_92_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2060LU)
+UA_NODEID_STRING(ns[1], "odrives.frontright.error.controller")
 );
 }
 
-/* Board - ns=1;i=2059 */
+/* Board - ns=1;s=odrives.frontright.error.board */
 
 static UA_StatusCode function_nodeset_93_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -2786,8 +2786,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Board");
 attr.description = UA_LOCALIZEDTEXT("", "Board");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2059LU),
-UA_NODEID_NUMERIC(ns[1], 2057LU),
+UA_NODEID_STRING(ns[1], "odrives.frontright.error.board"),
+UA_NODEID_STRING(ns[1], "odrives.frontright.error"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Board"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -2798,11 +2798,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_93_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2059LU)
+UA_NODEID_STRING(ns[1], "odrives.frontright.error.board")
 );
 }
 
-/* Axis - ns=1;i=2058 */
+/* Axis - ns=1;s=odrives.frontright.error.axis */
 
 static UA_StatusCode function_nodeset_94_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -2818,8 +2818,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Axis");
 attr.description = UA_LOCALIZEDTEXT("", "Axis");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2058LU),
-UA_NODEID_NUMERIC(ns[1], 2057LU),
+UA_NODEID_STRING(ns[1], "odrives.frontright.error.axis"),
+UA_NODEID_STRING(ns[1], "odrives.frontright.error"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Axis"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -2830,19 +2830,19 @@ return retVal;
 
 static UA_StatusCode function_nodeset_94_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2058LU)
+UA_NODEID_STRING(ns[1], "odrives.frontright.error.axis")
 );
 }
 
-/* EncoderEstimates - ns=1;i=2054 */
+/* EncoderEstimates - ns=1;s=odrives.frontright.encoderestimates */
 
 static UA_StatusCode function_nodeset_95_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
 attr.displayName = UA_LOCALIZEDTEXT("", "EncoderEstimates");
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2054LU),
-UA_NODEID_NUMERIC(ns[1], 2048LU),
+UA_NODEID_STRING(ns[1], "odrives.frontright.encoderestimates"),
+UA_NODEID_STRING(ns[1], "odrives.frontright"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "EncoderEstimates"),
 UA_NODEID_NUMERIC(ns[0], 58LU),
@@ -2853,11 +2853,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_95_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2054LU)
+UA_NODEID_STRING(ns[1], "odrives.frontright.encoderestimates")
 );
 }
 
-/* Velocity - ns=1;i=2056 */
+/* Velocity - ns=1;s=odrives.frontright.encoderestimates.velocity */
 
 static UA_StatusCode function_nodeset_96_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -2873,8 +2873,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Velocity");
 attr.description = UA_LOCALIZEDTEXT("", "Velocity");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2056LU),
-UA_NODEID_NUMERIC(ns[1], 2054LU),
+UA_NODEID_STRING(ns[1], "odrives.frontright.encoderestimates.velocity"),
+UA_NODEID_STRING(ns[1], "odrives.frontright.encoderestimates"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Velocity"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -2885,11 +2885,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_96_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2056LU)
+UA_NODEID_STRING(ns[1], "odrives.frontright.encoderestimates.velocity")
 );
 }
 
-/* Position - ns=1;i=2055 */
+/* Position - ns=1;s=odrives.frontright.encoderestimates.position */
 
 static UA_StatusCode function_nodeset_97_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -2905,8 +2905,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Position");
 attr.description = UA_LOCALIZEDTEXT("", "Position");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2055LU),
-UA_NODEID_NUMERIC(ns[1], 2054LU),
+UA_NODEID_STRING(ns[1], "odrives.frontright.encoderestimates.position"),
+UA_NODEID_STRING(ns[1], "odrives.frontright.encoderestimates"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Position"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -2917,19 +2917,19 @@ return retVal;
 
 static UA_StatusCode function_nodeset_97_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2055LU)
+UA_NODEID_STRING(ns[1], "odrives.frontright.encoderestimates.position")
 );
 }
 
-/* EncoderCounts - ns=1;i=2051 */
+/* EncoderCounts - ns=1;s=odrives.frontright.encodercounts */
 
 static UA_StatusCode function_nodeset_98_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
 attr.displayName = UA_LOCALIZEDTEXT("", "EncoderCounts");
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2051LU),
-UA_NODEID_NUMERIC(ns[1], 2048LU),
+UA_NODEID_STRING(ns[1], "odrives.frontright.encodercounts"),
+UA_NODEID_STRING(ns[1], "odrives.frontright"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "EncoderCounts"),
 UA_NODEID_NUMERIC(ns[0], 58LU),
@@ -2940,11 +2940,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_98_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2051LU)
+UA_NODEID_STRING(ns[1], "odrives.frontright.encodercounts")
 );
 }
 
-/* Shadow - ns=1;i=2053 */
+/* Shadow - ns=1;s=odrives.frontright.encodercounts.shadow */
 
 static UA_StatusCode function_nodeset_99_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -2960,8 +2960,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Shadow");
 attr.description = UA_LOCALIZEDTEXT("", "Shadow");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2053LU),
-UA_NODEID_NUMERIC(ns[1], 2051LU),
+UA_NODEID_STRING(ns[1], "odrives.frontright.encodercounts.shadow"),
+UA_NODEID_STRING(ns[1], "odrives.frontright.encodercounts"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Shadow"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -2972,11 +2972,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_99_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2053LU)
+UA_NODEID_STRING(ns[1], "odrives.frontright.encodercounts.shadow")
 );
 }
 
-/* CPR - ns=1;i=2052 */
+/* CPR - ns=1;s=odrives.frontright.encodercounts.cpr */
 
 static UA_StatusCode function_nodeset_100_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -2992,8 +2992,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "CPR");
 attr.description = UA_LOCALIZEDTEXT("", "CPR");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2052LU),
-UA_NODEID_NUMERIC(ns[1], 2051LU),
+UA_NODEID_STRING(ns[1], "odrives.frontright.encodercounts.cpr"),
+UA_NODEID_STRING(ns[1], "odrives.frontright.encodercounts"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "CPR"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -3004,11 +3004,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_100_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2052LU)
+UA_NODEID_STRING(ns[1], "odrives.frontright.encodercounts.cpr")
 );
 }
 
-/* ControllerStatus - ns=1;i=2050 */
+/* ControllerStatus - ns=1;s=odrives.frontright.controllerstatus */
 
 static UA_StatusCode function_nodeset_101_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -3024,8 +3024,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "ControllerStatus");
 attr.description = UA_LOCALIZEDTEXT("", "ControllerStatus");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2050LU),
-UA_NODEID_NUMERIC(ns[1], 2048LU),
+UA_NODEID_STRING(ns[1], "odrives.frontright.controllerstatus"),
+UA_NODEID_STRING(ns[1], "odrives.frontright"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "ControllerStatus"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -3036,11 +3036,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_101_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2050LU)
+UA_NODEID_STRING(ns[1], "odrives.frontright.controllerstatus")
 );
 }
 
-/* AxisState - ns=1;i=2049 */
+/* AxisState - ns=1;s=odrives.frontright.axisstate */
 
 static UA_StatusCode function_nodeset_102_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -3056,8 +3056,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "AxisState");
 attr.description = UA_LOCALIZEDTEXT("", "AxisState");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2049LU),
-UA_NODEID_NUMERIC(ns[1], 2048LU),
+UA_NODEID_STRING(ns[1], "odrives.frontright.axisstate"),
+UA_NODEID_STRING(ns[1], "odrives.frontright"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "AxisState"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -3068,24 +3068,24 @@ return retVal;
 
 static UA_StatusCode function_nodeset_102_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2049LU)
+UA_NODEID_STRING(ns[1], "odrives.frontright.axisstate")
 );
 }
 
-/* FrontLeft - ns=1;i=2025 */
+/* frontleft - ns=1;s=odrives.frontleft */
 
 static UA_StatusCode function_nodeset_103_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
-attr.displayName = UA_LOCALIZEDTEXT("", "FrontLeft");
+attr.displayName = UA_LOCALIZEDTEXT("", "frontleft");
 #ifdef UA_ENABLE_NODESET_COMPILER_DESCRIPTIONS
 attr.description = UA_LOCALIZEDTEXT("", "ODrive");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2025LU),
-UA_NODEID_NUMERIC(ns[1], 2024LU),
+UA_NODEID_STRING(ns[1], "odrives.frontleft"),
+UA_NODEID_STRING(ns[1], "odrives"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
-UA_QUALIFIEDNAME(ns[1], "FrontLeft"),
+UA_QUALIFIEDNAME(ns[1], "frontleft"),
 UA_NODEID_NUMERIC(ns[1], 2001LU),
 (const UA_NodeAttributes*)&attr, &UA_TYPES[UA_TYPES_OBJECTATTRIBUTES],NULL, NULL);
 if (retVal != UA_STATUSCODE_GOOD) return retVal;
@@ -3094,11 +3094,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_103_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2025LU)
+UA_NODEID_STRING(ns[1], "odrives.frontleft")
 );
 }
 
-/* VbusVoltage - ns=1;i=2047 */
+/* VbusVoltage - ns=1;s=odrives.frontleft.vbusvoltage */
 
 static UA_StatusCode function_nodeset_104_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -3114,8 +3114,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "VbusVoltage");
 attr.description = UA_LOCALIZEDTEXT("", "VbusVoltage");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2047LU),
-UA_NODEID_NUMERIC(ns[1], 2025LU),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.vbusvoltage"),
+UA_NODEID_STRING(ns[1], "odrives.frontleft"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "VbusVoltage"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -3126,19 +3126,19 @@ return retVal;
 
 static UA_StatusCode function_nodeset_104_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2047LU)
+UA_NODEID_STRING(ns[1], "odrives.frontleft.vbusvoltage")
 );
 }
 
-/* SensorlessEstimates - ns=1;i=2044 */
+/* SensorlessEstimates - ns=1;s=odrives.frontleft.sensorlessestimates */
 
 static UA_StatusCode function_nodeset_105_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
 attr.displayName = UA_LOCALIZEDTEXT("", "SensorlessEstimates");
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2044LU),
-UA_NODEID_NUMERIC(ns[1], 2025LU),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.sensorlessestimates"),
+UA_NODEID_STRING(ns[1], "odrives.frontleft"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Sensorless"),
 UA_NODEID_NUMERIC(ns[0], 58LU),
@@ -3149,11 +3149,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_105_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2044LU)
+UA_NODEID_STRING(ns[1], "odrives.frontleft.sensorlessestimates")
 );
 }
 
-/* Velocity - ns=1;i=2046 */
+/* Velocity - ns=1;s=odrives.frontleft.sensorlessestimates.velocity */
 
 static UA_StatusCode function_nodeset_106_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -3169,8 +3169,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Velocity");
 attr.description = UA_LOCALIZEDTEXT("", "Velocity");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2046LU),
-UA_NODEID_NUMERIC(ns[1], 2044LU),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.sensorlessestimates.velocity"),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.sensorlessestimates"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Velocity"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -3181,11 +3181,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_106_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2046LU)
+UA_NODEID_STRING(ns[1], "odrives.frontleft.sensorlessestimates.velocity")
 );
 }
 
-/* Position - ns=1;i=2045 */
+/* Position - ns=1;s=odrives.frontleft.sensorlessestimates.position */
 
 static UA_StatusCode function_nodeset_107_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -3201,8 +3201,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Position");
 attr.description = UA_LOCALIZEDTEXT("", "Position");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2045LU),
-UA_NODEID_NUMERIC(ns[1], 2044LU),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.sensorlessestimates.position"),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.sensorlessestimates"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Position"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -3213,19 +3213,19 @@ return retVal;
 
 static UA_StatusCode function_nodeset_107_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2045LU)
+UA_NODEID_STRING(ns[1], "odrives.frontleft.sensorlessestimates.position")
 );
 }
 
-/* IQ - ns=1;i=2041 */
+/* IQ - ns=1;s=odrives.frontleft.iq */
 
 static UA_StatusCode function_nodeset_108_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
 attr.displayName = UA_LOCALIZEDTEXT("", "IQ");
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2041LU),
-UA_NODEID_NUMERIC(ns[1], 2025LU),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.iq"),
+UA_NODEID_STRING(ns[1], "odrives.frontleft"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "IQ"),
 UA_NODEID_NUMERIC(ns[0], 58LU),
@@ -3236,11 +3236,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_108_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2041LU)
+UA_NODEID_STRING(ns[1], "odrives.frontleft.iq")
 );
 }
 
-/* Setpoint - ns=1;i=2043 */
+/* Setpoint - ns=1;s=odrives.frontleft.iq.setpoint */
 
 static UA_StatusCode function_nodeset_109_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -3256,8 +3256,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Setpoint");
 attr.description = UA_LOCALIZEDTEXT("", "Setpoint");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2043LU),
-UA_NODEID_NUMERIC(ns[1], 2041LU),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.iq.setpoint"),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.iq"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Setpoint"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -3268,11 +3268,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_109_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2043LU)
+UA_NODEID_STRING(ns[1], "odrives.frontleft.iq.setpoint")
 );
 }
 
-/* Measured - ns=1;i=2042 */
+/* Measured - ns=1;s=odrives.frontleft.iq.measured */
 
 static UA_StatusCode function_nodeset_110_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -3288,8 +3288,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Measured");
 attr.description = UA_LOCALIZEDTEXT("", "Measured");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2042LU),
-UA_NODEID_NUMERIC(ns[1], 2041LU),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.iq.measured"),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.iq"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Measured"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -3300,19 +3300,19 @@ return retVal;
 
 static UA_StatusCode function_nodeset_110_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2042LU)
+UA_NODEID_STRING(ns[1], "odrives.frontleft.iq.measured")
 );
 }
 
-/* Error - ns=1;i=2034 */
+/* Error - ns=1;s=odrives.frontleft.error */
 
 static UA_StatusCode function_nodeset_111_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
 attr.displayName = UA_LOCALIZEDTEXT("", "Error");
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2034LU),
-UA_NODEID_NUMERIC(ns[1], 2025LU),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.error"),
+UA_NODEID_STRING(ns[1], "odrives.frontleft"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Error"),
 UA_NODEID_NUMERIC(ns[0], 58LU),
@@ -3323,11 +3323,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_111_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2034LU)
+UA_NODEID_STRING(ns[1], "odrives.frontleft.error")
 );
 }
 
-/* Sensorless - ns=1;i=2040 */
+/* Sensorless - ns=1;s=odrives.frontleft.error.sensorless */
 
 static UA_StatusCode function_nodeset_112_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -3343,8 +3343,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Sensorless");
 attr.description = UA_LOCALIZEDTEXT("", "Sensorless");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2040LU),
-UA_NODEID_NUMERIC(ns[1], 2034LU),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.error.sensorless"),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.error"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Sensorless"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -3355,11 +3355,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_112_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2040LU)
+UA_NODEID_STRING(ns[1], "odrives.frontleft.error.sensorless")
 );
 }
 
-/* Motor - ns=1;i=2039 */
+/* Motor - ns=1;s=odrives.frontleft.error.motor */
 
 static UA_StatusCode function_nodeset_113_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -3375,8 +3375,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Motor");
 attr.description = UA_LOCALIZEDTEXT("", "Motor");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2039LU),
-UA_NODEID_NUMERIC(ns[1], 2034LU),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.error.motor"),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.error"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Motor"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -3387,11 +3387,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_113_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2039LU)
+UA_NODEID_STRING(ns[1], "odrives.frontleft.error.motor")
 );
 }
 
-/* Encoder - ns=1;i=2038 */
+/* Encoder - ns=1;s=odrives.frontleft.error.encoder */
 
 static UA_StatusCode function_nodeset_114_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -3407,8 +3407,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Encoder");
 attr.description = UA_LOCALIZEDTEXT("", "Encoder");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2038LU),
-UA_NODEID_NUMERIC(ns[1], 2034LU),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.error.encoder"),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.error"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Encoder"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -3419,11 +3419,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_114_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2038LU)
+UA_NODEID_STRING(ns[1], "odrives.frontleft.error.encoder")
 );
 }
 
-/* Controller - ns=1;i=2037 */
+/* Controller - ns=1;s=odrives.frontleft.error.controller */
 
 static UA_StatusCode function_nodeset_115_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -3439,8 +3439,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Controller");
 attr.description = UA_LOCALIZEDTEXT("", "Controller");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2037LU),
-UA_NODEID_NUMERIC(ns[1], 2034LU),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.error.controller"),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.error"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Controller"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -3451,11 +3451,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_115_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2037LU)
+UA_NODEID_STRING(ns[1], "odrives.frontleft.error.controller")
 );
 }
 
-/* Board - ns=1;i=2036 */
+/* Board - ns=1;s=odrives.frontleft.error.board */
 
 static UA_StatusCode function_nodeset_116_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -3471,8 +3471,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Board");
 attr.description = UA_LOCALIZEDTEXT("", "Board");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2036LU),
-UA_NODEID_NUMERIC(ns[1], 2034LU),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.error.board"),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.error"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Board"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -3483,11 +3483,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_116_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2036LU)
+UA_NODEID_STRING(ns[1], "odrives.frontleft.error.board")
 );
 }
 
-/* Axis - ns=1;i=2035 */
+/* Axis - ns=1;s=odrives.frontleft.error.axis */
 
 static UA_StatusCode function_nodeset_117_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -3503,8 +3503,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Axis");
 attr.description = UA_LOCALIZEDTEXT("", "Axis");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2035LU),
-UA_NODEID_NUMERIC(ns[1], 2034LU),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.error.axis"),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.error"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Axis"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -3515,19 +3515,19 @@ return retVal;
 
 static UA_StatusCode function_nodeset_117_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2035LU)
+UA_NODEID_STRING(ns[1], "odrives.frontleft.error.axis")
 );
 }
 
-/* EncoderEstimates - ns=1;i=2031 */
+/* EncoderEstimates - ns=1;s=odrives.frontleft.encoderestimates */
 
 static UA_StatusCode function_nodeset_118_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
 attr.displayName = UA_LOCALIZEDTEXT("", "EncoderEstimates");
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2031LU),
-UA_NODEID_NUMERIC(ns[1], 2025LU),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.encoderestimates"),
+UA_NODEID_STRING(ns[1], "odrives.frontleft"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "EncoderEstimates"),
 UA_NODEID_NUMERIC(ns[0], 58LU),
@@ -3538,11 +3538,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_118_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2031LU)
+UA_NODEID_STRING(ns[1], "odrives.frontleft.encoderestimates")
 );
 }
 
-/* Velocity - ns=1;i=2033 */
+/* Velocity - ns=1;s=odrives.frontleft.encoderestimates.velocity */
 
 static UA_StatusCode function_nodeset_119_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -3558,8 +3558,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Velocity");
 attr.description = UA_LOCALIZEDTEXT("", "Velocity");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2033LU),
-UA_NODEID_NUMERIC(ns[1], 2031LU),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.encoderestimates.velocity"),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.encoderestimates"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Velocity"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -3570,11 +3570,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_119_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2033LU)
+UA_NODEID_STRING(ns[1], "odrives.frontleft.encoderestimates.velocity")
 );
 }
 
-/* Position - ns=1;i=2032 */
+/* Position - ns=1;s=odrives.frontleft.encoderestimates.position */
 
 static UA_StatusCode function_nodeset_120_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -3590,8 +3590,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Position");
 attr.description = UA_LOCALIZEDTEXT("", "Position");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2032LU),
-UA_NODEID_NUMERIC(ns[1], 2031LU),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.encoderestimates.position"),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.encoderestimates"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Position"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -3602,19 +3602,19 @@ return retVal;
 
 static UA_StatusCode function_nodeset_120_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2032LU)
+UA_NODEID_STRING(ns[1], "odrives.frontleft.encoderestimates.position")
 );
 }
 
-/* EncoderCounts - ns=1;i=2028 */
+/* EncoderCounts - ns=1;s=odrives.frontleft.encodercounts */
 
 static UA_StatusCode function_nodeset_121_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_ObjectAttributes attr = UA_ObjectAttributes_default;
 attr.displayName = UA_LOCALIZEDTEXT("", "EncoderCounts");
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_NUMERIC(ns[1], 2028LU),
-UA_NODEID_NUMERIC(ns[1], 2025LU),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.encodercounts"),
+UA_NODEID_STRING(ns[1], "odrives.frontleft"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "EncoderCounts"),
 UA_NODEID_NUMERIC(ns[0], 58LU),
@@ -3625,11 +3625,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_121_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2028LU)
+UA_NODEID_STRING(ns[1], "odrives.frontleft.encodercounts")
 );
 }
 
-/* Shadow - ns=1;i=2030 */
+/* Shadow - ns=1;s=odrives.frontleft.encodercounts.shadow */
 
 static UA_StatusCode function_nodeset_122_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -3645,8 +3645,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "Shadow");
 attr.description = UA_LOCALIZEDTEXT("", "Shadow");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2030LU),
-UA_NODEID_NUMERIC(ns[1], 2028LU),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.encodercounts.shadow"),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.encodercounts"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "Shadow"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -3657,11 +3657,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_122_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2030LU)
+UA_NODEID_STRING(ns[1], "odrives.frontleft.encodercounts.shadow")
 );
 }
 
-/* CPR - ns=1;i=2029 */
+/* CPR - ns=1;s=odrives.frontleft.encodercounts.cpr */
 
 static UA_StatusCode function_nodeset_123_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -3677,8 +3677,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "CPR");
 attr.description = UA_LOCALIZEDTEXT("", "CPR");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2029LU),
-UA_NODEID_NUMERIC(ns[1], 2028LU),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.encodercounts.cpr"),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.encodercounts"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "CPR"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -3689,11 +3689,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_123_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2029LU)
+UA_NODEID_STRING(ns[1], "odrives.frontleft.encodercounts.cpr")
 );
 }
 
-/* ControllerStatus - ns=1;i=2027 */
+/* ControllerStatus - ns=1;s=odrives.frontleft.controllerstatus */
 
 static UA_StatusCode function_nodeset_124_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -3709,8 +3709,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "ControllerStatus");
 attr.description = UA_LOCALIZEDTEXT("", "ControllerStatus");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2027LU),
-UA_NODEID_NUMERIC(ns[1], 2025LU),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.controllerstatus"),
+UA_NODEID_STRING(ns[1], "odrives.frontleft"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "ControllerStatus"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -3721,11 +3721,11 @@ return retVal;
 
 static UA_StatusCode function_nodeset_124_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2027LU)
+UA_NODEID_STRING(ns[1], "odrives.frontleft.controllerstatus")
 );
 }
 
-/* AxisState - ns=1;i=2026 */
+/* AxisState - ns=1;s=odrives.frontleft.axisstate */
 
 static UA_StatusCode function_nodeset_125_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
@@ -3741,8 +3741,8 @@ attr.displayName = UA_LOCALIZEDTEXT("", "AxisState");
 attr.description = UA_LOCALIZEDTEXT("", "AxisState");
 #endif
 retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_NUMERIC(ns[1], 2026LU),
-UA_NODEID_NUMERIC(ns[1], 2025LU),
+UA_NODEID_STRING(ns[1], "odrives.frontleft.axisstate"),
+UA_NODEID_STRING(ns[1], "odrives.frontleft"),
 UA_NODEID_NUMERIC(ns[0], 47LU),
 UA_QUALIFIEDNAME(ns[1], "AxisState"),
 UA_NODEID_NUMERIC(ns[0], 63LU),
@@ -3753,7 +3753,7 @@ return retVal;
 
 static UA_StatusCode function_nodeset_125_finish(UA_Server *server, UA_UInt16* ns) {
 return UA_Server_addNode_finish(server, 
-UA_NODEID_NUMERIC(ns[1], 2026LU)
+UA_NODEID_STRING(ns[1], "odrives.frontleft.axisstate")
 );
 }
 
