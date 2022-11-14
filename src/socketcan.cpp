@@ -89,7 +89,7 @@ int32_t SocketCAN::sendFrame(struct can_frame frame)
 {
     int err = 0;
 
-    if(socketID = -1)
+    if(socketID == -1)
     {
         spdlog::trace("Attempted to send CAN frame to unopened socket");
         return -1;
@@ -97,7 +97,7 @@ int32_t SocketCAN::sendFrame(struct can_frame frame)
 
     spdlog::trace("Preparing to send CAN data");
 
-    if(!((frame.can_id & CAN_EFF_FLAG) || frame.can_id & CAN_EFF_MASK < CAN_SFF_MASK))
+    if(!((frame.can_id & CAN_EFF_FLAG) || (frame.can_id & CAN_EFF_MASK) < CAN_SFF_MASK))
     {
         spdlog::error("Message has an invalid ID: ID: 0x{0:X} - EFF Flag: {1:b}",
                 frame.can_id & CAN_EFF_MASK, frame.can_id & CAN_EFF_FLAG);
@@ -136,7 +136,7 @@ int32_t SocketCAN::receiveData()
     struct can_frame frame;
     int event;
 
-        if(socketID = -1)
+        if(socketID == -1)
     {
         spdlog::trace("Attempted to poll unopened socket");
         return -1;
