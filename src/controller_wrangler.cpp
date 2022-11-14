@@ -34,7 +34,7 @@ void ControllerWrangler::configureBatteryManager()
     batteryManager.configureDevice(&can, CAN_ID_BATTERY_MANAGER);
     batteryManager.registerCallback();
     batteryManager.rebootDevice();
-    //batteryManager.setupMqtt(&mqtt);
+    batteryManager.setupOPCUA(&opcUaServer, OPCUA_NODE_NAMESPACE_ID, "battery");
     batteryManager.setupAlarmManager(&alarmManager);
     
     spdlog::debug("Battery Manager Configured");

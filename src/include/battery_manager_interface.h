@@ -7,8 +7,8 @@
 #include <linux/can.h>
 
 #include "socketcan.h"
-#include "mqtt_transfer.h"
 #include "alarm_manager.h"
+#include "opc_ua_server.h"
 
 #define LOW_BAT_WARN_ID         1
 #define LOW_BAT_WARN_THRESHOLD  25
@@ -22,19 +22,19 @@ class BatteryManager
         SocketCAN * canDevice;
         int32_t canDevId;
         bool configured = false;
-        MqttTransfer * mqttBackhaul = NULL;
         AlarmManager * alarmManager = NULL;
-        void sendMqttMessage(std::string topic, void *data, size_t length, MqttTransfer::qos_t qos, bool retain)
-        {
-            if(mqttBackhaul == NULL) return;
-            mqttBackhaul->sendMessage(topic, data, length, qos, retain);
-        }
+        OPCUAServer * opcua = NULL;
+        std::string nodeIdBase;
+        uint16_t nodeNs;
+
+        void writeOPCUAValueFloat(std::string id_ext, float value);
+        void writeOPCUAValueByteArray(std::string id_ext, uint8_t * value, size_t len);
 
     public:
         static void receiveCAN(void * handle, struct can_frame frame);
         bool registerCallback();
         void configureDevice(SocketCAN * can, int32_t deviceId);
-        void setupMqtt(MqttTransfer * mqtt);
+        void setupOPCUA(OPCUAServer * opcua, uint16_t ns, std::string nodeIdBase);
         void setupAlarmManager(AlarmManager * alarmMan);
         void rebootDevice();
         float batteryVoltage;

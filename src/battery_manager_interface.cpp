@@ -7,7 +7,7 @@
 #include "include/battery_manager_interface.h"
 #include "spdlog/spdlog.h"
 #include "include/global_defines.h"
-#include "include/mqtt_transfer.h"
+#include "include/opc_ua_server.h"
 
 #define CAN_COMMAND_ID_RESET_DEVICE     0x0
 #define CAN_COMMAND_ID_VERSION_NUMBER   0x1
@@ -16,27 +16,28 @@
 
 void BatteryManager::receiveCAN(void * handle, struct can_frame frame)
 {
-    char mqttMessageString[64];
     spdlog::debug("Processing Battery Data");
 
     int32_t commandID = CONVERT_CAN_ID_TO_COMMAND_ID(frame.can_id);
     BatteryManager * batMan = (BatteryManager *)handle;
+    uint8_t version[4];
 
     spdlog::debug("Battery Device ID: 0x{0:X} Command ID: 0x{1:X}", CONVERT_CAN_ID_TO_DEVICE_ID(frame.can_id), commandID);
 
     switch(commandID)
     {
         case CAN_COMMAND_ID_VERSION_NUMBER:
-            sprintf(mqttMessageString, "{\"Major\":%X,\"Minor\":%X,\"Patch\":%X,\"Build\":%X}",
-                    frame.data[3], frame.data[2], frame.data[1], frame.data[0]);
-            batMan->sendMqttMessage("battery/version", &mqttMessageString, strlen(mqttMessageString), MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
+            version[0] = frame.data[3];
+            version[1] = frame.data[2];
+            version[2] = frame.data[1];
+            version[3] = frame.data[0];
+            batMan->writeOPCUAValueByteArray("softwareversion", version, 4);
             spdlog::info("Battery manager is version: {0:d}.{1:d}.{2:d} build: {3:d}",
-                    frame.data[3], frame.data[2], frame.data[1], frame.data[0]);
+                    version[0], version[1], version[2], version[3]);
             break;
         case CAN_COMMAND_ID_STATE_OF_CHARGE:
             memcpy(&(batMan->batterySoC), &(frame.data[1]), sizeof(float));
-            sprintf(mqttMessageString, "{\"value\":%3.0f}", batMan->batterySoC);
-            batMan->sendMqttMessage("battery/soc", &mqttMessageString, strlen(mqttMessageString), MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
+            batMan->writeOPCUAValueFloat("soc", batMan->batterySoC);
             spdlog::trace("Battery State of Charge: {0:3.0f}%", batMan->batterySoC);
 
             if(batMan->alarmManager && batMan->batterySoC < LOW_BAT_WARN_THRESHOLD)
@@ -46,8 +47,7 @@ void BatteryManager::receiveCAN(void * handle, struct can_frame frame)
             break;
         case CAN_COMMAND_ID_BATTERY_VOLTAGE:
             memcpy(&(batMan->batteryVoltage), &(frame.data[1]), sizeof(float));
-            sprintf(mqttMessageString, "{\"value\":%3.1f}", batMan->batteryVoltage);
-            batMan->sendMqttMessage("battery/voltage", &mqttMessageString, strlen(mqttMessageString), MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
+            batMan->writeOPCUAValueFloat("voltage", batMan->batteryVoltage);
             spdlog::trace("Battery Voltage: {0:3.1f}V", batMan->batteryVoltage);
             break;
     }
@@ -64,13 +64,6 @@ void BatteryManager::rebootDevice()
     canDevice->sendFrame(frame);
 }
 
-void BatteryManager::setupMqtt(MqttTransfer * mqtt)
-{
-    spdlog::debug("Setting up MQTT for battery manager");
-
-    mqttBackhaul = mqtt;
-}
-
 void BatteryManager::setupAlarmManager(AlarmManager * alarmMan)
 {
     alarmManager = alarmMan;
@@ -83,6 +76,14 @@ void BatteryManager::configureDevice(SocketCAN * can, int32_t deviceId)
     configured = true;
 
     spdlog::debug("Battery Manager Device registered with Device ID: 0x{0:X}", canDevId);
+}
+
+void BatteryManager::setupOPCUA(OPCUAServer * opcua, uint16_t ns, std::string nodeIdBase)
+{
+    spdlog::debug("Setting up OPC UA for Battery Manager with node base: {0} and namespace {1:d}", nodeIdBase, ns);
+    this->opcua = opcua;
+    nodeNs = ns;
+    this->nodeIdBase = nodeIdBase;
 }
 
 bool BatteryManager::registerCallback()
@@ -100,4 +101,36 @@ bool BatteryManager::registerCallback()
     canDevice->addCallback(&receiveCallback);
     spdlog::debug("Battery Manager CAN Callback Registered");
     return true;
+}
+
+void BatteryManager::writeOPCUAValueFloat(std::string id_ext, float value)
+{
+    if(opcua == NULL) return;
+    
+    UA_StatusCode stat;
+    UA_Variant variant;
+    std::string node_id = nodeIdBase + "." + id_ext;
+    UA_Variant_setScalar(&variant, &value, &UA_TYPES[UA_TYPES_FLOAT]);
+
+    UA_NodeId nodeId = UA_NODEID_STRING(nodeNs, (char *) node_id.c_str());
+    stat = opcua->writeValueToServer(nodeId, variant);
+
+    if(stat != UA_STATUSCODE_GOOD)
+        spdlog::trace("Unable to send kinematic value update: {0}", UA_StatusCode_name(stat));
+}
+
+void BatteryManager::writeOPCUAValueByteArray(std::string id_ext, uint8_t * value, size_t len)
+{
+    if(opcua == NULL) return;
+    
+    UA_StatusCode stat;
+    UA_Variant variant;
+    std::string node_id = nodeIdBase + "." + id_ext;
+    UA_Variant_setArray(&variant, value, len, &UA_TYPES[UA_TYPES_BYTE]);
+
+    UA_NodeId nodeId = UA_NODEID_STRING(nodeNs, (char *) node_id.c_str());
+    stat = opcua->writeValueToServer(nodeId, variant);
+
+    if(stat != UA_STATUSCODE_GOOD)
+        spdlog::trace("Unable to send kinematic value update: {0}", UA_StatusCode_name(stat));
 }
