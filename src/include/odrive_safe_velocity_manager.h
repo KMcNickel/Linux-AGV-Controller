@@ -10,8 +10,8 @@
 
 #include "spdlog/spdlog.h"
 #include "odrive_interface.h"
-#include "mqtt_transfer.h"
 #include "socketcan.h"
+#include "opc_ua_server.h"
 
 class OdriveSafeVelocityManager
 {
@@ -33,7 +33,7 @@ class OdriveSafeVelocityManager
 
         void configureSingleAxis(std::string name, SocketCAN * can, int32_t axisDeviceId);
         void configureDualAxis(std::string name, SocketCAN * can, int32_t axisADeviceId, int32_t axisBDeviceId);
-        void setupMqtt(MqttTransfer * mqtt);
+        void setupOPCUA(OPCUAServer * opcua, std::string axisAID, std::string axisBID);
         bool isConfigured();
         bool hasErrors();
         void requestErrors(axis_t axis);

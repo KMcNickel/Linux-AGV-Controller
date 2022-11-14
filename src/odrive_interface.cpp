@@ -11,13 +11,11 @@
 #include "spdlog/spdlog.h"
 #include "include/socketcan.h"
 #include "include/global_defines.h"
-#include "include/mqtt_transfer.h"
 #include "include/odrive_interface.h"
+#include "include/opc_ua_server.h"
 
 void OdriveInterface::receiveCAN(void * handle, struct can_frame frame)
 {
-    std::string mqttMessageString;
-    std::string mqttTopicString;
     spdlog::debug("Processing ODrive CAN Data");
 
     int32_t commandID = CONVERT_CAN_ID_TO_COMMAND_ID(frame.can_id);
@@ -43,10 +41,8 @@ void OdriveInterface::receiveCAN(void * handle, struct can_frame frame)
 
                 odrive->currentErrors.axis = newAxisError;
             }
-            mqttTopicString = std::string("odrive") + std::to_string(odrive->canDevId) + "/error/axis";
-            mqttMessageString = std::string("{\"value\":") + std::to_string(odrive->currentErrors.axis) + "}";
-            odrive->sendMqttMessage(mqttTopicString.c_str(), (void *) mqttMessageString.c_str(),
-                    mqttMessageString.size(), MqttTransfer::QOS_1_AT_LEAST_ONCE, false);
+
+            odrive->writeOPCUAValueUInt32("error.axis", newAxisError);
 
             memcpy(&newAxisState, frame.data + 4, sizeof(newAxisState));
             spdlog::trace("New Axis State is 0x{0:X}", newAxisState);
@@ -57,17 +53,13 @@ void OdriveInterface::receiveCAN(void * handle, struct can_frame frame)
 
                 odrive->currentState = newAxisState;
             }
-            mqttTopicString = std::string("odrive") + std::to_string(odrive->canDevId) + "/state";
-            mqttMessageString = std::string("{\"value\":") + std::to_string(odrive->currentState) + "}";
-            odrive->sendMqttMessage(mqttTopicString.c_str(), (void *) mqttMessageString.c_str(),
-                    mqttMessageString.size(), MqttTransfer::QOS_1_AT_LEAST_ONCE, false);
+            
+            odrive->writeOPCUAValueByte("axisstate", newAxisState);
 
             memcpy(&newControllerStatus, frame.data + 7, sizeof(newControllerStatus));
             spdlog::trace("New Controller Status is 0x{0:X}", newControllerStatus);
-            mqttTopicString = std::string("odrive") + std::to_string(odrive->canDevId) + "/status";
-            mqttMessageString = std::string("{\"value\":") + std::to_string(newControllerStatus) + "}";
-            odrive->sendMqttMessage(mqttTopicString.c_str(), (void *) mqttMessageString.c_str(),
-                    mqttMessageString.size(), MqttTransfer::QOS_1_AT_LEAST_ONCE, false);
+            
+            odrive->writeOPCUAValueByte("controllerstatus", newControllerStatus);
 
             break;
         case ODRIVE_CAN_CMD_ID_GET_MOTOR_ERROR:
@@ -83,10 +75,8 @@ void OdriveInterface::receiveCAN(void * handle, struct can_frame frame)
 
                 odrive->currentErrors.motor = newMotorError;
             }
-            mqttTopicString = std::string("odrive") + std::to_string(odrive->canDevId) + "/error/motor";
-            mqttMessageString = std::string("{\"value\":") + std::to_string(odrive->currentErrors.motor) + "}";
-            odrive->sendMqttMessage(mqttTopicString.c_str(), (void *) mqttMessageString.c_str(),
-                    mqttMessageString.size(), MqttTransfer::QOS_1_AT_LEAST_ONCE, false);
+            
+            odrive->writeOPCUAValueUInt64("error.motor", newMotorError);
             break;
         case ODRIVE_CAN_CMD_ID_GET_ENCODER_ERROR:
             uint32_t newEncoderError;
@@ -101,10 +91,8 @@ void OdriveInterface::receiveCAN(void * handle, struct can_frame frame)
 
                 odrive->currentErrors.encoder = newEncoderError;
             }
-            mqttTopicString = std::string("odrive") + std::to_string(odrive->canDevId) + "/error/encoder";
-            mqttMessageString = std::string("{\"value\":") + std::to_string(odrive->currentErrors.encoder) + "}";
-            odrive->sendMqttMessage(mqttTopicString.c_str(), (void *) mqttMessageString.c_str(),
-                    mqttMessageString.size(), MqttTransfer::QOS_1_AT_LEAST_ONCE, false);
+            
+            odrive->writeOPCUAValueUInt32("error.encoder", newEncoderError);
             break;
         case ODRIVE_CAN_CMD_ID_GET_SENSORLESS_ERROR:
             uint32_t newSensorlessError;
@@ -119,20 +107,15 @@ void OdriveInterface::receiveCAN(void * handle, struct can_frame frame)
 
                 odrive->currentErrors.sensorless = newSensorlessError;
             }
-            mqttTopicString = std::string("odrive") + std::to_string(odrive->canDevId) + "/error/sensorless";
-            mqttMessageString = std::string("{\"value\":") + std::to_string(odrive->currentErrors.sensorless) + "}";
-            odrive->sendMqttMessage(mqttTopicString.c_str(), (void *) mqttMessageString.c_str(),
-                    mqttMessageString.size(), MqttTransfer::QOS_1_AT_LEAST_ONCE, false);
+            
+            odrive->writeOPCUAValueUInt32("error.sensorless", newSensorlessError);
             break;
         case ODRIVE_CAN_CMD_ID_GET_ENCODER_ESTIMATES:
             memcpy(&odrive->currentPositionEstimate, frame.data, sizeof(odrive->currentPositionEstimate));
             memcpy(&odrive->currentVelocityEstimate, frame.data + 4, sizeof(odrive->currentVelocityEstimate));
-
-            mqttTopicString = std::string("odrive") + std::to_string(odrive->canDevId) + "/estimates";
-            mqttMessageString = std::string("{\"Position\":") + std::to_string(odrive->currentPositionEstimate) + 
-                    std::string(",\"Velocity\":") + std::to_string(odrive->currentVelocityEstimate) + "}";
-            odrive->sendMqttMessage(mqttTopicString.c_str(), (void *) mqttMessageString.c_str(),
-                    mqttMessageString.size(), MqttTransfer::QOS_0_AT_MOST_ONCE, false);
+            
+            odrive->writeOPCUAValueFloat("encoderestimates.position", odrive->currentPositionEstimate);
+            odrive->writeOPCUAValueFloat("encoderestimates.velocity", odrive->currentVelocityEstimate);
             break;
         case ODRIVE_CAN_CMD_ID_GET_ENCODER_COUNT:
             break;
@@ -173,11 +156,12 @@ void OdriveInterface::configureDevice(SocketCAN * can, int32_t deviceId)
     spdlog::debug("ODrive Device registered with Device ID: 0x{0:X}", canDevId);
 }
 
-void OdriveInterface::setupMqtt(MqttTransfer * mqtt)
+void OdriveInterface::setupOPCUA(OPCUAServer * opcua, uint16_t ns, std::string nodeIdBase)
 {
-    spdlog::debug("Setting up MQTT for ODrive 0x{0:X}", canDevId);
-
-    mqttBackhaul = mqtt;
+    spdlog::debug("Setting up OPC UA for Kinematics with node base: {0} and namespace {1:d}", nodeIdBase, ns);
+    this->opcua = opcua;
+    nodeNs = ns;
+    this->nodeIdBase = nodeIdBase;
 }
 
 bool OdriveInterface::hasErrors()
@@ -291,13 +275,6 @@ void OdriveInterface::setInputPosition(float position, int16_t velocityFF, int16
     memcpy(frame.data + 6, &torqueFF, sizeof(torqueFF));
     
     canDevice->sendFrame(frame);
-
-    mqttTopicString = std::string("odrive") + std::to_string(canDevId) + "/command/position";
-    mqttMessageString = std::string("{\"Position\":") + std::to_string(position) + 
-            std::string(",\"VelocityFF\":") + std::to_string(velocityFF) + 
-            std::string(",\"TorqueFF\":") + std::to_string(torqueFF) + "}";
-    sendMqttMessage(mqttTopicString.c_str(), (void *) mqttMessageString.c_str(),
-            mqttMessageString.size(), MqttTransfer::QOS_1_AT_LEAST_ONCE, false);
 }
 
 void OdriveInterface::setInputVelocity(float velocity, float torqueFF)
@@ -310,12 +287,6 @@ void OdriveInterface::setInputVelocity(float velocity, float torqueFF)
     spdlog::debug("Setting new input velocity {0:f}, and torque FF {1:f} for ODrive 0x{2:X}",
             velocity, torqueFF, canDevId);
     sendTwoFloatsToDevice(ODRIVE_CAN_CMD_ID_SET_INPUT_VEL, velocity, torqueFF);
-
-    mqttTopicString = std::string("odrive") + std::to_string(canDevId) + "/command/velocity";
-    mqttMessageString = std::string("{\"Velocity\":") + std::to_string(velocity) + 
-            std::string(",\"TorqueFF\":") + std::to_string(torqueFF) + "}";
-    sendMqttMessage(mqttTopicString.c_str(), (void *) mqttMessageString.c_str(),
-            mqttMessageString.size(), MqttTransfer::QOS_1_AT_LEAST_ONCE, false);
 }
 
 void OdriveInterface::setInputTorque(float torque)
@@ -328,11 +299,6 @@ void OdriveInterface::setInputTorque(float torque)
     spdlog::debug("Setting new input torque {0:f} for ODrive 0x{1:X}",
             torque, canDevId);
     sendFloatToDevice(ODRIVE_CAN_CMD_ID_SET_INPUT_TORQUE, torque);
-
-    mqttTopicString = std::string("odrive") + std::to_string(canDevId) + "/command/torque";
-    mqttMessageString = std::string("{\"Torque\":") + std::to_string(torque) + "}";
-    sendMqttMessage(mqttTopicString.c_str(), (void *) mqttMessageString.c_str(),
-            mqttMessageString.size(), MqttTransfer::QOS_1_AT_LEAST_ONCE, false);
 }
 
 void OdriveInterface::setLimits(float velocityLimit, float currentLimit)
@@ -450,6 +416,70 @@ bool OdriveInterface::checkIfConfigured(std::string caller)
 
     spdlog::warn("Cannot process \"{0}\" request because ODrive is not configured", caller.c_str());
     return false;
+}
+        
+void OdriveInterface::writeOPCUAValueFloat(std::string id_ext, float value)
+{
+    if(opcua == NULL) return;
+    
+    UA_StatusCode stat;
+    UA_Variant variant;
+    std::string node_id = nodeIdBase + "." + id_ext;
+    UA_Variant_setScalar(&variant, &value, &UA_TYPES[UA_TYPES_FLOAT]);
+
+    UA_NodeId nodeId = UA_NODEID_STRING(nodeNs, (char *) node_id.c_str());
+    stat = opcua->writeValueToServer(nodeId, variant);
+
+    if(stat != UA_STATUSCODE_GOOD)
+        spdlog::trace("Unable to send kinematic value update: {0}", UA_StatusCode_name(stat));
+}
+
+void OdriveInterface::writeOPCUAValueByte(std::string id_ext, uint8_t value)
+{
+    if(opcua == NULL) return;
+    
+    UA_StatusCode stat;
+    UA_Variant variant;
+    std::string node_id = nodeIdBase + "." + id_ext;
+    UA_Variant_setScalar(&variant, &value, &UA_TYPES[UA_TYPES_BYTE]);
+
+    UA_NodeId nodeId = UA_NODEID_STRING(nodeNs, (char *) node_id.c_str());
+    stat = opcua->writeValueToServer(nodeId, variant);
+
+    if(stat != UA_STATUSCODE_GOOD)
+        spdlog::trace("Unable to send kinematic value update: {0}", UA_StatusCode_name(stat));
+}
+
+void OdriveInterface::writeOPCUAValueUInt32(std::string id_ext, uint32_t value)
+{
+    if(opcua == NULL) return;
+    
+    UA_StatusCode stat;
+    UA_Variant variant;
+    std::string node_id = nodeIdBase + "." + id_ext;
+    UA_Variant_setScalar(&variant, &value, &UA_TYPES[UA_TYPES_UINT32]);
+
+    UA_NodeId nodeId = UA_NODEID_STRING(nodeNs, (char *) node_id.c_str());
+    stat = opcua->writeValueToServer(nodeId, variant);
+
+    if(stat != UA_STATUSCODE_GOOD)
+        spdlog::trace("Unable to send kinematic value update: {0}", UA_StatusCode_name(stat));
+}
+
+void OdriveInterface::writeOPCUAValueUInt64(std::string id_ext, uint64_t value)
+{
+    if(opcua == NULL) return;
+    
+    UA_StatusCode stat;
+    UA_Variant variant;
+    std::string node_id = nodeIdBase + "." + id_ext;
+    UA_Variant_setScalar(&variant, &value, &UA_TYPES[UA_TYPES_UINT64]);
+
+    UA_NodeId nodeId = UA_NODEID_STRING(nodeNs, (char *) node_id.c_str());
+    stat = opcua->writeValueToServer(nodeId, variant);
+
+    if(stat != UA_STATUSCODE_GOOD)
+        spdlog::trace("Unable to send kinematic value update: {0}", UA_StatusCode_name(stat));
 }
 
 void OdriveInterface::sendFloatToDevice(int cmdID, float value)

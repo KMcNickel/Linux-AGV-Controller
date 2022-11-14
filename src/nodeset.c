@@ -107,6 +107,7 @@ UA_NODEID_STRING(ns[1], "kinematics.inverse.velocities")
 static UA_StatusCode function_nodeset_4_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -139,6 +140,7 @@ UA_NODEID_STRING(ns[1], "kinematics.inverse.velocities.rearright")
 static UA_StatusCode function_nodeset_5_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -171,6 +173,7 @@ UA_NODEID_STRING(ns[1], "kinematics.inverse.velocities.rearleft")
 static UA_StatusCode function_nodeset_6_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -203,6 +206,7 @@ UA_NODEID_STRING(ns[1], "kinematics.inverse.velocities.frontright")
 static UA_StatusCode function_nodeset_7_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -258,6 +262,7 @@ UA_NODEID_STRING(ns[1], "kinematics.inverse.motion")
 static UA_StatusCode function_nodeset_9_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -290,6 +295,7 @@ UA_NODEID_STRING(ns[1], "kinematics.inverse.motion.z")
 static UA_StatusCode function_nodeset_10_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -322,6 +328,7 @@ UA_NODEID_STRING(ns[1], "kinematics.inverse.motion.y")
 static UA_StatusCode function_nodeset_11_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -403,6 +410,7 @@ UA_NODEID_STRING(ns[1], "kinematics.forward.velocities")
 static UA_StatusCode function_nodeset_14_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -435,6 +443,7 @@ UA_NODEID_STRING(ns[1], "kinematics.forward.velocities.rearright")
 static UA_StatusCode function_nodeset_15_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -467,6 +476,7 @@ UA_NODEID_STRING(ns[1], "kinematics.forward.velocities.rearleft")
 static UA_StatusCode function_nodeset_16_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -499,6 +509,7 @@ UA_NODEID_STRING(ns[1], "kinematics.forward.velocities.frontright")
 static UA_StatusCode function_nodeset_17_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -554,6 +565,7 @@ UA_NODEID_STRING(ns[1], "kinematics.forward.motion")
 static UA_StatusCode function_nodeset_19_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -586,6 +598,7 @@ UA_NODEID_STRING(ns[1], "kinematics.forward.motion.z")
 static UA_StatusCode function_nodeset_20_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -618,6 +631,7 @@ UA_NODEID_STRING(ns[1], "kinematics.forward.motion.y")
 static UA_StatusCode function_nodeset_21_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -675,6 +689,7 @@ UA_NODEID_NUMERIC(ns[1], 2125LU)
 static UA_StatusCode function_nodeset_23_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -709,6 +724,7 @@ UA_NODEID_NUMERIC(ns[1], 2129LU)
 static UA_StatusCode function_nodeset_24_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -743,6 +759,7 @@ UA_NODEID_NUMERIC(ns[1], 2128LU)
 static UA_StatusCode function_nodeset_25_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -777,6 +794,7 @@ UA_NODEID_NUMERIC(ns[1], 2127LU)
 static UA_StatusCode function_nodeset_26_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -836,6 +854,7 @@ UA_NODEID_NUMERIC(ns[1], 2119LU)
 static UA_StatusCode function_nodeset_28_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -870,6 +889,7 @@ UA_NODEID_NUMERIC(ns[1], 2124LU)
 static UA_StatusCode function_nodeset_29_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -904,6 +924,7 @@ UA_NODEID_NUMERIC(ns[1], 2123LU)
 static UA_StatusCode function_nodeset_30_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -938,6 +959,7 @@ UA_NODEID_NUMERIC(ns[1], 2122LU)
 static UA_StatusCode function_nodeset_31_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -1048,6 +1070,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearright")
 static UA_StatusCode function_nodeset_35_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -1103,6 +1126,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearright.sensorlessestimates")
 static UA_StatusCode function_nodeset_37_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -1135,6 +1159,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearright.sensorlessestimates.velocity")
 static UA_StatusCode function_nodeset_38_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -1190,6 +1215,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearright.iq")
 static UA_StatusCode function_nodeset_40_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -1222,6 +1248,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearright.iq.setpoint")
 static UA_StatusCode function_nodeset_41_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -1277,6 +1304,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearright.error")
 static UA_StatusCode function_nodeset_43_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -1309,6 +1337,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearright.error.sensorless")
 static UA_StatusCode function_nodeset_44_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -1341,6 +1370,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearright.error.motor")
 static UA_StatusCode function_nodeset_45_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -1373,6 +1403,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearright.error.encoder")
 static UA_StatusCode function_nodeset_46_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -1405,6 +1436,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearright.error.controller")
 static UA_StatusCode function_nodeset_47_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -1437,6 +1469,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearright.error.board")
 static UA_StatusCode function_nodeset_48_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -1492,6 +1525,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearright.encoderestimates")
 static UA_StatusCode function_nodeset_50_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -1524,6 +1558,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearright.encoderestimates.velocity")
 static UA_StatusCode function_nodeset_51_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -1579,6 +1614,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearright.encodercounts")
 static UA_StatusCode function_nodeset_53_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -1611,6 +1647,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearright.encodercounts.shadow")
 static UA_StatusCode function_nodeset_54_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -1643,6 +1680,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearright.encodercounts.cpr")
 static UA_StatusCode function_nodeset_55_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -1675,6 +1713,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearright.controllerstatus")
 static UA_StatusCode function_nodeset_56_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -1733,6 +1772,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearleft")
 static UA_StatusCode function_nodeset_58_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -1788,6 +1828,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearleft.sensorlessestimates")
 static UA_StatusCode function_nodeset_60_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -1820,6 +1861,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearleft.sensorlessestimates.velocity")
 static UA_StatusCode function_nodeset_61_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -1875,6 +1917,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearleft.iq")
 static UA_StatusCode function_nodeset_63_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -1907,6 +1950,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearleft.iq.setpoint")
 static UA_StatusCode function_nodeset_64_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -1962,6 +2006,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearleft.error")
 static UA_StatusCode function_nodeset_66_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -1994,6 +2039,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearleft.error.sensorless")
 static UA_StatusCode function_nodeset_67_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -2026,12 +2072,13 @@ UA_NODEID_STRING(ns[1], "odrives.rearleft.error.motor")
 static UA_StatusCode function_nodeset_68_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
 /* Value rank inherited */
 attr.valueRank = -2;
-attr.dataType = UA_NODEID_NUMERIC(ns[0], 5LU);
+attr.dataType = UA_NODEID_NUMERIC(ns[0], 7LU);
 attr.displayName = UA_LOCALIZEDTEXT("", "Encoder");
 #ifdef UA_ENABLE_NODESET_COMPILER_DESCRIPTIONS
 attr.description = UA_LOCALIZEDTEXT("", "Encoder");
@@ -2058,6 +2105,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearleft.error.encoder")
 static UA_StatusCode function_nodeset_69_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -2090,6 +2138,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearleft.error.controller")
 static UA_StatusCode function_nodeset_70_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -2122,6 +2171,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearleft.error.board")
 static UA_StatusCode function_nodeset_71_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -2177,6 +2227,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearleft.encoderestimates")
 static UA_StatusCode function_nodeset_73_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -2209,6 +2260,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearleft.encoderestimates.velocity")
 static UA_StatusCode function_nodeset_74_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -2264,6 +2316,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearleft.encodercounts")
 static UA_StatusCode function_nodeset_76_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -2296,6 +2349,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearleft.encodercounts.shadow")
 static UA_StatusCode function_nodeset_77_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -2328,6 +2382,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearleft.encodercounts.cpr")
 static UA_StatusCode function_nodeset_78_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -2360,6 +2415,7 @@ UA_NODEID_STRING(ns[1], "odrives.rearleft.controllerstatus")
 static UA_StatusCode function_nodeset_79_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -2418,6 +2474,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontright")
 static UA_StatusCode function_nodeset_81_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -2473,6 +2530,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontright.sensorlessestimates")
 static UA_StatusCode function_nodeset_83_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -2505,6 +2563,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontright.sensorlessestimates.velocity")
 static UA_StatusCode function_nodeset_84_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -2560,6 +2619,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontright.iq")
 static UA_StatusCode function_nodeset_86_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -2592,6 +2652,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontright.iq.setpoint")
 static UA_StatusCode function_nodeset_87_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -2647,6 +2708,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontright.error")
 static UA_StatusCode function_nodeset_89_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -2679,6 +2741,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontright.error.sensorless")
 static UA_StatusCode function_nodeset_90_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -2711,12 +2774,13 @@ UA_NODEID_STRING(ns[1], "odrives.frontright.error.motor")
 static UA_StatusCode function_nodeset_91_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
 /* Value rank inherited */
 attr.valueRank = -2;
-attr.dataType = UA_NODEID_NUMERIC(ns[0], 5LU);
+attr.dataType = UA_NODEID_NUMERIC(ns[0], 7LU);
 attr.displayName = UA_LOCALIZEDTEXT("", "Encoder");
 #ifdef UA_ENABLE_NODESET_COMPILER_DESCRIPTIONS
 attr.description = UA_LOCALIZEDTEXT("", "Encoder");
@@ -2743,6 +2807,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontright.error.encoder")
 static UA_StatusCode function_nodeset_92_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -2775,6 +2840,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontright.error.controller")
 static UA_StatusCode function_nodeset_93_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -2807,6 +2873,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontright.error.board")
 static UA_StatusCode function_nodeset_94_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -2862,6 +2929,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontright.encoderestimates")
 static UA_StatusCode function_nodeset_96_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -2894,6 +2962,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontright.encoderestimates.velocity")
 static UA_StatusCode function_nodeset_97_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -2949,6 +3018,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontright.encodercounts")
 static UA_StatusCode function_nodeset_99_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -2981,6 +3051,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontright.encodercounts.shadow")
 static UA_StatusCode function_nodeset_100_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -3013,6 +3084,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontright.encodercounts.cpr")
 static UA_StatusCode function_nodeset_101_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -3045,6 +3117,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontright.controllerstatus")
 static UA_StatusCode function_nodeset_102_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -3103,6 +3176,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontleft")
 static UA_StatusCode function_nodeset_104_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -3158,6 +3232,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontleft.sensorlessestimates")
 static UA_StatusCode function_nodeset_106_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -3190,6 +3265,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontleft.sensorlessestimates.velocity")
 static UA_StatusCode function_nodeset_107_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -3245,6 +3321,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontleft.iq")
 static UA_StatusCode function_nodeset_109_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -3277,6 +3354,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontleft.iq.setpoint")
 static UA_StatusCode function_nodeset_110_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -3332,6 +3410,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontleft.error")
 static UA_StatusCode function_nodeset_112_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -3364,6 +3443,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontleft.error.sensorless")
 static UA_StatusCode function_nodeset_113_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -3396,12 +3476,13 @@ UA_NODEID_STRING(ns[1], "odrives.frontleft.error.motor")
 static UA_StatusCode function_nodeset_114_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
 /* Value rank inherited */
 attr.valueRank = -2;
-attr.dataType = UA_NODEID_NUMERIC(ns[0], 5LU);
+attr.dataType = UA_NODEID_NUMERIC(ns[0], 7LU);
 attr.displayName = UA_LOCALIZEDTEXT("", "Encoder");
 #ifdef UA_ENABLE_NODESET_COMPILER_DESCRIPTIONS
 attr.description = UA_LOCALIZEDTEXT("", "Encoder");
@@ -3428,6 +3509,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontleft.error.encoder")
 static UA_StatusCode function_nodeset_115_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -3460,6 +3542,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontleft.error.controller")
 static UA_StatusCode function_nodeset_116_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -3492,6 +3575,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontleft.error.board")
 static UA_StatusCode function_nodeset_117_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -3547,6 +3631,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontleft.encoderestimates")
 static UA_StatusCode function_nodeset_119_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -3579,6 +3664,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontleft.encoderestimates.velocity")
 static UA_StatusCode function_nodeset_120_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -3634,6 +3720,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontleft.encodercounts")
 static UA_StatusCode function_nodeset_122_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -3666,6 +3753,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontleft.encodercounts.shadow")
 static UA_StatusCode function_nodeset_123_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -3698,6 +3786,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontleft.encodercounts.cpr")
 static UA_StatusCode function_nodeset_124_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -3730,6 +3819,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontleft.controllerstatus")
 static UA_StatusCode function_nodeset_125_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -3762,6 +3852,7 @@ UA_NODEID_STRING(ns[1], "odrives.frontleft.axisstate")
 static UA_StatusCode function_nodeset_126_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -3821,6 +3912,7 @@ UA_NODEID_NUMERIC(ns[1], 2020LU)
 static UA_StatusCode function_nodeset_128_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -3855,6 +3947,7 @@ UA_NODEID_NUMERIC(ns[1], 2022LU)
 static UA_StatusCode function_nodeset_129_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -3914,6 +4007,7 @@ UA_NODEID_NUMERIC(ns[1], 2017LU)
 static UA_StatusCode function_nodeset_131_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -3948,6 +4042,7 @@ UA_NODEID_NUMERIC(ns[1], 2019LU)
 static UA_StatusCode function_nodeset_132_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -4007,6 +4102,7 @@ UA_NODEID_NUMERIC(ns[1], 2010LU)
 static UA_StatusCode function_nodeset_134_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -4041,6 +4137,7 @@ UA_NODEID_NUMERIC(ns[1], 2016LU)
 static UA_StatusCode function_nodeset_135_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -4075,12 +4172,13 @@ UA_NODEID_NUMERIC(ns[1], 2015LU)
 static UA_StatusCode function_nodeset_136_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
 /* Value rank inherited */
 attr.valueRank = -2;
-attr.dataType = UA_NODEID_NUMERIC(ns[0], 5LU);
+attr.dataType = UA_NODEID_NUMERIC(ns[0], 7LU);
 attr.displayName = UA_LOCALIZEDTEXT("", "Encoder");
 #ifdef UA_ENABLE_NODESET_COMPILER_DESCRIPTIONS
 attr.description = UA_LOCALIZEDTEXT("", "Encoder");
@@ -4109,6 +4207,7 @@ UA_NODEID_NUMERIC(ns[1], 2014LU)
 static UA_StatusCode function_nodeset_137_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -4143,6 +4242,7 @@ UA_NODEID_NUMERIC(ns[1], 2013LU)
 static UA_StatusCode function_nodeset_138_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -4177,6 +4277,7 @@ UA_NODEID_NUMERIC(ns[1], 2012LU)
 static UA_StatusCode function_nodeset_139_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -4236,6 +4337,7 @@ UA_NODEID_NUMERIC(ns[1], 2007LU)
 static UA_StatusCode function_nodeset_141_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -4270,6 +4372,7 @@ UA_NODEID_NUMERIC(ns[1], 2009LU)
 static UA_StatusCode function_nodeset_142_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -4329,6 +4432,7 @@ UA_NODEID_NUMERIC(ns[1], 2004LU)
 static UA_StatusCode function_nodeset_144_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -4363,6 +4467,7 @@ UA_NODEID_NUMERIC(ns[1], 2006LU)
 static UA_StatusCode function_nodeset_145_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -4397,6 +4502,7 @@ UA_NODEID_NUMERIC(ns[1], 2005LU)
 static UA_StatusCode function_nodeset_146_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;
@@ -4431,6 +4537,7 @@ UA_NODEID_NUMERIC(ns[1], 2003LU)
 static UA_StatusCode function_nodeset_147_begin(UA_Server *server, UA_UInt16* ns) {
 UA_StatusCode retVal = UA_STATUSCODE_GOOD;
 UA_VariableAttributes attr = UA_VariableAttributes_default;
+attr.historizing = true;
 attr.minimumSamplingInterval = 0.000000;
 attr.userAccessLevel = 1;
 attr.accessLevel = 1;

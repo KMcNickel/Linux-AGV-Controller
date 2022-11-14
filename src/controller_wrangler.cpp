@@ -45,9 +45,9 @@ void ControllerWrangler::configureODrives()
     spdlog::info("Configuring ODrives");
 
     odriveFront.configureDualAxis("Front", &can, CAN_ID_FRONT_LEFT_AXIS, CAN_ID_FRONT_RIGHT_AXIS);
-    //odriveFront.setupMqtt(&mqtt);
+    odriveFront.setupOPCUA(&opcUaServer, "odrives.frontleft", "odrives.frontright");
     odriveRear.configureDualAxis("Rear", &can, CAN_ID_REAR_LEFT_AXIS, CAN_ID_REAR_RIGHT_AXIS);
-    //odriveRear.setupMqtt(&mqtt);
+    odriveRear.setupOPCUA(&opcUaServer, "odrives.rearleft", "odrives.rearright");
 
     odriveFront.startBoard();
     odriveRear.startBoard();

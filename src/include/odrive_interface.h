@@ -14,7 +14,7 @@
 #include "spdlog/spdlog.h"
 #include "socketcan.h"
 #include "global_defines.h"
-#include "mqtt_transfer.h"
+#include "opc_ua_server.h"
 
 #define ODRIVE_CAN_CMD_ID_HEARTBEAT                 0x1
 #define ODRIVE_CAN_CMD_ID_ESTOP                     0x2
@@ -113,7 +113,7 @@ class OdriveInterface
         static void receiveCAN(void * handle, struct can_frame frame);
         bool registerCallback();
         void configureDevice(SocketCAN * can, int32_t deviceId);
-        void setupMqtt(MqttTransfer * mqtt);
+        void setupOPCUA(OPCUAServer * opcua, uint16_t ns, std::string nodeIdBase);
         bool hasErrors();
         bool isConfigured();
 
@@ -151,13 +151,14 @@ class OdriveInterface
         int32_t canDevId;
         bool configured = false;
         bool checkIfConfigured(std::string caller);
-        MqttTransfer * mqttBackhaul = NULL;
+        OPCUAServer * opcua;
+        std::string nodeIdBase;
+        uint16_t nodeNs;
 
-        void sendMqttMessage(std::string topic, void *data, size_t length, MqttTransfer::qos_t qos, bool retain)
-        {
-            if(mqttBackhaul == NULL) return;
-            mqttBackhaul->sendMessage(topic, data, length, qos, retain);
-        }
+        void writeOPCUAValueFloat(std::string id_ext, float value);
+        void writeOPCUAValueByte(std::string id_ext, uint8_t value);
+        void writeOPCUAValueUInt32(std::string id_ext, uint32_t value);
+        void writeOPCUAValueUInt64(std::string id_ext, uint64_t value);
         void sendFloatToDevice(int cmdID, float value);
         void sendTwoFloatsToDevice(int cmdID, float valueA, float valueB);
         void sendEmptyRequestToDevice(int cmdID);
