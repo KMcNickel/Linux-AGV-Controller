@@ -16,7 +16,6 @@
 #include "include/odrive_safe_velocity_manager.h"
 #include "include/controller_wrangler.h"
 #include "include/alarm_manager.h"
-#include "include/node_ids.h"
 
 void ControllerWrangler::gracefulEnd()
 {
@@ -35,7 +34,7 @@ void ControllerWrangler::configureBatteryManager()
     batteryManager.configureDevice(&can, CAN_ID_BATTERY_MANAGER);
     batteryManager.registerCallback();
     batteryManager.rebootDevice();
-    batteryManager.setupMqtt(&mqtt);
+    //batteryManager.setupMqtt(&mqtt);
     batteryManager.setupAlarmManager(&alarmManager);
     
     spdlog::debug("Battery Manager Configured");
@@ -46,9 +45,9 @@ void ControllerWrangler::configureODrives()
     spdlog::info("Configuring ODrives");
 
     odriveFront.configureDualAxis("Front", &can, CAN_ID_FRONT_LEFT_AXIS, CAN_ID_FRONT_RIGHT_AXIS);
-    odriveFront.setupMqtt(&mqtt);
+    //odriveFront.setupMqtt(&mqtt);
     odriveRear.configureDualAxis("Rear", &can, CAN_ID_REAR_LEFT_AXIS, CAN_ID_REAR_RIGHT_AXIS);
-    odriveRear.setupMqtt(&mqtt);
+    //odriveRear.setupMqtt(&mqtt);
 
     odriveFront.startBoard();
     odriveRear.startBoard();
@@ -80,32 +79,17 @@ void ControllerWrangler::configureMQTT()
 
 void ControllerWrangler::configureOPCUA()
 {
-    spdlog::info("Starting OPC UA Server");
+    spdlog::info("Configuring OPC UA Server");
     opcUaServer.startServer();
-    spdlog::debug("OPC UA Server Started");
+    spdlog::debug("OPC UA Server Configured");
 }
 
 void ControllerWrangler::configureKinematics()
 {
-    Kinematics::nodeIds_t fwdNodeIds, invNodeIds;
-    fwdNodeIds.motion.x = OPCUA_NODE_ID_KINEMATICS_FORWARD_MOTION_X;
-    fwdNodeIds.motion.y = OPCUA_NODE_ID_KINEMATICS_FORWARD_MOTION_Y;
-    fwdNodeIds.motion.z = OPCUA_NODE_ID_KINEMATICS_FORWARD_MOTION_Z;
-    fwdNodeIds.velocities.frontLeft = OPCUA_NODE_ID_KINEMATICS_FORWARD_VELOCITY_FL;
-    fwdNodeIds.velocities.frontRight = OPCUA_NODE_ID_KINEMATICS_FORWARD_VELOCITY_FR;
-    fwdNodeIds.velocities.RearLeft = OPCUA_NODE_ID_KINEMATICS_FORWARD_VELOCITY_RL;
-    fwdNodeIds.velocities.rearRight = OPCUA_NODE_ID_KINEMATICS_FORWARD_VELOCITY_RR;
-    invNodeIds.motion.x = OPCUA_NODE_ID_KINEMATICS_INVERSE_MOTION_X;
-    invNodeIds.motion.y = OPCUA_NODE_ID_KINEMATICS_INVERSE_MOTION_Y;
-    invNodeIds.motion.z = OPCUA_NODE_ID_KINEMATICS_INVERSE_MOTION_Z;
-    invNodeIds.velocities.frontLeft = OPCUA_NODE_ID_KINEMATICS_INVERSE_VELOCITY_FL;
-    invNodeIds.velocities.frontRight = OPCUA_NODE_ID_KINEMATICS_INVERSE_VELOCITY_FR;
-    invNodeIds.velocities.RearLeft = OPCUA_NODE_ID_KINEMATICS_INVERSE_VELOCITY_RL;
-    invNodeIds.velocities.rearRight = OPCUA_NODE_ID_KINEMATICS_INVERSE_VELOCITY_RR;
     spdlog::info("Configuring Kinematics");
 
     kinematics.startup(MECANUM_WHEEL_RADIUS, MECANUM_WHEEL_BASE_WIDTH, MECANUM_WHEEL_BASE_LENGTH, MECANUM_WHEEL_RIGHT_INVERTED);
-    kinematics.setupOPCUA(&opcUaServer, OPCUA_NODE_NAMESPACE_MAIN, fwdNodeIds, invNodeIds);
+    kinematics.setupOPCUA(&opcUaServer, OPCUA_NODE_NAMESPACE_ID, "kinematics");
 
     spdlog::debug("Kinematics configured");
 }
@@ -115,7 +99,7 @@ void ControllerWrangler::configurePendant()
     spdlog::info("Configuring Pendant");
 
     pendant.startup();
-    pendant.setupMqtt(&mqtt);
+    //pendant.setupMqtt(&mqtt);
 
     spdlog::debug("Pendant configured");
 }
@@ -125,7 +109,7 @@ void ControllerWrangler::configureAlarms()
     spdlog::info("Registering Alarms");
 
     alarmManager.initializeAlarmList();
-    alarmManager.setupMqtt(&mqtt);
+    //alarmManager.setupMqtt(&mqtt);
     alarmManager.setCallback(std::bind(&ControllerWrangler::newAlarmsThrown, this));
 
     spdlog::debug("Alarms registered");
@@ -209,7 +193,7 @@ void ControllerWrangler::startup()
 
     motorControlMode = Idle;
 
-    configureMQTT();
+    //configureMQTT();
     configureOPCUA();
     configureAlarms();
     configureCANBus();

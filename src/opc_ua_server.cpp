@@ -7,11 +7,13 @@
 #include "include/opc_ua_server.h"
 #include "include/version_num.h"
 #include "include/nodeset.h"
-#include "include/node_ids.h"
+#include "include/global_defines.h"
 
 void OPCUAServer::startServer()
 {
     UA_StatusCode stat;
+
+    spdlog::info("Starting OPC UA Server");
 
     if(server != NULL)
     {
@@ -37,12 +39,17 @@ void OPCUAServer::startServer()
     {
         spdlog::error("OPC UA Server could not start: {0}", UA_StatusCode_name(stat));
         server = NULL;
+        return;
     }
+
+    spdlog::debug("OPC UA Server Started");
 }
 
 void OPCUAServer::stopServer()
 {
     UA_StatusCode stat;
+
+    spdlog::info("Stopping OPC UA Server");
 
     if(server == NULL)
     {
@@ -53,11 +60,16 @@ void OPCUAServer::stopServer()
     stat = UA_Server_run_shutdown(server);
     if(stat != UA_STATUSCODE_GOOD)
         spdlog::error("OPC UA Server could not stop: {0}", UA_StatusCode_name(stat));
+
     UA_Server_delete(server);
+
+    spdlog::debug("OPC UA Server Stopped");
 }
 
 void OPCUAServer::checkServer()
 {
+    spdlog::trace("Iterating OPC UA Server");
+
     if(server == NULL)
     {
         spdlog::trace("Cannot iterate an OPC UA server that is not running");
@@ -73,6 +85,9 @@ void OPCUAServer::setVersionNodeValues()
     UA_VariableAttributes attr = UA_VariableAttributes_default;
     UA_UInt32 * version = (UA_UInt32 * ) UA_Array_new(4, &UA_TYPES[UA_TYPES_UINT32]);
     UA_Variant value;
+    std::string node_id = "softwareversion";
+
+    spdlog::debug("Setting OPC UA Server Version Node Data");
 
     if(server == NULL)
     {
@@ -86,7 +101,7 @@ void OPCUAServer::setVersionNodeValues()
     version[3] = VERSION_BUILD;
 
     UA_Variant_setArray(&value, version, 4, &UA_TYPES[UA_TYPES_UINT32]);
-    UA_NodeId nodeID = UA_NODEID_NUMERIC(OPCUA_NODE_NAMESPACE_MAIN, OPCUA_NODE_ID_SOFTWARE_VERSION);
+    UA_NodeId nodeID = UA_NODEID_STRING(OPCUA_NODE_NAMESPACE_ID, (char *) node_id.c_str());
 
     stat = UA_Server_writeValue(server, nodeID, value);
 
@@ -97,6 +112,8 @@ void OPCUAServer::setVersionNodeValues()
 
 UA_StatusCode OPCUAServer::writeValueToServer(UA_NodeId id, UA_Variant value)
 {
+    spdlog::trace("Writing value to OPC UA Server");
+    
     if(server == NULL)
     {
         spdlog::trace("Attempting to set value while server is not running");
