@@ -121,3 +121,8 @@ UA_StatusCode OPCUAServer::writeValueToServer(UA_NodeId id, UA_Variant value)
     }
     return UA_Server_writeValue(server, id, value);
 }
+
+UA_Server * OPCUAServer::getServer()
+{
+    return server;
+}

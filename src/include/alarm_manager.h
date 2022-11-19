@@ -5,8 +5,7 @@
 #include <stdint.h>
 #include <string>
 #include <stdlib.h>
-#include "mqtt_transfer.h"
-#include "nlohmann/json.hpp"
+#include "opc_ua_server.h"
 
 class AlarmManager
 {
@@ -28,11 +27,9 @@ class AlarmManager
             bool thrown;
             bool acknowledged;
         };
-        
-        NLOHMANN_DEFINE_TYPE_INTRUSIVE(alarmListInfo_t, id, message, level)
 
         void initializeAlarmList();
-        void setupMqtt(MqttTransfer * mqtt);
+        void setupOPCUA(OPCUAServer * opcua, uint16_t ns, std::string nodeIdBase);
         void setCallback(std::function<void()> cb);
 
         bool alarmsAreActive();
@@ -44,11 +41,39 @@ class AlarmManager
         void unmaskAllAlarms();
         void clearAllAlarms();
         void acknowledgeAllAlarms();
+        void createAlarmCondition(UA_NodeId * outNodeId, std::string sourceName, std::string name, uint16_t severity);
 
     private:
         std::list<alarmListInfo_t> alarms;
-        MqttTransfer * mqtt;
+        OPCUAServer * opcua = NULL;
         std::function<void()> callback;
+        std::string nodeIdBase;
+        uint16_t nodeNs;
+        UA_NodeId conditionNodeId;
+
+        bool addConditionReference(UA_ExpandedNodeId sourceNodeId);
+        bool createCondition(UA_NodeId * outNodeId, std::string conditionSource, std::string name);
+        void activateCondition(UA_NodeId node);
+        void setConditionActiveFlag(UA_NodeId node, bool active);
+        void setConditionEnabledFlag(UA_NodeId node, bool enabled);
+        void setConditionTime(UA_NodeId node, int64_t time);
+        void setConditionRetainFlag(UA_NodeId node, bool retain);
+        void setConditionSeverity(UA_NodeId node, uint16_t severity);
+        void setConditionMessage(UA_NodeId node, std::string message);
+
+        struct
+        {
+            UA_QualifiedName enabledState = UA_QUALIFIEDNAME(0,"EnabledState");
+            UA_QualifiedName ackedState = UA_QUALIFIEDNAME(0,"AckedState");
+            UA_QualifiedName confirmedState = UA_QUALIFIEDNAME(0,"ConfirmedState");
+            UA_QualifiedName activeState = UA_QUALIFIEDNAME(0,"ActiveState");
+            UA_QualifiedName severity = UA_QUALIFIEDNAME(0,"Severity");
+            UA_QualifiedName message = UA_QUALIFIEDNAME(0,"Message");
+            UA_QualifiedName comment = UA_QUALIFIEDNAME(0,"Comment");
+            UA_QualifiedName retain = UA_QUALIFIEDNAME(0,"Retain");
+            UA_QualifiedName time = UA_QUALIFIEDNAME(0,"Time");
+            UA_QualifiedName id = UA_QUALIFIEDNAME(0,"Id");
+        } OPCUAFieldNames;
 };
 
 #endif

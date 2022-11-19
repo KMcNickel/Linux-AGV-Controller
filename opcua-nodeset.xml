@@ -1,0 +1,1389 @@
+<?xml version='1.0' encoding='utf-8'?>
+<UANodeSet xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:uax="http://opcfoundation.org/UA/2008/02/Types.xsd" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://opcfoundation.org/UA/2011/03/UANodeSet.xsd">
+  <NamespaceUris>
+    <Uri>http//freeopcua/defaults/modeler</Uri>
+  </NamespaceUris>
+  <Aliases>
+    <Alias Alias="Byte">i=3</Alias>
+    <Alias Alias="UInt16">i=5</Alias>
+    <Alias Alias="Int32">i=6</Alias>
+    <Alias Alias="UInt32">i=7</Alias>
+    <Alias Alias="UInt64">i=9</Alias>
+    <Alias Alias="Float">i=10</Alias>
+    <Alias Alias="Organizes">i=35</Alias>
+    <Alias Alias="HasModellingRule">i=37</Alias>
+    <Alias Alias="HasTypeDefinition">i=40</Alias>
+    <Alias Alias="HasSubtype">i=45</Alias>
+    <Alias Alias="HasComponent">i=47</Alias>
+  </Aliases>
+  <UAObjectType NodeId="ns=1;i=2001" BrowseName="1:ODrive">
+    <DisplayName>ODrive</DisplayName>
+    <Description>ODrive</Description>
+    <References>
+      <Reference ReferenceType="HasSubtype" IsForward="false">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2002</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2003</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2004</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2007</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2010</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2017</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2020</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2023</Reference>
+      <Reference ReferenceType="HasTypeDefinition" IsForward="false">ns=1;s=odrives.frontright</Reference>
+      <Reference ReferenceType="HasTypeDefinition" IsForward="false">ns=1;s=odrives.frontleft</Reference>
+      <Reference ReferenceType="HasTypeDefinition" IsForward="false">ns=1;s=odrives.rearleft</Reference>
+      <Reference ReferenceType="HasTypeDefinition" IsForward="false">ns=1;s=odrives.rearright</Reference>
+    </References>
+  </UAObjectType>
+  <UAVariable NodeId="ns=1;i=2002" BrowseName="1:AxisState" ParentNodeId="ns=1;i=2001" DataType="Byte" Historizing="true">
+    <DisplayName>AxisState</DisplayName>
+    <Description>AxisState</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2001</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2003" BrowseName="1:ControllerStatus" ParentNodeId="ns=1;i=2001" DataType="Byte" Historizing="true">
+    <DisplayName>ControllerStatus</DisplayName>
+    <Description>ControllerStatus</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2001</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;i=2004" BrowseName="1:EncoderCounts" ParentNodeId="ns=1;i=2001">
+    <DisplayName>EncoderCounts</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2001</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2005</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2006</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;i=2005" BrowseName="1:CPR" ParentNodeId="ns=1;i=2004" DataType="Int32" Historizing="true">
+    <DisplayName>CPR</DisplayName>
+    <Description>CPR</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2004</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2006" BrowseName="1:Shadow" ParentNodeId="ns=1;i=2004" DataType="Int32" Historizing="true">
+    <DisplayName>Shadow</DisplayName>
+    <Description>Shadow</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2004</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;i=2007" BrowseName="1:EncoderEstimates" ParentNodeId="ns=1;i=2001">
+    <DisplayName>EncoderEstimates</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2001</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2008</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2009</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;i=2008" BrowseName="1:Position" ParentNodeId="ns=1;i=2007" DataType="Float" Historizing="true">
+    <DisplayName>Position</DisplayName>
+    <Description>Position</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2007</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2009" BrowseName="1:Velocity" ParentNodeId="ns=1;i=2007" DataType="Float" Historizing="true">
+    <DisplayName>Velocity</DisplayName>
+    <Description>Velocity</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2007</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;i=2010" BrowseName="1:Error" ParentNodeId="ns=1;i=2001">
+    <DisplayName>Error</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2001</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2011</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2012</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2013</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2014</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2015</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2016</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;i=2011" BrowseName="1:Axis" ParentNodeId="ns=1;i=2010" DataType="UInt32" Historizing="true">
+    <DisplayName>Axis</DisplayName>
+    <Description>Axis</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2010</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2012" BrowseName="1:Board" ParentNodeId="ns=1;i=2010" DataType="Byte" Historizing="true">
+    <DisplayName>Board</DisplayName>
+    <Description>Board</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2010</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2013" BrowseName="1:Controller" ParentNodeId="ns=1;i=2010" DataType="Byte" Historizing="true">
+    <DisplayName>Controller</DisplayName>
+    <Description>Controller</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2010</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2014" BrowseName="1:Encoder" ParentNodeId="ns=1;i=2010" DataType="UInt32" Historizing="true">
+    <DisplayName>Encoder</DisplayName>
+    <Description>Encoder</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2010</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2015" BrowseName="1:Motor" ParentNodeId="ns=1;i=2010" DataType="UInt64" Historizing="true">
+    <DisplayName>Motor</DisplayName>
+    <Description>Motor</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2010</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2016" BrowseName="1:Sensorless" ParentNodeId="ns=1;i=2010" DataType="UInt32" Historizing="true">
+    <DisplayName>Sensorless</DisplayName>
+    <Description>Sensorless</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2010</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;i=2017" BrowseName="1:IQ" ParentNodeId="ns=1;i=2001">
+    <DisplayName>IQ</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2001</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2018</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2019</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;i=2018" BrowseName="1:Measured" ParentNodeId="ns=1;i=2017" DataType="Float" Historizing="true">
+    <DisplayName>Measured</DisplayName>
+    <Description>Measured</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2017</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2019" BrowseName="1:Setpoint" ParentNodeId="ns=1;i=2017" DataType="Float" Historizing="true">
+    <DisplayName>Setpoint</DisplayName>
+    <Description>Setpoint</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2017</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;i=2020" BrowseName="1:SensorlessEstimates" ParentNodeId="ns=1;i=2001">
+    <DisplayName>SensorlessEstimates</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2001</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2021</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2022</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;i=2021" BrowseName="1:Position" ParentNodeId="ns=1;i=2020" DataType="Float" Historizing="true">
+    <DisplayName>Position</DisplayName>
+    <Description>Position</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2020</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2022" BrowseName="1:Velocity" ParentNodeId="ns=1;i=2020" DataType="Float" Historizing="true">
+    <DisplayName>Velocity</DisplayName>
+    <Description>Velocity</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2020</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2023" BrowseName="1:VbusVoltage" ParentNodeId="ns=1;i=2001" DataType="Float" Historizing="true">
+    <DisplayName>VbusVoltage</DisplayName>
+    <Description>VbusVoltage</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2001</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=odrives" BrowseName="1:ODrives" ParentNodeId="i=85">
+    <DisplayName>ODrives</DisplayName>
+    <References>
+      <Reference ReferenceType="Organizes" IsForward="false">i=85</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontright</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontleft</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearleft</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearright</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;s=odrives.frontright" BrowseName="1:FrontRight" ParentNodeId="ns=1;s=odrives">
+    <DisplayName>FrontRight</DisplayName>
+    <Description>ODrive</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives</Reference>
+      <Reference ReferenceType="HasTypeDefinition">ns=1;i=2001</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontright.axisstate</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontright.controllerstatus</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontright.encodercounts</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontright.encoderestimates</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontright.error</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontright.iq</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontright.sensorlessestimates</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontright.vbusvoltage</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=odrives.frontright.axisstate" BrowseName="1:AxisState" ParentNodeId="ns=1;s=odrives.frontright" DataType="Byte" Historizing="true">
+    <DisplayName>AxisState</DisplayName>
+    <Description>AxisState</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontright</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.frontright.controllerstatus" BrowseName="1:ControllerStatus" ParentNodeId="ns=1;s=odrives.frontright" DataType="Byte" Historizing="true">
+    <DisplayName>ControllerStatus</DisplayName>
+    <Description>ControllerStatus</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontright</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=odrives.frontright.encodercounts" BrowseName="1:EncoderCounts" ParentNodeId="ns=1;s=odrives.frontright">
+    <DisplayName>EncoderCounts</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontright</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontright.encodercounts.cpr</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontright.encodercounts.shadow</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=odrives.frontright.encodercounts.cpr" BrowseName="1:CPR" ParentNodeId="ns=1;s=odrives.frontright.encodercounts" DataType="Int32" Historizing="true">
+    <DisplayName>CPR</DisplayName>
+    <Description>CPR</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontright.encodercounts</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.frontright.encodercounts.shadow" BrowseName="1:Shadow" ParentNodeId="ns=1;s=odrives.frontright.encodercounts" DataType="Int32" Historizing="true">
+    <DisplayName>Shadow</DisplayName>
+    <Description>Shadow</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontright.encodercounts</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=odrives.frontright.encoderestimates" BrowseName="1:EncoderEstimates" ParentNodeId="ns=1;s=odrives.frontright">
+    <DisplayName>EncoderEstimates</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontright</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontright.encoderestimates.position</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontright.encoderestimates.velocity</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=odrives.frontright.encoderestimates.position" BrowseName="1:Position" ParentNodeId="ns=1;s=odrives.frontright.encoderestimates" DataType="Float" Historizing="true">
+    <DisplayName>Position</DisplayName>
+    <Description>Position</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontright.encoderestimates</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.frontright.encoderestimates.velocity" BrowseName="1:Velocity" ParentNodeId="ns=1;s=odrives.frontright.encoderestimates" DataType="Float" Historizing="true">
+    <DisplayName>Velocity</DisplayName>
+    <Description>Velocity</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontright.encoderestimates</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=odrives.frontright.error" BrowseName="1:Error" ParentNodeId="ns=1;s=odrives.frontright">
+    <DisplayName>Error</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontright</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontright.error.axis</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontright.error.board</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontright.error.controller</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontright.error.encoder</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontright.error.motor</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontright.error.sensorless</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=odrives.frontright.error.axis" BrowseName="1:Axis" ParentNodeId="ns=1;s=odrives.frontright.error" DataType="UInt32" Historizing="true">
+    <DisplayName>Axis</DisplayName>
+    <Description>Axis</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontright.error</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.frontright.error.board" BrowseName="1:Board" ParentNodeId="ns=1;s=odrives.frontright.error" DataType="Byte" Historizing="true">
+    <DisplayName>Board</DisplayName>
+    <Description>Board</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontright.error</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.frontright.error.controller" BrowseName="1:Controller" ParentNodeId="ns=1;s=odrives.frontright.error" DataType="Byte" Historizing="true">
+    <DisplayName>Controller</DisplayName>
+    <Description>Controller</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontright.error</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.frontright.error.encoder" BrowseName="1:Encoder" ParentNodeId="ns=1;s=odrives.frontright.error" DataType="UInt32" Historizing="true">
+    <DisplayName>Encoder</DisplayName>
+    <Description>Encoder</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontright.error</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.frontright.error.motor" BrowseName="1:Motor" ParentNodeId="ns=1;s=odrives.frontright.error" DataType="UInt64" Historizing="true">
+    <DisplayName>Motor</DisplayName>
+    <Description>Motor</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontright.error</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.frontright.error.sensorless" BrowseName="1:Sensorless" ParentNodeId="ns=1;s=odrives.frontright.error" DataType="UInt32" Historizing="true">
+    <DisplayName>Sensorless</DisplayName>
+    <Description>Sensorless</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontright.error</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=odrives.frontright.iq" BrowseName="1:IQ" ParentNodeId="ns=1;s=odrives.frontright">
+    <DisplayName>IQ</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontright</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontright.iq.measured</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontright.iq.setpoint</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=odrives.frontright.iq.measured" BrowseName="1:Measured" ParentNodeId="ns=1;s=odrives.frontright.iq" DataType="Float" Historizing="true">
+    <DisplayName>Measured</DisplayName>
+    <Description>Measured</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontright.iq</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.frontright.iq.setpoint" BrowseName="1:Setpoint" ParentNodeId="ns=1;s=odrives.frontright.iq" DataType="Float" Historizing="true">
+    <DisplayName>Setpoint</DisplayName>
+    <Description>Setpoint</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontright.iq</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=odrives.frontright.sensorlessestimates" BrowseName="1:Sensorless" ParentNodeId="ns=1;s=odrives.frontright">
+    <DisplayName>SensorlessEstimates</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontright</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontright.sensorlessestimates.position</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontright.sensorlessestimates.velocity</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=odrives.frontright.sensorlessestimates.position" BrowseName="1:Position" ParentNodeId="ns=1;s=odrives.frontright.sensorlessestimates" DataType="Float" Historizing="true">
+    <DisplayName>Position</DisplayName>
+    <Description>Position</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontright.sensorlessestimates</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.frontright.sensorlessestimates.velocity" BrowseName="1:Velocity" ParentNodeId="ns=1;s=odrives.frontright.sensorlessestimates" DataType="Float" Historizing="true">
+    <DisplayName>Velocity</DisplayName>
+    <Description>Velocity</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontright.sensorlessestimates</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.frontright.vbusvoltage" BrowseName="1:VbusVoltage" ParentNodeId="ns=1;s=odrives.frontright" DataType="Float" Historizing="true">
+    <DisplayName>VbusVoltage</DisplayName>
+    <Description>VbusVoltage</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontright</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=odrives.frontleft" BrowseName="1:frontleft" ParentNodeId="ns=1;s=odrives">
+    <DisplayName>frontleft</DisplayName>
+    <Description>ODrive</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives</Reference>
+      <Reference ReferenceType="HasTypeDefinition">ns=1;i=2001</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontleft.axisstate</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontleft.controllerstatus</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontleft.encodercounts</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontleft.encoderestimates</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontleft.error</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontleft.iq</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontleft.sensorlessestimates</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontleft.vbusvoltage</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=odrives.frontleft.axisstate" BrowseName="1:AxisState" ParentNodeId="ns=1;s=odrives.frontleft" DataType="Byte" Historizing="true">
+    <DisplayName>AxisState</DisplayName>
+    <Description>AxisState</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontleft</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.frontleft.controllerstatus" BrowseName="1:ControllerStatus" ParentNodeId="ns=1;s=odrives.frontleft" DataType="Byte" Historizing="true">
+    <DisplayName>ControllerStatus</DisplayName>
+    <Description>ControllerStatus</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontleft</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=odrives.frontleft.encodercounts" BrowseName="1:EncoderCounts" ParentNodeId="ns=1;s=odrives.frontleft">
+    <DisplayName>EncoderCounts</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontleft</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontleft.encodercounts.cpr</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontleft.encodercounts.shadow</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=odrives.frontleft.encodercounts.cpr" BrowseName="1:CPR" ParentNodeId="ns=1;s=odrives.frontleft.encodercounts" DataType="Int32" Historizing="true">
+    <DisplayName>CPR</DisplayName>
+    <Description>CPR</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontleft.encodercounts</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.frontleft.encodercounts.shadow" BrowseName="1:Shadow" ParentNodeId="ns=1;s=odrives.frontleft.encodercounts" DataType="Int32" Historizing="true">
+    <DisplayName>Shadow</DisplayName>
+    <Description>Shadow</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontleft.encodercounts</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=odrives.frontleft.encoderestimates" BrowseName="1:EncoderEstimates" ParentNodeId="ns=1;s=odrives.frontleft">
+    <DisplayName>EncoderEstimates</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontleft</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontleft.encoderestimates.position</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontleft.encoderestimates.velocity</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=odrives.frontleft.encoderestimates.position" BrowseName="1:Position" ParentNodeId="ns=1;s=odrives.frontleft.encoderestimates" DataType="Float" Historizing="true">
+    <DisplayName>Position</DisplayName>
+    <Description>Position</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontleft.encoderestimates</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.frontleft.encoderestimates.velocity" BrowseName="1:Velocity" ParentNodeId="ns=1;s=odrives.frontleft.encoderestimates" DataType="Float" Historizing="true">
+    <DisplayName>Velocity</DisplayName>
+    <Description>Velocity</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontleft.encoderestimates</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=odrives.frontleft.error" BrowseName="1:Error" ParentNodeId="ns=1;s=odrives.frontleft">
+    <DisplayName>Error</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontleft</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontleft.error.axis</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontleft.error.board</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontleft.error.controller</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontleft.error.encoder</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontleft.error.motor</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontleft.error.sensorless</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=odrives.frontleft.error.axis" BrowseName="1:Axis" ParentNodeId="ns=1;s=odrives.frontleft.error" DataType="UInt32" Historizing="true">
+    <DisplayName>Axis</DisplayName>
+    <Description>Axis</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontleft.error</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.frontleft.error.board" BrowseName="1:Board" ParentNodeId="ns=1;s=odrives.frontleft.error" DataType="Byte" Historizing="true">
+    <DisplayName>Board</DisplayName>
+    <Description>Board</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontleft.error</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.frontleft.error.controller" BrowseName="1:Controller" ParentNodeId="ns=1;s=odrives.frontleft.error" DataType="Byte" Historizing="true">
+    <DisplayName>Controller</DisplayName>
+    <Description>Controller</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontleft.error</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.frontleft.error.encoder" BrowseName="1:Encoder" ParentNodeId="ns=1;s=odrives.frontleft.error" DataType="UInt32" Historizing="true">
+    <DisplayName>Encoder</DisplayName>
+    <Description>Encoder</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontleft.error</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.frontleft.error.motor" BrowseName="1:Motor" ParentNodeId="ns=1;s=odrives.frontleft.error" DataType="UInt64" Historizing="true">
+    <DisplayName>Motor</DisplayName>
+    <Description>Motor</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontleft.error</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.frontleft.error.sensorless" BrowseName="1:Sensorless" ParentNodeId="ns=1;s=odrives.frontleft.error" DataType="UInt32" Historizing="true">
+    <DisplayName>Sensorless</DisplayName>
+    <Description>Sensorless</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontleft.error</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=odrives.frontleft.iq" BrowseName="1:IQ" ParentNodeId="ns=1;s=odrives.frontleft">
+    <DisplayName>IQ</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontleft</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontleft.iq.measured</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontleft.iq.setpoint</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=odrives.frontleft.iq.measured" BrowseName="1:Measured" ParentNodeId="ns=1;s=odrives.frontleft.iq" DataType="Float" Historizing="true">
+    <DisplayName>Measured</DisplayName>
+    <Description>Measured</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontleft.iq</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.frontleft.iq.setpoint" BrowseName="1:Setpoint" ParentNodeId="ns=1;s=odrives.frontleft.iq" DataType="Float" Historizing="true">
+    <DisplayName>Setpoint</DisplayName>
+    <Description>Setpoint</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontleft.iq</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=odrives.frontleft.sensorlessestimates" BrowseName="1:Sensorless" ParentNodeId="ns=1;s=odrives.frontleft">
+    <DisplayName>SensorlessEstimates</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontleft</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontleft.sensorlessestimates.position</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.frontleft.sensorlessestimates.velocity</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=odrives.frontleft.sensorlessestimates.position" BrowseName="1:Position" ParentNodeId="ns=1;s=odrives.frontleft.sensorlessestimates" DataType="Float" Historizing="true">
+    <DisplayName>Position</DisplayName>
+    <Description>Position</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontleft.sensorlessestimates</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.frontleft.sensorlessestimates.velocity" BrowseName="1:Velocity" ParentNodeId="ns=1;s=odrives.frontleft.sensorlessestimates" DataType="Float" Historizing="true">
+    <DisplayName>Velocity</DisplayName>
+    <Description>Velocity</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontleft.sensorlessestimates</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.frontleft.vbusvoltage" BrowseName="1:VbusVoltage" ParentNodeId="ns=1;s=odrives.frontleft" DataType="Float" Historizing="true">
+    <DisplayName>VbusVoltage</DisplayName>
+    <Description>VbusVoltage</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.frontleft</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=odrives.rearleft" BrowseName="1:rearleft" ParentNodeId="ns=1;s=odrives">
+    <DisplayName>rearleft</DisplayName>
+    <Description>ODrive</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives</Reference>
+      <Reference ReferenceType="HasTypeDefinition">ns=1;i=2001</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearleft.axisstate</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearleft.controllerstatus</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearleft.encodercounts</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearleft.encoderestimates</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearleft.error</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearleft.iq</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearleft.sensorlessestimates</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearleft.vbusvoltage</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=odrives.rearleft.axisstate" BrowseName="1:AxisState" ParentNodeId="ns=1;s=odrives.rearleft" DataType="Byte" Historizing="true">
+    <DisplayName>AxisState</DisplayName>
+    <Description>AxisState</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearleft</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.rearleft.controllerstatus" BrowseName="1:ControllerStatus" ParentNodeId="ns=1;s=odrives.rearleft" DataType="Byte" Historizing="true">
+    <DisplayName>ControllerStatus</DisplayName>
+    <Description>ControllerStatus</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearleft</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=odrives.rearleft.encodercounts" BrowseName="1:EncoderCounts" ParentNodeId="ns=1;s=odrives.rearleft">
+    <DisplayName>EncoderCounts</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearleft</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearleft.encodercounts.cpr</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearleft.encodercounts.shadow</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=odrives.rearleft.encodercounts.cpr" BrowseName="1:CPR" ParentNodeId="ns=1;s=odrives.rearleft.encodercounts" DataType="Int32" Historizing="true">
+    <DisplayName>CPR</DisplayName>
+    <Description>CPR</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearleft.encodercounts</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.rearleft.encodercounts.shadow" BrowseName="1:Shadow" ParentNodeId="ns=1;s=odrives.rearleft.encodercounts" DataType="Int32" Historizing="true">
+    <DisplayName>Shadow</DisplayName>
+    <Description>Shadow</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearleft.encodercounts</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=odrives.rearleft.encoderestimates" BrowseName="1:EncoderEstimates" ParentNodeId="ns=1;s=odrives.rearleft">
+    <DisplayName>EncoderEstimates</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearleft</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearleft.encoderestimates.position</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearleft.encoderestimates.velocity</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=odrives.rearleft.encoderestimates.position" BrowseName="1:Position" ParentNodeId="ns=1;s=odrives.rearleft.encoderestimates" DataType="Float" Historizing="true">
+    <DisplayName>Position</DisplayName>
+    <Description>Position</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearleft.encoderestimates</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.rearleft.encoderestimates.velocity" BrowseName="1:Velocity" ParentNodeId="ns=1;s=odrives.rearleft.encoderestimates" DataType="Float" Historizing="true">
+    <DisplayName>Velocity</DisplayName>
+    <Description>Velocity</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearleft.encoderestimates</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=odrives.rearleft.error" BrowseName="1:Error" ParentNodeId="ns=1;s=odrives.rearleft">
+    <DisplayName>Error</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearleft</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearleft.error.axis</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearleft.error.board</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearleft.error.controller</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearleft.error.encoder</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearleft.error.motor</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearleft.error.sensorless</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=odrives.rearleft.error.axis" BrowseName="1:Axis" ParentNodeId="ns=1;s=odrives.rearleft.error" DataType="UInt32" Historizing="true">
+    <DisplayName>Axis</DisplayName>
+    <Description>Axis</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearleft.error</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.rearleft.error.board" BrowseName="1:Board" ParentNodeId="ns=1;s=odrives.rearleft.error" DataType="Byte" Historizing="true">
+    <DisplayName>Board</DisplayName>
+    <Description>Board</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearleft.error</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.rearleft.error.controller" BrowseName="1:Controller" ParentNodeId="ns=1;s=odrives.rearleft.error" DataType="Byte" Historizing="true">
+    <DisplayName>Controller</DisplayName>
+    <Description>Controller</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearleft.error</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.rearleft.error.encoder" BrowseName="1:Encoder" ParentNodeId="ns=1;s=odrives.rearleft.error" DataType="UInt32" Historizing="true">
+    <DisplayName>Encoder</DisplayName>
+    <Description>Encoder</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearleft.error</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.rearleft.error.motor" BrowseName="1:Motor" ParentNodeId="ns=1;s=odrives.rearleft.error" DataType="UInt64" Historizing="true">
+    <DisplayName>Motor</DisplayName>
+    <Description>Motor</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearleft.error</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.rearleft.error.sensorless" BrowseName="1:Sensorless" ParentNodeId="ns=1;s=odrives.rearleft.error" DataType="UInt32" Historizing="true">
+    <DisplayName>Sensorless</DisplayName>
+    <Description>Sensorless</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearleft.error</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=odrives.rearleft.iq" BrowseName="1:IQ" ParentNodeId="ns=1;s=odrives.rearleft">
+    <DisplayName>IQ</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearleft</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearleft.iq.measured</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearleft.iq.setpoint</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=odrives.rearleft.iq.measured" BrowseName="1:Measured" ParentNodeId="ns=1;s=odrives.rearleft.iq" DataType="Float" Historizing="true">
+    <DisplayName>Measured</DisplayName>
+    <Description>Measured</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearleft.iq</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.rearleft.iq.setpoint" BrowseName="1:Setpoint" ParentNodeId="ns=1;s=odrives.rearleft.iq" DataType="Float" Historizing="true">
+    <DisplayName>Setpoint</DisplayName>
+    <Description>Setpoint</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearleft.iq</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=odrives.rearleft.sensorlessestimates" BrowseName="1:Sensorless" ParentNodeId="ns=1;s=odrives.rearleft">
+    <DisplayName>SensorlessEstimates</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearleft</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearleft.sensorlessestimates.position</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearleft.sensorlessestimates.velocity</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=odrives.rearleft.sensorlessestimates.position" BrowseName="1:Position" ParentNodeId="ns=1;s=odrives.rearleft.sensorlessestimates" DataType="Float" Historizing="true">
+    <DisplayName>Position</DisplayName>
+    <Description>Position</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearleft.sensorlessestimates</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.rearleft.sensorlessestimates.velocity" BrowseName="1:Velocity" ParentNodeId="ns=1;s=odrives.rearleft.sensorlessestimates" DataType="Float" Historizing="true">
+    <DisplayName>Velocity</DisplayName>
+    <Description>Velocity</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearleft.sensorlessestimates</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.rearleft.vbusvoltage" BrowseName="1:VbusVoltage" ParentNodeId="ns=1;s=odrives.rearleft" DataType="Float" Historizing="true">
+    <DisplayName>VbusVoltage</DisplayName>
+    <Description>VbusVoltage</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearleft</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=odrives.rearright" BrowseName="1:rearright" ParentNodeId="ns=1;s=odrives">
+    <DisplayName>rearright</DisplayName>
+    <Description>ODrive</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives</Reference>
+      <Reference ReferenceType="HasTypeDefinition">ns=1;i=2001</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearright.axisstate</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearright.controllerstatus</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearright.encodercounts</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearright.encoderestimates</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearright.error</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearright.iq</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearright.sensorlessestimates</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearright.vbusvoltage</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=odrives.rearright.axisstate" BrowseName="1:AxisState" ParentNodeId="ns=1;s=odrives.rearright" DataType="Byte" Historizing="true">
+    <DisplayName>AxisState</DisplayName>
+    <Description>AxisState</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearright</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.rearright.controllerstatus" BrowseName="1:ControllerStatus" ParentNodeId="ns=1;s=odrives.rearright" DataType="Byte" Historizing="true">
+    <DisplayName>ControllerStatus</DisplayName>
+    <Description>ControllerStatus</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearright</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=odrives.rearright.encodercounts" BrowseName="1:EncoderCounts" ParentNodeId="ns=1;s=odrives.rearright">
+    <DisplayName>EncoderCounts</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearright</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearright.encodercounts.cpr</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearright.encodercounts.shadow</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=odrives.rearright.encodercounts.cpr" BrowseName="1:CPR" ParentNodeId="ns=1;s=odrives.rearright.encodercounts" DataType="Int32" Historizing="true">
+    <DisplayName>CPR</DisplayName>
+    <Description>CPR</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearright.encodercounts</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.rearright.encodercounts.shadow" BrowseName="1:Shadow" ParentNodeId="ns=1;s=odrives.rearright.encodercounts" DataType="Int32" Historizing="true">
+    <DisplayName>Shadow</DisplayName>
+    <Description>Shadow</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearright.encodercounts</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=odrives.rearright.encoderestimates" BrowseName="1:EncoderEstimates" ParentNodeId="ns=1;s=odrives.rearright">
+    <DisplayName>EncoderEstimates</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearright</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearright.encoderestimates.position</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearright.encoderestimates.velocity</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=odrives.rearright.encoderestimates.position" BrowseName="1:Position" ParentNodeId="ns=1;s=odrives.rearright.encoderestimates" DataType="Float" Historizing="true">
+    <DisplayName>Position</DisplayName>
+    <Description>Position</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearright.encoderestimates</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.rearright.encoderestimates.velocity" BrowseName="1:Velocity" ParentNodeId="ns=1;s=odrives.rearright.encoderestimates" DataType="Float" Historizing="true">
+    <DisplayName>Velocity</DisplayName>
+    <Description>Velocity</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearright.encoderestimates</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=odrives.rearright.error" BrowseName="1:Error" ParentNodeId="ns=1;s=odrives.rearright">
+    <DisplayName>Error</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearright</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearright.error.axis</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearright.error.board</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearright.error.controller</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearright.error.encoder</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearright.error.motor</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearright.error.sensorless</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=odrives.rearright.error.axis" BrowseName="1:Axis" ParentNodeId="ns=1;s=odrives.rearright.error" DataType="UInt32" Historizing="true">
+    <DisplayName>Axis</DisplayName>
+    <Description>Axis</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearright.error</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.rearright.error.board" BrowseName="1:Board" ParentNodeId="ns=1;s=odrives.rearright.error" DataType="Byte" Historizing="true">
+    <DisplayName>Board</DisplayName>
+    <Description>Board</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearright.error</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.rearright.error.controller" BrowseName="1:Controller" ParentNodeId="ns=1;s=odrives.rearright.error" DataType="Byte" Historizing="true">
+    <DisplayName>Controller</DisplayName>
+    <Description>Controller</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearright.error</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.rearright.error.encoder" BrowseName="1:Encoder" ParentNodeId="ns=1;s=odrives.rearright.error" DataType="UInt16" Historizing="true">
+    <DisplayName>Encoder</DisplayName>
+    <Description>Encoder</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearright.error</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.rearright.error.motor" BrowseName="1:Motor" ParentNodeId="ns=1;s=odrives.rearright.error" DataType="UInt64" Historizing="true">
+    <DisplayName>Motor</DisplayName>
+    <Description>Motor</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearright.error</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.rearright.error.sensorless" BrowseName="1:Sensorless" ParentNodeId="ns=1;s=odrives.rearright.error" DataType="UInt32" Historizing="true">
+    <DisplayName>Sensorless</DisplayName>
+    <Description>Sensorless</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearright.error</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=odrives.rearright.iq" BrowseName="1:IQ" ParentNodeId="ns=1;s=odrives.rearright">
+    <DisplayName>IQ</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearright</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearright.iq.measured</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearright.iq.setpoint</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=odrives.rearright.iq.measured" BrowseName="1:Measured" ParentNodeId="ns=1;s=odrives.rearright.iq" DataType="Float" Historizing="true">
+    <DisplayName>Measured</DisplayName>
+    <Description>Measured</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearright.iq</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.rearright.iq.setpoint" BrowseName="1:Setpoint" ParentNodeId="ns=1;s=odrives.rearright.iq" DataType="Float" Historizing="true">
+    <DisplayName>Setpoint</DisplayName>
+    <Description>Setpoint</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearright.iq</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=odrives.rearright.sensorlessestimates" BrowseName="1:Sensorless" ParentNodeId="ns=1;s=odrives.rearright">
+    <DisplayName>SensorlessEstimates</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearright</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearright.sensorlessestimates.position</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=odrives.rearright.sensorlessestimates.velocity</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=odrives.rearright.sensorlessestimates.position" BrowseName="1:Position" ParentNodeId="ns=1;s=odrives.rearright.sensorlessestimates" DataType="Float" Historizing="true">
+    <DisplayName>Position</DisplayName>
+    <Description>Position</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearright.sensorlessestimates</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.rearright.sensorlessestimates.velocity" BrowseName="1:Velocity" ParentNodeId="ns=1;s=odrives.rearright.sensorlessestimates" DataType="Float" Historizing="true">
+    <DisplayName>Velocity</DisplayName>
+    <Description>Velocity</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearright.sensorlessestimates</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=odrives.rearright.vbusvoltage" BrowseName="1:VbusVoltage" ParentNodeId="ns=1;s=odrives.rearright" DataType="Float" Historizing="true">
+    <DisplayName>VbusVoltage</DisplayName>
+    <Description>VbusVoltage</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=odrives.rearright</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=softwareversion" BrowseName="1:SoftwareVersion" ParentNodeId="i=85" ValueRank="1" ArrayDimensions="4" DataType="UInt32" Historizing="true">
+    <DisplayName>SoftwareVersion</DisplayName>
+    <Description>SoftwareVersion</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">i=85</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObjectType NodeId="ns=1;i=2118" BrowseName="1:KinematicData">
+    <DisplayName>KinematicData</DisplayName>
+    <Description>KinematicData</Description>
+    <References>
+      <Reference ReferenceType="HasSubtype" IsForward="false">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2119</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2125</Reference>
+      <Reference ReferenceType="HasTypeDefinition" IsForward="false">ns=1;s=kinematics.forward</Reference>
+      <Reference ReferenceType="HasTypeDefinition" IsForward="false">ns=1;s=kinematics.inverse</Reference>
+    </References>
+  </UAObjectType>
+  <UAObject NodeId="ns=1;i=2119" BrowseName="1:Motion" ParentNodeId="ns=1;i=2118">
+    <DisplayName>Motion</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2118</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2122</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2123</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2124</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;i=2122" BrowseName="1:X" ParentNodeId="ns=1;i=2119" DataType="Float" Historizing="true">
+    <DisplayName>X</DisplayName>
+    <Description>X</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2119</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2123" BrowseName="1:Y" ParentNodeId="ns=1;i=2119" DataType="Float" Historizing="true">
+    <DisplayName>Y</DisplayName>
+    <Description>Y</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2119</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2124" BrowseName="1:Z" ParentNodeId="ns=1;i=2119" DataType="Float" Historizing="true">
+    <DisplayName>Z</DisplayName>
+    <Description>Z</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2119</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;i=2125" BrowseName="1:Velocities" ParentNodeId="ns=1;i=2118">
+    <DisplayName>Velocities</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2118</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2126</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2127</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2128</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;i=2129</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;i=2126" BrowseName="1:FrontLeft" ParentNodeId="ns=1;i=2125" DataType="Float" Historizing="true">
+    <DisplayName>FrontLeft</DisplayName>
+    <Description>FrontLeft</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2125</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2127" BrowseName="1:FrontRight" ParentNodeId="ns=1;i=2125" DataType="Float" Historizing="true">
+    <DisplayName>FrontRight</DisplayName>
+    <Description>FrontRight</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2125</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2128" BrowseName="1:RearLeft" ParentNodeId="ns=1;i=2125" DataType="Float" Historizing="true">
+    <DisplayName>RearLeft</DisplayName>
+    <Description>RearLeft</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2125</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;i=2129" BrowseName="1:RearRight" ParentNodeId="ns=1;i=2125" DataType="Float" Historizing="true">
+    <DisplayName>RearRight</DisplayName>
+    <Description>RearRight</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;i=2125</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+      <Reference ReferenceType="HasModellingRule">i=78</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=kinematics" BrowseName="1:Kinematics" ParentNodeId="i=85">
+    <DisplayName>Kinematics</DisplayName>
+    <References>
+      <Reference ReferenceType="Organizes" IsForward="false">i=85</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=kinematics.forward</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=kinematics.inverse</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;s=kinematics.forward" BrowseName="1:Forward" ParentNodeId="ns=1;s=kinematics">
+    <DisplayName>Forward</DisplayName>
+    <Description>KinematicData</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=kinematics</Reference>
+      <Reference ReferenceType="HasTypeDefinition">ns=1;i=2118</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=kinematics.forward.motion</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=kinematics.forward.velocities</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;s=kinematics.forward.motion" BrowseName="1:Motion" ParentNodeId="ns=1;s=kinematics.forward">
+    <DisplayName>Motion</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=kinematics.forward</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=kinematics.forward.motion.x</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=kinematics.forward.motion.y</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=kinematics.forward.motion.z</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=kinematics.forward.motion.x" BrowseName="1:X" ParentNodeId="ns=1;s=kinematics.forward.motion" DataType="Float" Historizing="true">
+    <DisplayName>X</DisplayName>
+    <Description>X</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=kinematics.forward.motion</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=kinematics.forward.motion.y" BrowseName="1:Y" ParentNodeId="ns=1;s=kinematics.forward.motion" DataType="Float" Historizing="true">
+    <DisplayName>Y</DisplayName>
+    <Description>Y</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=kinematics.forward.motion</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=kinematics.forward.motion.z" BrowseName="1:Z" ParentNodeId="ns=1;s=kinematics.forward.motion" DataType="Float" Historizing="true">
+    <DisplayName>Z</DisplayName>
+    <Description>Z</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=kinematics.forward.motion</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=kinematics.forward.velocities" BrowseName="1:Velocities" ParentNodeId="ns=1;s=kinematics.forward">
+    <DisplayName>Velocities</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=kinematics.forward</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=kinematics.forward.velocities.frontleft</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=kinematics.forward.velocities.frontright</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=kinematics.forward.velocities.rearleft</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=kinematics.forward.velocities.rearright</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=kinematics.forward.velocities.frontleft" BrowseName="1:FrontLeft" ParentNodeId="ns=1;s=kinematics.forward.velocities" DataType="Float" Historizing="true">
+    <DisplayName>FrontLeft</DisplayName>
+    <Description>FrontLeft</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=kinematics.forward.velocities</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=kinematics.forward.velocities.frontright" BrowseName="1:FrontRight" ParentNodeId="ns=1;s=kinematics.forward.velocities" DataType="Float" Historizing="true">
+    <DisplayName>FrontRight</DisplayName>
+    <Description>FrontRight</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=kinematics.forward.velocities</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=kinematics.forward.velocities.rearleft" BrowseName="1:RearLeft" ParentNodeId="ns=1;s=kinematics.forward.velocities" DataType="Float" Historizing="true">
+    <DisplayName>RearLeft</DisplayName>
+    <Description>RearLeft</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=kinematics.forward.velocities</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=kinematics.forward.velocities.rearright" BrowseName="1:RearRight" ParentNodeId="ns=1;s=kinematics.forward.velocities" DataType="Float" Historizing="true">
+    <DisplayName>RearRight</DisplayName>
+    <Description>RearRight</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=kinematics.forward.velocities</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=kinematics.inverse" BrowseName="1:Inverse" ParentNodeId="ns=1;s=kinematics">
+    <DisplayName>Inverse</DisplayName>
+    <Description>KinematicData</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=kinematics</Reference>
+      <Reference ReferenceType="HasTypeDefinition">ns=1;i=2118</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=kinematics.inverse.motion</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=kinematics.inverse.velocities</Reference>
+    </References>
+  </UAObject>
+  <UAObject NodeId="ns=1;s=kinematics.inverse.motion" BrowseName="1:Motion" ParentNodeId="ns=1;s=kinematics.inverse">
+    <DisplayName>Motion</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=kinematics.inverse</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=kinematics.inverse.motion.x</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=kinematics.inverse.motion.y</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=kinematics.inverse.motion.z</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=kinematics.inverse.motion.x" BrowseName="1:X" ParentNodeId="ns=1;s=kinematics.inverse.motion" DataType="Float" Historizing="true">
+    <DisplayName>X</DisplayName>
+    <Description>X</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=kinematics.inverse.motion</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=kinematics.inverse.motion.y" BrowseName="1:Y" ParentNodeId="ns=1;s=kinematics.inverse.motion" DataType="Float" Historizing="true">
+    <DisplayName>Y</DisplayName>
+    <Description>Y</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=kinematics.inverse.motion</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=kinematics.inverse.motion.z" BrowseName="1:Z" ParentNodeId="ns=1;s=kinematics.inverse.motion" DataType="Float" Historizing="true">
+    <DisplayName>Z</DisplayName>
+    <Description>Z</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=kinematics.inverse.motion</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=kinematics.inverse.velocities" BrowseName="1:Velocities" ParentNodeId="ns=1;s=kinematics.inverse">
+    <DisplayName>Velocities</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=kinematics.inverse</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=kinematics.inverse.velocities.frontleft</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=kinematics.inverse.velocities.frontright</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=kinematics.inverse.velocities.rearleft</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=kinematics.inverse.velocities.rearright</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=kinematics.inverse.velocities.frontleft" BrowseName="1:FrontLeft" ParentNodeId="ns=1;s=kinematics.inverse.velocities" DataType="Float" Historizing="true">
+    <DisplayName>FrontLeft</DisplayName>
+    <Description>FrontLeft</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=kinematics.inverse.velocities</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=kinematics.inverse.velocities.frontright" BrowseName="1:FrontRight" ParentNodeId="ns=1;s=kinematics.inverse.velocities" DataType="Float" Historizing="true">
+    <DisplayName>FrontRight</DisplayName>
+    <Description>FrontRight</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=kinematics.inverse.velocities</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=kinematics.inverse.velocities.rearleft" BrowseName="1:RearLeft" ParentNodeId="ns=1;s=kinematics.inverse.velocities" DataType="Float" Historizing="true">
+    <DisplayName>RearLeft</DisplayName>
+    <Description>RearLeft</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=kinematics.inverse.velocities</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=kinematics.inverse.velocities.rearright" BrowseName="1:RearRight" ParentNodeId="ns=1;s=kinematics.inverse.velocities" DataType="Float" Historizing="true">
+    <DisplayName>RearRight</DisplayName>
+    <Description>RearRight</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=kinematics.inverse.velocities</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=battery" BrowseName="1:Battery" ParentNodeId="i=85">
+    <DisplayName>Battery</DisplayName>
+    <References>
+      <Reference ReferenceType="Organizes" IsForward="false">i=85</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=battery.softwareversion</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=battery.voltage</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=battery.soc</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=battery.softwareversion" BrowseName="1:SoftwareVersion" ParentNodeId="ns=1;s=battery" ValueRank="1" ArrayDimensions="4" DataType="Byte" Historizing="true">
+    <DisplayName>SoftwareVersion</DisplayName>
+    <Description>SoftwareVersion</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=battery</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.voltage" BrowseName="1:Voltage" ParentNodeId="ns=1;s=battery" DataType="Float" Historizing="true">
+    <DisplayName>Voltage</DisplayName>
+    <Description>Voltage</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=battery</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.soc" BrowseName="1:StateOfCharge" ParentNodeId="ns=1;s=battery" DataType="Float" Historizing="true">
+    <DisplayName>StateOfCharge</DisplayName>
+    <Description>StateOfCharge</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=battery</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=conditionsource" BrowseName="1:ConditionSourceObject" ParentNodeId="i=85">
+    <DisplayName>ConditionSourceObject</DisplayName>
+    <References>
+      <Reference ReferenceType="Organizes" IsForward="false">i=85</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
+    </References>
+  </UAObject>
+</UANodeSet>

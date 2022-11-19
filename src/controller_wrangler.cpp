@@ -108,8 +108,8 @@ void ControllerWrangler::configureAlarms()
 {
     spdlog::info("Registering Alarms");
 
+    alarmManager.setupOPCUA(&opcUaServer, OPCUA_NODE_NAMESPACE_ID, "alarms");
     alarmManager.initializeAlarmList();
-    //alarmManager.setupMqtt(&mqtt);
     alarmManager.setCallback(std::bind(&ControllerWrangler::newAlarmsThrown, this));
 
     spdlog::debug("Alarms registered");
