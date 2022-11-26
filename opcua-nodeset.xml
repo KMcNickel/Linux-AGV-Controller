@@ -4,23 +4,34 @@
     <Uri>http//freeopcua/defaults/modeler</Uri>
   </NamespaceUris>
   <Aliases>
+    <Alias Alias="Boolean">i=1</Alias>
     <Alias Alias="Byte">i=3</Alias>
     <Alias Alias="UInt16">i=5</Alias>
     <Alias Alias="Int32">i=6</Alias>
     <Alias Alias="UInt32">i=7</Alias>
     <Alias Alias="UInt64">i=9</Alias>
     <Alias Alias="Float">i=10</Alias>
+    <Alias Alias="String">i=12</Alias>
+    <Alias Alias="ByteString">i=15</Alias>
+    <Alias Alias="NodeId">i=17</Alias>
+    <Alias Alias="StatusCode">i=19</Alias>
+    <Alias Alias="LocalizedText">i=21</Alias>
     <Alias Alias="Organizes">i=35</Alias>
     <Alias Alias="HasModellingRule">i=37</Alias>
     <Alias Alias="HasTypeDefinition">i=40</Alias>
     <Alias Alias="HasSubtype">i=45</Alias>
     <Alias Alias="HasComponent">i=47</Alias>
+    <Alias Alias="HasProperty">i=46</Alias>
+    <Alias Alias="UtcTime">i=294</Alias>
+    <Alias Alias="Argument">i=296</Alias>
+    <Alias Alias="TimeZoneDataType">i=8912</Alias>
   </Aliases>
   <UAObjectType NodeId="ns=1;i=2001" BrowseName="1:ODrive">
     <DisplayName>ODrive</DisplayName>
     <Description>ODrive</Description>
     <References>
       <Reference ReferenceType="HasSubtype" IsForward="false">i=58</Reference>
+      <Reference ReferenceType="HasTypeDefinition">ns=1;s=odrives.rearright</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=2002</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=2003</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=2004</Reference>
@@ -32,7 +43,6 @@
       <Reference ReferenceType="HasTypeDefinition" IsForward="false">ns=1;s=odrives.frontright</Reference>
       <Reference ReferenceType="HasTypeDefinition" IsForward="false">ns=1;s=odrives.frontleft</Reference>
       <Reference ReferenceType="HasTypeDefinition" IsForward="false">ns=1;s=odrives.rearleft</Reference>
-      <Reference ReferenceType="HasTypeDefinition" IsForward="false">ns=1;s=odrives.rearright</Reference>
     </References>
   </UAObjectType>
   <UAVariable NodeId="ns=1;i=2002" BrowseName="1:AxisState" ParentNodeId="ns=1;i=2001" DataType="Byte" Historizing="true">
@@ -1070,10 +1080,10 @@
     <Description>KinematicData</Description>
     <References>
       <Reference ReferenceType="HasSubtype" IsForward="false">i=58</Reference>
+      <Reference ReferenceType="HasTypeDefinition">ns=1;s=kinematics.inverse</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=2119</Reference>
       <Reference ReferenceType="HasComponent">ns=1;i=2125</Reference>
       <Reference ReferenceType="HasTypeDefinition" IsForward="false">ns=1;s=kinematics.forward</Reference>
-      <Reference ReferenceType="HasTypeDefinition" IsForward="false">ns=1;s=kinematics.inverse</Reference>
     </References>
   </UAObjectType>
   <UAObject NodeId="ns=1;i=2119" BrowseName="1:Motion" ParentNodeId="ns=1;i=2118">
@@ -1352,7 +1362,7 @@
       <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
       <Reference ReferenceType="HasComponent">ns=1;s=battery.softwareversion</Reference>
       <Reference ReferenceType="HasComponent">ns=1;s=battery.voltage</Reference>
-      <Reference ReferenceType="HasComponent">ns=1;s=battery.soc</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=battery.stateofcharge</Reference>
     </References>
   </UAObject>
   <UAVariable NodeId="ns=1;s=battery.softwareversion" BrowseName="1:SoftwareVersion" ParentNodeId="ns=1;s=battery" ValueRank="1" ArrayDimensions="4" DataType="Byte" Historizing="true">
@@ -1371,14 +1381,6 @@
       <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
     </References>
   </UAVariable>
-  <UAVariable NodeId="ns=1;s=battery.soc" BrowseName="1:StateOfCharge" ParentNodeId="ns=1;s=battery" DataType="Float" Historizing="true">
-    <DisplayName>StateOfCharge</DisplayName>
-    <Description>StateOfCharge</Description>
-    <References>
-      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=battery</Reference>
-      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
-    </References>
-  </UAVariable>
   <UAObject NodeId="ns=1;s=conditionsource" BrowseName="1:ConditionSourceObject" ParentNodeId="i=85">
     <DisplayName>ConditionSourceObject</DisplayName>
     <References>
@@ -1386,4 +1388,715 @@
       <Reference ReferenceType="HasTypeDefinition">i=58</Reference>
     </References>
   </UAObject>
+  <UAObject NodeId="ns=1;s=battery.stateofcharge" BrowseName="1:StateOfCharge" ParentNodeId="ns=1;s=battery">
+    <DisplayName>StateOfCharge</DisplayName>
+    <Description>StateOfCharge</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=battery</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=61</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=battery.stateofcharge.value</Reference>
+      <Reference ReferenceType="Organizes">ns=1;s=battery.stateofcharge.low</Reference>
+      <Reference ReferenceType="Organizes">ns=1;s=battery.stateofcharge.lowlow</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.value" BrowseName="1:Value" ParentNodeId="ns=1;s=battery.stateofcharge" DataType="Float">
+    <DisplayName>Value</DisplayName>
+    <Description>Value</Description>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=battery.stateofcharge</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=63</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=battery.stateofcharge.low" BrowseName="1:Low" ParentNodeId="ns=1;s=battery.stateofcharge">
+    <DisplayName>Low</DisplayName>
+    <References>
+      <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=battery.stateofcharge</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=2881</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=battery.stateofcharge.low.EnabledState</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=battery.stateofcharge.low.AckedState</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=battery.stateofcharge.low.ConfirmedState</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=battery.stateofcharge.low.Acknowledge</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=battery.stateofcharge.low.Confirm</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.ConditionClassId</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.ConditionClassName</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.ConditionSubClassId</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.ConditionSubClassName</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.ConditionName</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.BranchId</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.Retain</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=battery.stateofcharge.low.Quality</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=battery.stateofcharge.low.LastSeverity</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=battery.stateofcharge.low.Comment</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.ClientUserId</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=battery.stateofcharge.low.Disable</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=battery.stateofcharge.low.Enable</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=battery.stateofcharge.low.AddComment</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.EventId</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.EventType</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.SourceNode</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.SourceName</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.Time</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.ReceiveTime</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.LocalTime</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.Message</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.Severity</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.EnabledState" BrowseName="0:EnabledState" ParentNodeId="ns=1;s=battery.stateofcharge.low" DataType="LocalizedText" Historizing="true">
+    <DisplayName>EnabledState</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=battery.stateofcharge.low</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=8995</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.EnabledState.Id</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.EnabledState.Id" BrowseName="0:Id" ParentNodeId="ns=1;s=battery.stateofcharge.low.EnabledState" DataType="Boolean" Historizing="true">
+    <DisplayName>Id</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low.EnabledState</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.AckedState" BrowseName="0:AckedState" ParentNodeId="ns=1;s=battery.stateofcharge.low" DataType="LocalizedText" Historizing="true">
+    <DisplayName>AckedState</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=battery.stateofcharge.low</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=8995</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.AckedState.Id</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.AckedState.TransitionTime</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.AckedState.TrueState</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.AckedState.FalseState</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.AckedState.Id" BrowseName="0:Id" ParentNodeId="ns=1;s=battery.stateofcharge.low.AckedState" DataType="Boolean" Historizing="true">
+    <DisplayName>Id</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low.AckedState</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.AckedState.TransitionTime" BrowseName="0:TransitionTime" ParentNodeId="ns=1;s=battery.stateofcharge.low.AckedState" DataType="UtcTime" Historizing="true">
+    <DisplayName>TransitionTime</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low.AckedState</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.AckedState.TrueState" BrowseName="0:TrueState" ParentNodeId="ns=1;s=battery.stateofcharge.low.AckedState" DataType="LocalizedText" Historizing="true">
+    <DisplayName>TrueState</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low.AckedState</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.AckedState.FalseState" BrowseName="0:FalseState" ParentNodeId="ns=1;s=battery.stateofcharge.low.AckedState" DataType="LocalizedText" Historizing="true">
+    <DisplayName>FalseState</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low.AckedState</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.ConfirmedState" BrowseName="0:ConfirmedState" ParentNodeId="ns=1;s=battery.stateofcharge.low" DataType="LocalizedText" Historizing="true">
+    <DisplayName>ConfirmedState</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=battery.stateofcharge.low</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=8995</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.ConfirmedState.Id</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.ConfirmedState.TransitionTime</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.ConfirmedState.TrueState</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.ConfirmedState.FalseState</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.ConfirmedState.Id" BrowseName="0:Id" ParentNodeId="ns=1;s=battery.stateofcharge.low.ConfirmedState" DataType="Boolean" Historizing="true">
+    <DisplayName>Id</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low.ConfirmedState</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.ConfirmedState.TransitionTime" BrowseName="0:TransitionTime" ParentNodeId="ns=1;s=battery.stateofcharge.low.ConfirmedState" DataType="UtcTime" Historizing="true">
+    <DisplayName>TransitionTime</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low.ConfirmedState</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.ConfirmedState.TrueState" BrowseName="0:TrueState" ParentNodeId="ns=1;s=battery.stateofcharge.low.ConfirmedState" DataType="LocalizedText" Historizing="true">
+    <DisplayName>TrueState</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low.ConfirmedState</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.ConfirmedState.FalseState" BrowseName="0:FalseState" ParentNodeId="ns=1;s=battery.stateofcharge.low.ConfirmedState" DataType="LocalizedText" Historizing="true">
+    <DisplayName>FalseState</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low.ConfirmedState</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAMethod NodeId="ns=1;s=battery.stateofcharge.low.Acknowledge" BrowseName="0:Acknowledge" ParentNodeId="ns=1;s=battery.stateofcharge.low">
+    <DisplayName>Acknowledge</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=battery.stateofcharge.low</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.Acknowledge.InputArguments</Reference>
+    </References>
+  </UAMethod>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.Acknowledge.InputArguments" BrowseName="0:InputArguments" ParentNodeId="ns=1;s=battery.stateofcharge.low.Acknowledge" ValueRank="1" ArrayDimensions="2" DataType="Argument" Historizing="true">
+    <DisplayName>InputArguments</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low.Acknowledge</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAMethod NodeId="ns=1;s=battery.stateofcharge.low.Confirm" BrowseName="0:Confirm" ParentNodeId="ns=1;s=battery.stateofcharge.low">
+    <DisplayName>Confirm</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=battery.stateofcharge.low</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.Confirm.InputArguments</Reference>
+    </References>
+  </UAMethod>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.Confirm.InputArguments" BrowseName="0:InputArguments" ParentNodeId="ns=1;s=battery.stateofcharge.low.Confirm" ValueRank="1" ArrayDimensions="2" DataType="Argument" Historizing="true">
+    <DisplayName>InputArguments</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low.Confirm</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.ConditionClassId" BrowseName="0:ConditionClassId" ParentNodeId="ns=1;s=battery.stateofcharge.low" DataType="NodeId" Historizing="true">
+    <DisplayName>ConditionClassId</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.ConditionClassName" BrowseName="0:ConditionClassName" ParentNodeId="ns=1;s=battery.stateofcharge.low" DataType="LocalizedText" Historizing="true">
+    <DisplayName>ConditionClassName</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.ConditionSubClassId" BrowseName="0:ConditionSubClassId" ParentNodeId="ns=1;s=battery.stateofcharge.low" ValueRank="1" ArrayDimensions="0" DataType="NodeId" Historizing="true">
+    <DisplayName>ConditionSubClassId</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.ConditionSubClassName" BrowseName="0:ConditionSubClassName" ParentNodeId="ns=1;s=battery.stateofcharge.low" ValueRank="1" ArrayDimensions="0" DataType="LocalizedText" Historizing="true">
+    <DisplayName>ConditionSubClassName</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.ConditionName" BrowseName="0:ConditionName" ParentNodeId="ns=1;s=battery.stateofcharge.low" DataType="String" Historizing="true">
+    <DisplayName>ConditionName</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.BranchId" BrowseName="0:BranchId" ParentNodeId="ns=1;s=battery.stateofcharge.low" DataType="NodeId" Historizing="true">
+    <DisplayName>BranchId</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.Retain" BrowseName="0:Retain" ParentNodeId="ns=1;s=battery.stateofcharge.low" DataType="Boolean" Historizing="true">
+    <DisplayName>Retain</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.Quality" BrowseName="0:Quality" ParentNodeId="ns=1;s=battery.stateofcharge.low" DataType="StatusCode" Historizing="true">
+    <DisplayName>Quality</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=battery.stateofcharge.low</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=9002</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.Quality.SourceTimestamp</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.Quality.SourceTimestamp" BrowseName="0:SourceTimestamp" ParentNodeId="ns=1;s=battery.stateofcharge.low.Quality" DataType="UtcTime" Historizing="true">
+    <DisplayName>SourceTimestamp</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low.Quality</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.LastSeverity" BrowseName="0:LastSeverity" ParentNodeId="ns=1;s=battery.stateofcharge.low" DataType="UInt16" Historizing="true">
+    <DisplayName>LastSeverity</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=battery.stateofcharge.low</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=9002</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.LastSeverity.SourceTimestamp</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.LastSeverity.SourceTimestamp" BrowseName="0:SourceTimestamp" ParentNodeId="ns=1;s=battery.stateofcharge.low.LastSeverity" DataType="UtcTime" Historizing="true">
+    <DisplayName>SourceTimestamp</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low.LastSeverity</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.Comment" BrowseName="0:Comment" ParentNodeId="ns=1;s=battery.stateofcharge.low" DataType="LocalizedText" Historizing="true">
+    <DisplayName>Comment</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=battery.stateofcharge.low</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=9002</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.Comment.SourceTimestamp</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.Comment.SourceTimestamp" BrowseName="0:SourceTimestamp" ParentNodeId="ns=1;s=battery.stateofcharge.low.Comment" DataType="UtcTime" Historizing="true">
+    <DisplayName>SourceTimestamp</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low.Comment</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.ClientUserId" BrowseName="0:ClientUserId" ParentNodeId="ns=1;s=battery.stateofcharge.low" DataType="String" Historizing="true">
+    <DisplayName>ClientUserId</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAMethod NodeId="ns=1;s=battery.stateofcharge.low.Disable" BrowseName="0:Disable" ParentNodeId="ns=1;s=battery.stateofcharge.low">
+    <DisplayName>Disable</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=battery.stateofcharge.low</Reference>
+    </References>
+  </UAMethod>
+  <UAMethod NodeId="ns=1;s=battery.stateofcharge.low.Enable" BrowseName="0:Enable" ParentNodeId="ns=1;s=battery.stateofcharge.low">
+    <DisplayName>Enable</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=battery.stateofcharge.low</Reference>
+    </References>
+  </UAMethod>
+  <UAMethod NodeId="ns=1;s=battery.stateofcharge.low.AddComment" BrowseName="0:AddComment" ParentNodeId="ns=1;s=battery.stateofcharge.low">
+    <DisplayName>AddComment</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=battery.stateofcharge.low</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.low.AddComment.InputArguments</Reference>
+    </References>
+  </UAMethod>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.AddComment.InputArguments" BrowseName="0:InputArguments" ParentNodeId="ns=1;s=battery.stateofcharge.low.AddComment" ValueRank="1" ArrayDimensions="2" DataType="Argument" Historizing="true">
+    <DisplayName>InputArguments</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low.AddComment</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.EventId" BrowseName="0:EventId" ParentNodeId="ns=1;s=battery.stateofcharge.low" DataType="ByteString" Historizing="true">
+    <DisplayName>EventId</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.EventType" BrowseName="0:EventType" ParentNodeId="ns=1;s=battery.stateofcharge.low" DataType="NodeId" Historizing="true">
+    <DisplayName>EventType</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.SourceNode" BrowseName="0:SourceNode" ParentNodeId="ns=1;s=battery.stateofcharge.low" DataType="NodeId" Historizing="true">
+    <DisplayName>SourceNode</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.SourceName" BrowseName="0:SourceName" ParentNodeId="ns=1;s=battery.stateofcharge.low" DataType="String" Historizing="true">
+    <DisplayName>SourceName</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.Time" BrowseName="0:Time" ParentNodeId="ns=1;s=battery.stateofcharge.low" DataType="UtcTime" Historizing="true">
+    <DisplayName>Time</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.ReceiveTime" BrowseName="0:ReceiveTime" ParentNodeId="ns=1;s=battery.stateofcharge.low" DataType="UtcTime" Historizing="true">
+    <DisplayName>ReceiveTime</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.LocalTime" BrowseName="0:LocalTime" ParentNodeId="ns=1;s=battery.stateofcharge.low" DataType="TimeZoneDataType" Historizing="true">
+    <DisplayName>LocalTime</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.Message" BrowseName="0:Message" ParentNodeId="ns=1;s=battery.stateofcharge.low" DataType="LocalizedText" Historizing="true">
+    <DisplayName>Message</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.low.Severity" BrowseName="0:Severity" ParentNodeId="ns=1;s=battery.stateofcharge.low" DataType="UInt16" Historizing="true">
+    <DisplayName>Severity</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.low</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAObject NodeId="ns=1;s=battery.stateofcharge.lowlow" BrowseName="1:LowLow" ParentNodeId="ns=1;s=battery.stateofcharge">
+    <DisplayName>LowLow</DisplayName>
+    <References>
+      <Reference ReferenceType="Organizes" IsForward="false">ns=1;s=battery.stateofcharge</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=2881</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=battery.stateofcharge.lowlow.EnabledState</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=battery.stateofcharge.lowlow.AckedState</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=battery.stateofcharge.lowlow.ConfirmedState</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=battery.stateofcharge.lowlow.Acknowledge</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=battery.stateofcharge.lowlow.Confirm</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.ConditionClassId</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.ConditionClassName</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.ConditionSubClassId</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.ConditionSubClassName</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.ConditionName</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.BranchId</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.Retain</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=battery.stateofcharge.lowlow.Quality</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=battery.stateofcharge.lowlow.LastSeverity</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=battery.stateofcharge.lowlow.Comment</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.ClientUserId</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=battery.stateofcharge.lowlow.Disable</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=battery.stateofcharge.lowlow.Enable</Reference>
+      <Reference ReferenceType="HasComponent">ns=1;s=battery.stateofcharge.lowlow.AddComment</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.EventId</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.EventType</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.SourceNode</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.SourceName</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.Time</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.ReceiveTime</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.LocalTime</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.Message</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.Severity</Reference>
+    </References>
+  </UAObject>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.EnabledState" BrowseName="0:EnabledState" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow" DataType="LocalizedText" Historizing="true">
+    <DisplayName>EnabledState</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=battery.stateofcharge.lowlow</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=8995</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.EnabledState.Id</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.EnabledState.Id" BrowseName="0:Id" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow.EnabledState" DataType="Boolean" Historizing="true">
+    <DisplayName>Id</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow.EnabledState</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.AckedState" BrowseName="0:AckedState" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow" DataType="LocalizedText" Historizing="true">
+    <DisplayName>AckedState</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=battery.stateofcharge.lowlow</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=8995</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.AckedState.Id</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.AckedState.TransitionTime</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.AckedState.TrueState</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.AckedState.FalseState</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.AckedState.Id" BrowseName="0:Id" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow.AckedState" DataType="Boolean" Historizing="true">
+    <DisplayName>Id</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow.AckedState</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.AckedState.TransitionTime" BrowseName="0:TransitionTime" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow.AckedState" DataType="UtcTime" Historizing="true">
+    <DisplayName>TransitionTime</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow.AckedState</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.AckedState.TrueState" BrowseName="0:TrueState" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow.AckedState" DataType="LocalizedText" Historizing="true">
+    <DisplayName>TrueState</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow.AckedState</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.AckedState.FalseState" BrowseName="0:FalseState" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow.AckedState" DataType="LocalizedText" Historizing="true">
+    <DisplayName>FalseState</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow.AckedState</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.ConfirmedState" BrowseName="0:ConfirmedState" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow" DataType="LocalizedText" Historizing="true">
+    <DisplayName>ConfirmedState</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=battery.stateofcharge.lowlow</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=8995</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.ConfirmedState.Id</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.ConfirmedState.TransitionTime</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.ConfirmedState.TrueState</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.ConfirmedState.FalseState</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.ConfirmedState.Id" BrowseName="0:Id" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow.ConfirmedState" DataType="Boolean" Historizing="true">
+    <DisplayName>Id</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow.ConfirmedState</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.ConfirmedState.TransitionTime" BrowseName="0:TransitionTime" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow.ConfirmedState" DataType="UtcTime" Historizing="true">
+    <DisplayName>TransitionTime</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow.ConfirmedState</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.ConfirmedState.TrueState" BrowseName="0:TrueState" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow.ConfirmedState" DataType="LocalizedText" Historizing="true">
+    <DisplayName>TrueState</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow.ConfirmedState</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.ConfirmedState.FalseState" BrowseName="0:FalseState" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow.ConfirmedState" DataType="LocalizedText" Historizing="true">
+    <DisplayName>FalseState</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow.ConfirmedState</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAMethod NodeId="ns=1;s=battery.stateofcharge.lowlow.Acknowledge" BrowseName="0:Acknowledge" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow">
+    <DisplayName>Acknowledge</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=battery.stateofcharge.lowlow</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.Acknowledge.InputArguments</Reference>
+    </References>
+  </UAMethod>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.Acknowledge.InputArguments" BrowseName="0:InputArguments" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow.Acknowledge" ValueRank="1" ArrayDimensions="2" DataType="Argument" Historizing="true">
+    <DisplayName>InputArguments</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow.Acknowledge</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAMethod NodeId="ns=1;s=battery.stateofcharge.lowlow.Confirm" BrowseName="0:Confirm" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow">
+    <DisplayName>Confirm</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=battery.stateofcharge.lowlow</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.Confirm.InputArguments</Reference>
+    </References>
+  </UAMethod>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.Confirm.InputArguments" BrowseName="0:InputArguments" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow.Confirm" ValueRank="1" ArrayDimensions="2" DataType="Argument" Historizing="true">
+    <DisplayName>InputArguments</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow.Confirm</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.ConditionClassId" BrowseName="0:ConditionClassId" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow" DataType="NodeId" Historizing="true">
+    <DisplayName>ConditionClassId</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.ConditionClassName" BrowseName="0:ConditionClassName" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow" DataType="LocalizedText" Historizing="true">
+    <DisplayName>ConditionClassName</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.ConditionSubClassId" BrowseName="0:ConditionSubClassId" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow" ValueRank="1" ArrayDimensions="0" DataType="NodeId" Historizing="true">
+    <DisplayName>ConditionSubClassId</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.ConditionSubClassName" BrowseName="0:ConditionSubClassName" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow" ValueRank="1" ArrayDimensions="0" DataType="LocalizedText" Historizing="true">
+    <DisplayName>ConditionSubClassName</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.ConditionName" BrowseName="0:ConditionName" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow" DataType="String" Historizing="true">
+    <DisplayName>ConditionName</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.BranchId" BrowseName="0:BranchId" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow" DataType="NodeId" Historizing="true">
+    <DisplayName>BranchId</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.Retain" BrowseName="0:Retain" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow" DataType="Boolean" Historizing="true">
+    <DisplayName>Retain</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.Quality" BrowseName="0:Quality" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow" DataType="StatusCode" Historizing="true">
+    <DisplayName>Quality</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=battery.stateofcharge.lowlow</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=9002</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.Quality.SourceTimestamp</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.Quality.SourceTimestamp" BrowseName="0:SourceTimestamp" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow.Quality" DataType="UtcTime" Historizing="true">
+    <DisplayName>SourceTimestamp</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow.Quality</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.LastSeverity" BrowseName="0:LastSeverity" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow" DataType="UInt16" Historizing="true">
+    <DisplayName>LastSeverity</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=battery.stateofcharge.lowlow</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=9002</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.LastSeverity.SourceTimestamp</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.LastSeverity.SourceTimestamp" BrowseName="0:SourceTimestamp" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow.LastSeverity" DataType="UtcTime" Historizing="true">
+    <DisplayName>SourceTimestamp</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow.LastSeverity</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.Comment" BrowseName="0:Comment" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow" DataType="LocalizedText" Historizing="true">
+    <DisplayName>Comment</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=battery.stateofcharge.lowlow</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=9002</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.Comment.SourceTimestamp</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.Comment.SourceTimestamp" BrowseName="0:SourceTimestamp" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow.Comment" DataType="UtcTime" Historizing="true">
+    <DisplayName>SourceTimestamp</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow.Comment</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.ClientUserId" BrowseName="0:ClientUserId" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow" DataType="String" Historizing="true">
+    <DisplayName>ClientUserId</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAMethod NodeId="ns=1;s=battery.stateofcharge.lowlow.Disable" BrowseName="0:Disable" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow">
+    <DisplayName>Disable</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=battery.stateofcharge.lowlow</Reference>
+    </References>
+  </UAMethod>
+  <UAMethod NodeId="ns=1;s=battery.stateofcharge.lowlow.Enable" BrowseName="0:Enable" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow">
+    <DisplayName>Enable</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=battery.stateofcharge.lowlow</Reference>
+    </References>
+  </UAMethod>
+  <UAMethod NodeId="ns=1;s=battery.stateofcharge.lowlow.AddComment" BrowseName="0:AddComment" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow">
+    <DisplayName>AddComment</DisplayName>
+    <References>
+      <Reference ReferenceType="HasComponent" IsForward="false">ns=1;s=battery.stateofcharge.lowlow</Reference>
+      <Reference ReferenceType="HasProperty">ns=1;s=battery.stateofcharge.lowlow.AddComment.InputArguments</Reference>
+    </References>
+  </UAMethod>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.AddComment.InputArguments" BrowseName="0:InputArguments" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow.AddComment" ValueRank="1" ArrayDimensions="2" DataType="Argument" Historizing="true">
+    <DisplayName>InputArguments</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow.AddComment</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.EventId" BrowseName="0:EventId" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow" DataType="ByteString" Historizing="true">
+    <DisplayName>EventId</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.EventType" BrowseName="0:EventType" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow" DataType="NodeId" Historizing="true">
+    <DisplayName>EventType</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.SourceNode" BrowseName="0:SourceNode" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow" DataType="NodeId" Historizing="true">
+    <DisplayName>SourceNode</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.SourceName" BrowseName="0:SourceName" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow" DataType="String" Historizing="true">
+    <DisplayName>SourceName</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.Time" BrowseName="0:Time" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow" DataType="UtcTime" Historizing="true">
+    <DisplayName>Time</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.ReceiveTime" BrowseName="0:ReceiveTime" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow" DataType="UtcTime" Historizing="true">
+    <DisplayName>ReceiveTime</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.LocalTime" BrowseName="0:LocalTime" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow" DataType="TimeZoneDataType" Historizing="true">
+    <DisplayName>LocalTime</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.Message" BrowseName="0:Message" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow" DataType="LocalizedText" Historizing="true">
+    <DisplayName>Message</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
+  <UAVariable NodeId="ns=1;s=battery.stateofcharge.lowlow.Severity" BrowseName="0:Severity" ParentNodeId="ns=1;s=battery.stateofcharge.lowlow" DataType="UInt16" Historizing="true">
+    <DisplayName>Severity</DisplayName>
+    <References>
+      <Reference ReferenceType="HasProperty" IsForward="false">ns=1;s=battery.stateofcharge.lowlow</Reference>
+      <Reference ReferenceType="HasTypeDefinition">i=68</Reference>
+    </References>
+  </UAVariable>
 </UANodeSet>

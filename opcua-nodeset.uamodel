@@ -1,2 +1,2 @@
 <?xml version='1.0' encoding='utf-8'?>
-<UAModel><Model path="opcua-nodeset.xml" current_node="i=85" /></UAModel>
+<UAModel><Model path="opcua-nodeset.xml" current_node="ns=1;s=battery.stateofcharge" /></UAModel>

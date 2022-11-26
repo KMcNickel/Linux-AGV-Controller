@@ -37,7 +37,7 @@ void BatteryManager::receiveCAN(void * handle, struct can_frame frame)
             break;
         case CAN_COMMAND_ID_STATE_OF_CHARGE:
             memcpy(&(batMan->batterySoC), &(frame.data[1]), sizeof(float));
-            batMan->writeOPCUAValueFloat("soc", batMan->batterySoC);
+            batMan->writeOPCUAValueFloat("stateofcharge.value", batMan->batterySoC);
             spdlog::trace("Battery State of Charge: {0:3.0f}%", batMan->batterySoC);
 
             if(batMan->alarmManager && batMan->batterySoC < LOW_BAT_WARN_THRESHOLD)
