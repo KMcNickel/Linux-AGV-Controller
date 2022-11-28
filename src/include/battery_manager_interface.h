@@ -29,6 +29,7 @@ class BatteryManager
 
         void writeOPCUAValueFloat(std::string id_ext, float value);
         void writeOPCUAValueByteArray(std::string id_ext, uint8_t * value, size_t len);
+        void setup_OPCUA_Nodeset();
 
     public:
         static void receiveCAN(void * handle, struct can_frame frame);

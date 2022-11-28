@@ -84,6 +84,8 @@ void BatteryManager::setupOPCUA(OPCUAServer * opcua, uint16_t ns, std::string no
     this->opcua = opcua;
     nodeNs = ns;
     this->nodeIdBase = nodeIdBase;
+
+    setup_OPCUA_Nodeset();
 }
 
 bool BatteryManager::registerCallback()
@@ -133,4 +135,42 @@ void BatteryManager::writeOPCUAValueByteArray(std::string id_ext, uint8_t * valu
 
     if(stat != UA_STATUSCODE_GOOD)
         spdlog::trace("Unable to send kinematic value update: {0}", UA_StatusCode_name(stat));
+}
+
+void BatteryManager::setup_OPCUA_Nodeset()
+{
+    std::string descriptionString;
+    std::string displayNameString;
+    std::string browseNameString;
+    std::string nodeIdString;
+    std::string parentNodeIdString;
+
+    UA_NodeId newNodeId;
+    UA_NodeId parentNodeId;
+    UA_NodeId parentReferenceNodeId;
+    UA_QualifiedName browseName;
+    UA_NodeId typeDefinition;
+    UA_ObjectAttributes objectAttributes;
+    UA_VariableAttributes variableAttributes;
+
+    if(opcua == NULL) return;
+
+    //Base Node
+    descriptionString = "Battery Information";
+    displayNameString = "Battery";
+    browseNameString = "Battery";
+    nodeIdString = nodeIdBase;
+    
+    newNodeId = UA_NODEID_STRING(nodeNs, (char *) nodeIdString.c_str());
+    parentNodeId = UA_NODEID_NUMERIC(0, UA_NS0ID_OBJECTSFOLDER);
+    parentReferenceNodeId = UA_NODEID_NUMERIC(0, UA_NS0ID_ORGANIZES);
+    browseName = UA_QUALIFIEDNAME(nodeNs, (char *) browseNameString.c_str());
+    typeDefinition = UA_NODEID_NUMERIC(0, UA_NS0ID_ORGANIZES);
+    objectAttributes = UA_ObjectAttributes_default;
+    objectAttributes.description = UA_LOCALIZEDTEXT("en-US", (char *) descriptionString.c_str());
+    objectAttributes.displayName = UA_LOCALIZEDTEXT("en-US", (char *) displayNameString.c_str());
+
+    UA_Server_addObjectNode(opcua->getServer(), newNodeId, parentNodeId,
+            parentReferenceNodeId, browseName, typeDefinition, objectAttributes,
+            NULL, NULL);
 }
