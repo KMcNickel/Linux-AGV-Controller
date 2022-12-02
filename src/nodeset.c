@@ -3,155 +3,6 @@
 
 #include "include/nodeset.h"
 
-
-/* ConditionSourceObject - ns=1;s=conditionsource */
-
-static UA_StatusCode function_nodeset_0_begin(UA_Server *server, UA_UInt16* ns) {
-UA_StatusCode retVal = UA_STATUSCODE_GOOD;
-UA_ObjectAttributes attr = UA_ObjectAttributes_default;
-attr.displayName = UA_LOCALIZEDTEXT("", "ConditionSourceObject");
-retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_STRING(ns[1], "conditionsource"),
-UA_NODEID_NUMERIC(ns[0], 85LU),
-UA_NODEID_NUMERIC(ns[0], 35LU),
-UA_QUALIFIEDNAME(ns[1], "ConditionSourceObject"),
-UA_NODEID_NUMERIC(ns[0], 58LU),
-(const UA_NodeAttributes*)&attr, &UA_TYPES[UA_TYPES_OBJECTATTRIBUTES],NULL, NULL);
-if (retVal != UA_STATUSCODE_GOOD) return retVal;
-return retVal;
-}
-
-static UA_StatusCode function_nodeset_0_finish(UA_Server *server, UA_UInt16* ns) {
-return UA_Server_addNode_finish(server, 
-UA_NODEID_STRING(ns[1], "conditionsource")
-);
-}
-
-/* Battery - ns=1;s=battery */
-
-static UA_StatusCode function_nodeset_1_begin(UA_Server *server, UA_UInt16* ns) {
-UA_StatusCode retVal = UA_STATUSCODE_GOOD;
-UA_ObjectAttributes attr = UA_ObjectAttributes_default;
-attr.displayName = UA_LOCALIZEDTEXT("", "Battery");
-retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_OBJECT,
-UA_NODEID_STRING(ns[1], "battery"),
-UA_NODEID_NUMERIC(ns[0], 85LU),
-UA_NODEID_NUMERIC(ns[0], 35LU),
-UA_QUALIFIEDNAME(ns[1], "Battery"),
-UA_NODEID_NUMERIC(ns[0], 58LU),
-(const UA_NodeAttributes*)&attr, &UA_TYPES[UA_TYPES_OBJECTATTRIBUTES],NULL, NULL);
-if (retVal != UA_STATUSCODE_GOOD) return retVal;
-return retVal;
-}
-
-static UA_StatusCode function_nodeset_1_finish(UA_Server *server, UA_UInt16* ns) {
-return UA_Server_addNode_finish(server, 
-UA_NODEID_STRING(ns[1], "battery")
-);
-}
-
-/* Voltage - ns=1;s=battery.voltage */
-
-static UA_StatusCode function_nodeset_2_begin(UA_Server *server, UA_UInt16* ns) {
-UA_StatusCode retVal = UA_STATUSCODE_GOOD;
-UA_VariableAttributes attr = UA_VariableAttributes_default;
-attr.historizing = true;
-attr.minimumSamplingInterval = 0.000000;
-attr.userAccessLevel = 1;
-attr.accessLevel = 1;
-/* Value rank inherited */
-attr.valueRank = -2;
-attr.dataType = UA_NODEID_NUMERIC(ns[0], 10LU);
-attr.displayName = UA_LOCALIZEDTEXT("", "Voltage");
-#ifdef UA_ENABLE_NODESET_COMPILER_DESCRIPTIONS
-attr.description = UA_LOCALIZEDTEXT("", "Voltage");
-#endif
-retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_STRING(ns[1], "battery.voltage"),
-UA_NODEID_STRING(ns[1], "battery"),
-UA_NODEID_NUMERIC(ns[0], 47LU),
-UA_QUALIFIEDNAME(ns[1], "Voltage"),
-UA_NODEID_NUMERIC(ns[0], 63LU),
-(const UA_NodeAttributes*)&attr, &UA_TYPES[UA_TYPES_VARIABLEATTRIBUTES],NULL, NULL);
-if (retVal != UA_STATUSCODE_GOOD) return retVal;
-return retVal;
-}
-
-static UA_StatusCode function_nodeset_2_finish(UA_Server *server, UA_UInt16* ns) {
-return UA_Server_addNode_finish(server, 
-UA_NODEID_STRING(ns[1], "battery.voltage")
-);
-}
-
-/* SoftwareVersion - ns=1;s=battery.softwareversion */
-
-static UA_StatusCode function_nodeset_3_begin(UA_Server *server, UA_UInt16* ns) {
-UA_StatusCode retVal = UA_STATUSCODE_GOOD;
-UA_VariableAttributes attr = UA_VariableAttributes_default;
-attr.historizing = true;
-attr.minimumSamplingInterval = 0.000000;
-attr.userAccessLevel = 1;
-attr.accessLevel = 1;
-attr.valueRank = 1;
-attr.arrayDimensionsSize = 1;
-UA_UInt32 arrayDimensions[1];
-arrayDimensions[0] = 4;
-attr.arrayDimensions = &arrayDimensions[0];
-attr.dataType = UA_NODEID_NUMERIC(ns[0], 3LU);
-attr.displayName = UA_LOCALIZEDTEXT("", "SoftwareVersion");
-#ifdef UA_ENABLE_NODESET_COMPILER_DESCRIPTIONS
-attr.description = UA_LOCALIZEDTEXT("", "SoftwareVersion");
-#endif
-retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_STRING(ns[1], "battery.softwareversion"),
-UA_NODEID_STRING(ns[1], "battery"),
-UA_NODEID_NUMERIC(ns[0], 47LU),
-UA_QUALIFIEDNAME(ns[1], "SoftwareVersion"),
-UA_NODEID_NUMERIC(ns[0], 63LU),
-(const UA_NodeAttributes*)&attr, &UA_TYPES[UA_TYPES_VARIABLEATTRIBUTES],NULL, NULL);
-if (retVal != UA_STATUSCODE_GOOD) return retVal;
-return retVal;
-}
-
-static UA_StatusCode function_nodeset_3_finish(UA_Server *server, UA_UInt16* ns) {
-return UA_Server_addNode_finish(server, 
-UA_NODEID_STRING(ns[1], "battery.softwareversion")
-);
-}
-
-/* StateOfCharge - ns=1;s=battery.soc */
-
-static UA_StatusCode function_nodeset_4_begin(UA_Server *server, UA_UInt16* ns) {
-UA_StatusCode retVal = UA_STATUSCODE_GOOD;
-UA_VariableAttributes attr = UA_VariableAttributes_default;
-attr.historizing = true;
-attr.minimumSamplingInterval = 0.000000;
-attr.userAccessLevel = 1;
-attr.accessLevel = 1;
-/* Value rank inherited */
-attr.valueRank = -2;
-attr.dataType = UA_NODEID_NUMERIC(ns[0], 10LU);
-attr.displayName = UA_LOCALIZEDTEXT("", "StateOfCharge");
-#ifdef UA_ENABLE_NODESET_COMPILER_DESCRIPTIONS
-attr.description = UA_LOCALIZEDTEXT("", "StateOfCharge");
-#endif
-retVal |= UA_Server_addNode_begin(server, UA_NODECLASS_VARIABLE,
-UA_NODEID_STRING(ns[1], "battery.soc"),
-UA_NODEID_STRING(ns[1], "battery"),
-UA_NODEID_NUMERIC(ns[0], 47LU),
-UA_QUALIFIEDNAME(ns[1], "StateOfCharge"),
-UA_NODEID_NUMERIC(ns[0], 63LU),
-(const UA_NodeAttributes*)&attr, &UA_TYPES[UA_TYPES_VARIABLEATTRIBUTES],NULL, NULL);
-if (retVal != UA_STATUSCODE_GOOD) return retVal;
-return retVal;
-}
-
-static UA_StatusCode function_nodeset_4_finish(UA_Server *server, UA_UInt16* ns) {
-return UA_Server_addNode_finish(server, 
-UA_NODEID_STRING(ns[1], "battery.soc")
-);
-}
-
 /* Kinematics - ns=1;s=kinematics */
 
 static UA_StatusCode function_nodeset_5_begin(UA_Server *server, UA_UInt16* ns) {
@@ -4723,11 +4574,6 @@ ns[0] = UA_Server_addNamespace(server, "http://opcfoundation.org/UA/");
 ns[1] = UA_Server_addNamespace(server, "http//freeopcua/defaults/modeler");
 
 /* Load custom datatype definitions into the server */
-if((retVal = function_nodeset_0_begin(server, ns)) != UA_STATUSCODE_GOOD) return retVal;
-if((retVal = function_nodeset_1_begin(server, ns)) != UA_STATUSCODE_GOOD) return retVal;
-if((retVal = function_nodeset_2_begin(server, ns)) != UA_STATUSCODE_GOOD) return retVal;
-if((retVal = function_nodeset_3_begin(server, ns)) != UA_STATUSCODE_GOOD) return retVal;
-if((retVal = function_nodeset_4_begin(server, ns)) != UA_STATUSCODE_GOOD) return retVal;
 if((retVal = function_nodeset_5_begin(server, ns)) != UA_STATUSCODE_GOOD) return retVal;
 if((retVal = function_nodeset_6_begin(server, ns)) != UA_STATUSCODE_GOOD) return retVal;
 if((retVal = function_nodeset_7_begin(server, ns)) != UA_STATUSCODE_GOOD) return retVal;
@@ -5024,10 +4870,5 @@ if((retVal = function_nodeset_8_finish(server, ns)) != UA_STATUSCODE_GOOD) retur
 if((retVal = function_nodeset_7_finish(server, ns)) != UA_STATUSCODE_GOOD) return retVal;
 if((retVal = function_nodeset_6_finish(server, ns)) != UA_STATUSCODE_GOOD) return retVal;
 if((retVal = function_nodeset_5_finish(server, ns)) != UA_STATUSCODE_GOOD) return retVal;
-if((retVal = function_nodeset_4_finish(server, ns)) != UA_STATUSCODE_GOOD) return retVal;
-if((retVal = function_nodeset_3_finish(server, ns)) != UA_STATUSCODE_GOOD) return retVal;
-if((retVal = function_nodeset_2_finish(server, ns)) != UA_STATUSCODE_GOOD) return retVal;
-if((retVal = function_nodeset_1_finish(server, ns)) != UA_STATUSCODE_GOOD) return retVal;
-if((retVal = function_nodeset_0_finish(server, ns)) != UA_STATUSCODE_GOOD) return retVal;
 return retVal;
 }

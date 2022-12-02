@@ -10,26 +10,6 @@
 
 #include "spdlog/spdlog.h"
 
-void AlarmManager::initializeAlarmList()
-{
-    /*std::ifstream jsonFile("alarmList.json");
-    std::stringstream jsonFileBuffer;
-
-    jsonFileBuffer << jsonFile.rdbuf();
-
-    nlohmann::json alarmList = nlohmann::json::parse(jsonFileBuffer.str());
-
-    alarms = alarmList;*/
-
-    std::string sourceName = "conditionsource";
-
-    createAlarmCondition(&conditionNodeId, sourceName, "Oh No", 250);
-
-    setConditionMessage(conditionNodeId, "Alarm!!!");
-
-    activateCondition(conditionNodeId);
-}
-
 void AlarmManager::setupOPCUA(OPCUAServer * opcua, uint16_t ns, std::string nodeIdBase)
 {
     this->opcua = opcua;
@@ -44,150 +24,15 @@ void AlarmManager::setCallback(std::function<void()> cb)
 
 bool AlarmManager::alarmsAreActive()
 {
-    bool active;
-
-    std::for_each(alarms.begin(), alarms.end(), [&](alarmListInfo_t & alarm)
-    {
-        if(alarm.thrown && alarm.level == Error) active = true;
-    });
-
-    return active;
-}
-
-void AlarmManager::unmaskAlarm(int id)
-{
-    std::for_each(alarms.begin(), alarms.end(), [&](alarmListInfo_t & alarm)
-    {
-        if(alarm.id == id) alarm.masked = false;
-    });
-}
-
-void AlarmManager::maskAlarm(int id)
-{
-    std::for_each(alarms.begin(), alarms.end(), [&](alarmListInfo_t & alarm)
-    {
-        if(alarm.id == id) alarm.masked = true;
-    });
-}
-
-void AlarmManager::throwAlarm(int id)
-{
-    bool threwNewAlarm;
-
-    std::for_each(alarms.begin(), alarms.end(), [&](alarmListInfo_t & alarm)
-    {
-        if(alarm.id != id) return;
-        if(alarm.thrown) return;
-        if(alarm.masked) return;
-
-        alarm.thrown = true;
-        alarm.acknowledged = false;
-        if(alarm.level == Error) threwNewAlarm = true;
-
-        switch(alarm.level)
-        {
-            case Info:
-                spdlog::info("Message: {0:d} - {1}", alarm.id, alarm.message);
-                break;
-            case Warn:
-                spdlog::warn("Warning: {0:d} - {1}", alarm.id, alarm.message);
-                break;
-            case Error:
-                spdlog::error("Error: {0:d} - {1}", alarm.id, alarm.message);
-                break;
-        }
-    });
-
-    if(threwNewAlarm) callback();
-
-    /*if(mqtt)
-    {
-        std::list<alarmListInfo_t> activeAlarms;
-        std::string mqttTopicString = "alarms";
-
-        std::for_each(alarms.begin(), alarms.end(), [&](alarmListInfo_t & alarm)
-        {
-            if(alarm.thrown)
-                activeAlarms.push_back(alarm);
-        });
-        nlohmann::json data = activeAlarms;
-        std::string serializedData = data.dump();
-
-        mqtt->sendMessage(mqttTopicString, (void *) serializedData.c_str(),
-                serializedData.length(), MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
-    }*/
-}
-
-void AlarmManager::clearAlarm(int id)
-{
-    std::for_each(alarms.begin(), alarms.end(), [&](alarmListInfo_t & alarm)
-    {
-        if(alarm.id != id) return;
-        if(!alarm.thrown) return;
-
-        alarm.thrown = false;
-        alarm.acknowledged = false;
-
-        switch(alarm.level)
-        {
-            case Info:
-                spdlog::info("Cleared message: {0:d}", alarm.id);
-                break;
-            case Warn:
-                spdlog::warn("Cleared warning: {0:d}", alarm.id);
-                break;
-            case Error:
-                spdlog::error("Cleared error: {0:d}", alarm.id);
-                break;
-        }
-    });
-
-    /*if(mqtt)
-    {
-        std::list<alarmListInfo_t> activeAlarms;
-        std::string mqttTopicString = "alarms";
-
-        std::for_each(alarms.begin(), alarms.end(), [&](alarmListInfo_t & alarm)
-        {
-            if(alarm.thrown)
-                activeAlarms.push_back(alarm);
-        });
-        nlohmann::json data = activeAlarms;
-        std::string serializedData = data.dump();
-
-        mqtt->sendMessage(mqttTopicString, (void *) serializedData.c_str(),
-                serializedData.length(), MqttTransfer::QOS_1_AT_LEAST_ONCE, true);
-    }*/
-}
-
-void AlarmManager::unmaskAllAlarms()
-{
-    std::for_each(alarms.begin(), alarms.end(), [&](alarmListInfo_t & alarm)
-    {
-        alarm.masked = false;
-    });
-}
-
-void AlarmManager::clearAllAlarms()
-{
-    std::for_each(alarms.begin(), alarms.end(), [&](alarmListInfo_t & alarm)
-    {
-        alarm.thrown = false;
-        alarm.acknowledged = false;
-    });
-}
-
-void AlarmManager::acknowledgeAllAlarms()
-{
-    std::for_each(alarms.begin(), alarms.end(), [&](alarmListInfo_t & alarm)
-    {
-        alarm.acknowledged = true;
-    });
+    return false;
 }
 
 void AlarmManager::createAlarmCondition(UA_NodeId * outNodeId, std::string sourceName, std::string name, uint16_t severity)
 {
     UA_StatusCode stat;
+    UA_NodeId placeholderNodeId;
+
+    if(outNodeId == NULL) outNodeId = &placeholderNodeId;
 
     addConditionReference(UA_EXPANDEDNODEID_STRING(OPCUA_NODE_NAMESPACE_ID, (char *) sourceName.c_str()));
 
@@ -208,7 +53,7 @@ bool AlarmManager::addConditionReference(UA_ExpandedNodeId sourceNodeId)
             UA_NODEID_NUMERIC(0, UA_NS0ID_HASNOTIFIER),
             sourceNodeId, UA_TRUE);
 
-    if(stat != UA_STATUSCODE_GOOD)
+    if(stat != UA_STATUSCODE_GOOD && stat != UA_STATUSCODE_BADDUPLICATEREFERENCENOTALLOWED)
     {
         spdlog::error("Unable to add alarm manager reference: {0}", UA_StatusCode_name(stat));
         return false;
@@ -242,6 +87,18 @@ void AlarmManager::activateCondition(UA_NodeId node)
     setConditionActiveFlag(node, true);
     
     setConditionTime(node, UA_DateTime_now());
+}
+
+void AlarmManager::activateConditionWithMessage(UA_NodeId node, std::string message)
+{
+    setConditionMessage(node, message);
+
+    activateCondition(node);
+}
+
+void AlarmManager::deactivateAlarmCondition(UA_NodeId node)
+{
+    setConditionActiveFlag(node, false);
 }
 
 void AlarmManager::setConditionActiveFlag(UA_NodeId node, bool active)

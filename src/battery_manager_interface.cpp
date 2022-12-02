@@ -31,7 +31,7 @@ void BatteryManager::receiveCAN(void * handle, struct can_frame frame)
             version[1] = frame.data[2];
             version[2] = frame.data[1];
             version[3] = frame.data[0];
-            batMan->writeOPCUAValueByteArray("softwareversion", version, 4);
+            //batMan->writeOPCUAValueByteArray("softwareversion", version, 4);
             spdlog::info("Battery manager is version: {0:d}.{1:d}.{2:d} build: {3:d}",
                     version[0], version[1], version[2], version[3]);
             break;
@@ -40,10 +40,18 @@ void BatteryManager::receiveCAN(void * handle, struct can_frame frame)
             batMan->writeOPCUAValueFloat("soc", batMan->batterySoC);
             spdlog::trace("Battery State of Charge: {0:3.0f}%", batMan->batterySoC);
 
-            if(batMan->alarmManager && batMan->batterySoC < LOW_BAT_WARN_THRESHOLD)
-                batMan->alarmManager->throwAlarm(LOW_BAT_WARN_ID);
-            if(batMan->alarmManager && batMan->batterySoC < LOW_BAT_ERROR_THRESHOLD)
-                batMan->alarmManager->throwAlarm(LOW_BAT_ERROR_ID);
+            if(batMan->alarmManager != NULL && batMan->opcua != NULL)
+            {
+                if(batMan->alarmManager && batMan->batterySoC < LOW_BAT_WARN_THRESHOLD)
+                    batMan->alarmManager->activateConditionWithMessage(batMan->lowBatAlarmId,
+                            "The battery has reached a low state of charge");
+                else batMan->alarmManager->deactivateAlarmCondition(batMan->lowBatAlarmId);
+
+                if(batMan->alarmManager && batMan->batterySoC < LOW_BAT_ERROR_THRESHOLD)
+                    batMan->alarmManager->activateConditionWithMessage(batMan->lowlowBatAlarmId,
+                            "The battery has reached a critically low state of charge");
+                else batMan->alarmManager->deactivateAlarmCondition(batMan->lowlowBatAlarmId);
+            }
             break;
         case CAN_COMMAND_ID_BATTERY_VOLTAGE:
             memcpy(&(batMan->batteryVoltage), &(frame.data[1]), sizeof(float));
@@ -67,6 +75,11 @@ void BatteryManager::rebootDevice()
 void BatteryManager::setupAlarmManager(AlarmManager * alarmMan)
 {
     alarmManager = alarmMan;
+
+    if(opcua == NULL) return;
+
+    alarmMan->createAlarmCondition(&lowBatAlarmId, "battery.soc", "Low Battery", OPCUA_ALARM_SEVERITY_WARN);
+    alarmMan->createAlarmCondition(&lowlowBatAlarmId, "battery.soc", "Low Low Battery", OPCUA_ALARM_SEVERITY_CRITICAL);
 }
 
 void BatteryManager::configureDevice(SocketCAN * can, int32_t deviceId)
@@ -139,6 +152,8 @@ void BatteryManager::writeOPCUAValueByteArray(std::string id_ext, uint8_t * valu
 
 void BatteryManager::setup_OPCUA_Nodeset()
 {
+    UA_StatusCode stat;
+
     std::string descriptionString;
     std::string displayNameString;
     std::string browseNameString;
@@ -161,16 +176,67 @@ void BatteryManager::setup_OPCUA_Nodeset()
     browseNameString = "Battery";
     nodeIdString = nodeIdBase;
     
-    newNodeId = UA_NODEID_STRING(nodeNs, (char *) nodeIdString.c_str());
     parentNodeId = UA_NODEID_NUMERIC(0, UA_NS0ID_OBJECTSFOLDER);
+    newNodeId = UA_NODEID_STRING(nodeNs, (char *) nodeIdString.c_str());
     parentReferenceNodeId = UA_NODEID_NUMERIC(0, UA_NS0ID_ORGANIZES);
     browseName = UA_QUALIFIEDNAME(nodeNs, (char *) browseNameString.c_str());
-    typeDefinition = UA_NODEID_NUMERIC(0, UA_NS0ID_ORGANIZES);
+    typeDefinition = UA_NODEID_NUMERIC(0, UA_NS0ID_BASEOBJECTTYPE);
     objectAttributes = UA_ObjectAttributes_default;
     objectAttributes.description = UA_LOCALIZEDTEXT("en-US", (char *) descriptionString.c_str());
     objectAttributes.displayName = UA_LOCALIZEDTEXT("en-US", (char *) displayNameString.c_str());
 
-    UA_Server_addObjectNode(opcua->getServer(), newNodeId, parentNodeId,
+    stat = UA_Server_addObjectNode(opcua->getServer(), newNodeId, parentNodeId,
             parentReferenceNodeId, browseName, typeDefinition, objectAttributes,
             NULL, NULL);
+
+    if(stat != UA_STATUSCODE_GOOD)
+    {
+        spdlog::error("OPC UA Server could not add node: {0} due to: {1}", nodeIdString, UA_StatusCode_name(stat));
+        return;
+    }
+
+    //Set up info common to the rest of the nodes
+    parentNodeId = newNodeId;
+    parentReferenceNodeId = UA_NODEID_NUMERIC(0, UA_NS0ID_HASCOMPONENT);
+    typeDefinition = UA_NODEID_NUMERIC(0, UA_NS0ID_BASEDATAVARIABLETYPE);
+
+    //SoC Node
+    descriptionString = "Current State Of Charge";
+    displayNameString = "State Of Charge";
+    browseNameString = "StateOfCharge";
+    nodeIdString = nodeIdBase + ".soc";
+    
+    newNodeId = UA_NODEID_STRING(nodeNs, (char *) nodeIdString.c_str());
+    browseName = UA_QUALIFIEDNAME(nodeNs, (char *) browseNameString.c_str());
+    variableAttributes = UA_VariableAttributes_default;
+    variableAttributes.description = UA_LOCALIZEDTEXT("en-US", (char *) descriptionString.c_str());
+    variableAttributes.displayName = UA_LOCALIZEDTEXT("en-US", (char *) displayNameString.c_str());
+    variableAttributes.dataType = UA_TYPES[UA_TYPES_FLOAT].typeId;
+
+    stat = UA_Server_addVariableNode(opcua->getServer(), newNodeId, parentNodeId,
+            parentReferenceNodeId, browseName, typeDefinition, variableAttributes,
+            NULL, NULL);
+
+    if(stat != UA_STATUSCODE_GOOD)
+        spdlog::error("OPC UA Server could not add node: {0} due to: {1}", nodeIdString, UA_StatusCode_name(stat));
+
+    //Voltage Node
+    descriptionString = "Current Voltage";
+    displayNameString = "Voltage";
+    browseNameString = "Voltage";
+    nodeIdString = nodeIdBase + ".voltage";
+    
+    newNodeId = UA_NODEID_STRING(nodeNs, (char *) nodeIdString.c_str());
+    browseName = UA_QUALIFIEDNAME(nodeNs, (char *) browseNameString.c_str());
+    variableAttributes = UA_VariableAttributes_default;
+    variableAttributes.description = UA_LOCALIZEDTEXT("en-US", (char *) descriptionString.c_str());
+    variableAttributes.displayName = UA_LOCALIZEDTEXT("en-US", (char *) displayNameString.c_str());
+    variableAttributes.dataType = UA_TYPES[UA_TYPES_FLOAT].typeId;
+
+    stat = UA_Server_addVariableNode(opcua->getServer(), newNodeId, parentNodeId,
+            parentReferenceNodeId, browseName, typeDefinition, variableAttributes,
+            NULL, NULL);
+
+    if(stat != UA_STATUSCODE_GOOD)
+        spdlog::error("OPC UA Server could not add node: {0} due to: {1}", nodeIdString, UA_StatusCode_name(stat));
 }

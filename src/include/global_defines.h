@@ -14,6 +14,9 @@
 #define PENDANT_INPUT "/dev/input/by-id/usb-8BitDo_8BitDo_Pro_2_000000000003-event-joystick"
 
 #define OPCUA_NODE_NAMESPACE_ID 2
+#define OPCUA_ALARM_SEVERITY_WARN       250
+#define OPCUA_ALARM_SEVERITY_FAULT      500
+#define OPCUA_ALARM_SEVERITY_CRITICAL   750
 
 //All measurements are in meters
 #define MECANUM_WHEEL_RADIUS            0.04064

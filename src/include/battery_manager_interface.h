@@ -10,9 +10,7 @@
 #include "alarm_manager.h"
 #include "opc_ua_server.h"
 
-#define LOW_BAT_WARN_ID         1
 #define LOW_BAT_WARN_THRESHOLD  25
-#define LOW_BAT_ERROR_ID        2
 #define LOW_BAT_ERROR_THRESHOLD 10
 
 class BatteryManager
@@ -26,6 +24,8 @@ class BatteryManager
         OPCUAServer * opcua = NULL;
         std::string nodeIdBase;
         uint16_t nodeNs;
+        UA_NodeId lowBatAlarmId;
+        UA_NodeId lowlowBatAlarmId;
 
         void writeOPCUAValueFloat(std::string id_ext, float value);
         void writeOPCUAValueByteArray(std::string id_ext, uint8_t * value, size_t len);

@@ -28,20 +28,14 @@ class AlarmManager
             bool acknowledged;
         };
 
-        void initializeAlarmList();
         void setupOPCUA(OPCUAServer * opcua, uint16_t ns, std::string nodeIdBase);
         void setCallback(std::function<void()> cb);
 
         bool alarmsAreActive();
 
-        void unmaskAlarm(int id);
-        void maskAlarm(int id);
-        void throwAlarm(int id);
-        void clearAlarm(int id);
-        void unmaskAllAlarms();
-        void clearAllAlarms();
-        void acknowledgeAllAlarms();
         void createAlarmCondition(UA_NodeId * outNodeId, std::string sourceName, std::string name, uint16_t severity);
+        void activateConditionWithMessage(UA_NodeId node, std::string message);
+        void deactivateAlarmCondition(UA_NodeId node);
 
     private:
         std::list<alarmListInfo_t> alarms;
