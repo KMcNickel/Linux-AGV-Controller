@@ -1,0 +1,25 @@
+8BitDo Pro 2
+
+Axes:
+0 - Left LR (R Pos)
+1 - Left UD (D Pos)
+2 - L Trig (Pressed Pos)
+3 - Right LR (R Pos)
+4 - Right UD (D Pos)
+5 - R Trig (Pressed Pos)
+6 - D Pad LR (R Pos)
+7 - D Pad UD (D Pos)
+
+Buttons:
+0 - B
+1 - A
+2 - Y
+3 - X
+4 - L
+5 - R
+6 - Select
+7 - Start
+8 - P2 (Assigned to LS)
+9 - P1 (Assigned to RS)
+
+Note: P2 is on the left
