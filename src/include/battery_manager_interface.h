@@ -38,6 +38,7 @@ class BatteryManager
         void setupAlarmManager(AlarmManager * alarmMan);
         void rebootDevice();
         float batteryVoltage;
+        float cellVoltage[3];
         float batterySoC;
 };
 

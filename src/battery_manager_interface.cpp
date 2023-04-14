@@ -13,6 +13,9 @@
 #define CAN_COMMAND_ID_VERSION_NUMBER   0x1
 #define CAN_COMMAND_ID_STATE_OF_CHARGE  0x2
 #define CAN_COMMAND_ID_BATTERY_VOLTAGE  0x3
+#define CAN_COMMAND_ID_CELL_VOLTAGE_V0  0x4
+#define CAN_COMMAND_ID_CELL_VOLTAGE_V1  0x5
+#define CAN_COMMAND_ID_CELL_VOLTAGE_V2  0x6
 
 void BatteryManager::receiveCAN(void * handle, struct can_frame frame)
 {
@@ -49,6 +52,21 @@ void BatteryManager::receiveCAN(void * handle, struct can_frame frame)
             memcpy(&(batMan->batteryVoltage), &(frame.data[1]), sizeof(float));
             batMan->writeOPCUAValueFloat("voltage", batMan->batteryVoltage);
             spdlog::trace("Battery Voltage: {0:3.1f}V", batMan->batteryVoltage);
+            break;
+        case CAN_COMMAND_ID_CELL_VOLTAGE_V0:
+            memcpy(&(batMan->cellVoltage[0]), &(frame.data[1]), sizeof(float));
+            batMan->writeOPCUAValueFloat("cell0", batMan->cellVoltage[0]);
+            spdlog::trace("Cell 0 Voltage: {0:3.1f}V", batMan->cellVoltage[0]);
+            break;
+        case CAN_COMMAND_ID_CELL_VOLTAGE_V1:
+            memcpy(&(batMan->cellVoltage[1]), &(frame.data[1]), sizeof(float));
+            batMan->writeOPCUAValueFloat("cell0", batMan->cellVoltage[1]);
+            spdlog::trace("Cell 1 Voltage: {0:3.1f}V", batMan->cellVoltage[1]);
+            break;
+        case CAN_COMMAND_ID_CELL_VOLTAGE_V2:
+            memcpy(&(batMan->cellVoltage[2]), &(frame.data[1]), sizeof(float));
+            batMan->writeOPCUAValueFloat("cell0", batMan->cellVoltage[2]);
+            spdlog::trace("Cell 0 Voltage: {0:3.1f}V", batMan->cellVoltage[2]);
             break;
     }
 }
@@ -116,7 +134,7 @@ void BatteryManager::writeOPCUAValueFloat(std::string id_ext, float value)
     stat = opcua->writeValueToServer(nodeId, variant);
 
     if(stat != UA_STATUSCODE_GOOD)
-        spdlog::trace("Unable to send kinematic value update: {0}", UA_StatusCode_name(stat));
+        spdlog::trace("Unable to send battery float value update for {0}: {1}", id_ext, UA_StatusCode_name(stat));
 }
 
 void BatteryManager::writeOPCUAValueByteArray(std::string id_ext, uint8_t * value, size_t len)
@@ -132,5 +150,5 @@ void BatteryManager::writeOPCUAValueByteArray(std::string id_ext, uint8_t * valu
     stat = opcua->writeValueToServer(nodeId, variant);
 
     if(stat != UA_STATUSCODE_GOOD)
-        spdlog::trace("Unable to send kinematic value update: {0}", UA_StatusCode_name(stat));
+        spdlog::trace("Unable to send battery byte array value update for {0}: {1}", id_ext, UA_StatusCode_name(stat));
 }
